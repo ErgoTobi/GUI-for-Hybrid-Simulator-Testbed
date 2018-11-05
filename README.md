@@ -18,7 +18,7 @@ With this sample, you can :
 
 Install node.js **LTS** on your PC with the following link:
 
-[Node.js Downloadsuite](https://nodejs.org/en/download/)
+[Node.js Download Suite](https://nodejs.org/en/download/)
 
 ```
 
