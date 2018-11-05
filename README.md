@@ -19,8 +19,8 @@ With this sample, you can :
 
 Install dependencies with npm :
 
-``` bash
-npm install
+sudo npm install
+sudo npm install shelljs
 ```
 
 There is an issue with `yarn` and `node_modules` that are only used in electron on the backend when the application is built by the packager. Please use `npm` as dependencies manager.
