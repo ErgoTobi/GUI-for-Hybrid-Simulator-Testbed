@@ -16,7 +16,11 @@ With this sample, you can :
 
 ## Getting Started
 ```
+Install node.js **LTS** on your PC with the following link:
 
+[Node.js Downloadsuite](https://nodejs.org/en/download/)
+```
+```
 Install dependencies with npm :
 
 sudo npm install
