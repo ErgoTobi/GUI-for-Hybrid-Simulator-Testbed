@@ -38,7 +38,9 @@
   },
   "dependencies": {
     "angular": "^1.7.5",
-    "shelljs": "^0.8.2"
+    "mqtt": "^2.18.8",
+    "shelljs": "^0.8.2",
+    "shelljs-plugin-open": "^0.2.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.6.3",
