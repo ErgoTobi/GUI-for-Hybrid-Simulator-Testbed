@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
 export class ResultoverviewComponent implements OnInit {
 
   users$: Object;
+  order: string = 'name';
+
 
   constructor(private data: DataService) { }
 
@@ -17,6 +19,11 @@ export class ResultoverviewComponent implements OnInit {
       this.data.getResultData().subscribe(
           data => this.users$ = data
       );
+  }
+
+  changeOrder(value: string) {
+    this.order =  value;
+
   }
 
 }

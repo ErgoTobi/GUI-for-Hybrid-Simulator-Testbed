@@ -8,7 +8,17 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
+// package for materialize
 import { MzButtonModule, MzInputModule } from 'ngx-materialize';
+
+// service for filtering
+// import { FilterPipe } from './pipe.service';
+import { FilterPipe }from './filter.pipe';
+
+// service for ordering
+
+import { OrderModule } from 'ngx-order-pipe';
+
 
 // NG Translate
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -34,7 +44,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     HomeComponent,
     WebviewDirective,
     ResultoverviewComponent,
-    ResultComponent
+    ResultComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
@@ -42,6 +53,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     MzButtonModule,
     MzInputModule,
+    OrderModule,
     AppRoutingModule,
     TranslateModule.forRoot({
       loader: {
