@@ -1,3 +1,19 @@
 <p>
   resultoverview works!
 </p>
+<button routerLink="" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+  Home
+</button>
+
+<h1>Users</h1>
+
+<ul>
+    <li *ngFor="let user of users$">
+        <a routerLink="/details/{{user.id}}">{{ user.name }} <span>{{ user.email }}</span></a>
+
+        <ul>
+            <li>{{ user.email }}</li>
+            <li><a href="http://{{ user.website }}">{{ user.website }}</a></li>
+        </ul>
+    </li>
+</ul>
