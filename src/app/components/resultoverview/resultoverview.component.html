@@ -1,19 +1,36 @@
-<p>
-  resultoverview works!
-</p>
-<button routerLink="" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-  Home
-</button>
+<!DOCTYPE html>
+<html>
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="/Users/carmen/Library/Mobile Documents/com~apple~CloudDocs/Master/idp/IDP/materialize/css/materialize.min.css"  media="screen,projection"/>
 
-<h1>Users</h1>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
 
-<ul>
-    <li *ngFor="let user of users$">
-        <a routerLink="/details/{{user.id}}">{{ user.name }} <span>{{ user.email }}</span></a>
+<body>
 
-        <ul>
-            <li>{{ user.email }}</li>
-            <li><a href="http://{{ user.website }}">{{ user.website }}</a></li>
-        </ul>
-    </li>
-</ul>
+    <p>
+      resultoverview works!
+    </p>
+    <button routerLink="" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+      Home
+    </button>
+
+    <h1>Results</h1>
+
+    <ul class="collection">
+        <li *ngFor="let user of users$" class="collection-item">
+            <a routerLink="/details/{{user.id}}">{{ user.name }}</a>
+            <!--<a routerLink="/details/{{user.id}}">{{ user.name }} <span>{{ user.email }}</span><span><a href="http://{{ user.website }}">{{ user.website }}</a></span></a>-->
+        </li>
+    </ul>
+
+
+
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="/Users/carmen/Library/Mobile Documents/com~apple~CloudDocs/Master/idp/IDP/materialize/js/materialize.min.js"></script>
+</body>
+</html>

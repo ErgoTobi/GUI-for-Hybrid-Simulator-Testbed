@@ -10,4 +10,8 @@ export class DataService {
     getResultData() {
         return this.http.get('https://jsonplaceholder.typicode.com/users')
     }
+
+    getResult(resultId) {
+        return this.http.get('https://jsonplaceholder.typicode.com/users/'+resultId)
+    }
 }

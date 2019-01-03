@@ -1,3 +1,20 @@
-<p>
-  result works!
-</p>
+
+
+<button routerLink="" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+  Home
+</button>
+
+
+<button routerLink="resultOverview" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+  testresults
+</button>
+
+<h1>{{ user$.name }}</h1>
+
+
+
+<ul>
+  <li><strong>Username:</strong> {{ user$.username }}</li>
+  <li><strong>Email:</strong> {{ user$.email }}</li>
+  <li><strong>Phone:</strong> {{ user$.phone }}</li>
+</ul>
