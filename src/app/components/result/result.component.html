@@ -5,7 +5,7 @@
 </button>
 
 
-<button routerLink="resultOverview" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+<button routerLink="/resultOverview" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
   testresults
 </button>
 
@@ -13,8 +13,8 @@
 
 
 
-<ul>
-  <li><strong>Username:</strong> {{ user$.username }}</li>
-  <li><strong>Email:</strong> {{ user$.email }}</li>
-  <li><strong>Phone:</strong> {{ user$.phone }}</li>
+<ul class="collection">
+  <li class="collection-item"><strong>Username:</strong> {{ user$.username }}</li>
+  <li class="collection-item"><strong>Email:</strong> {{ user$.email }}</li>
+  <li class="collection-item"><strong>Phone:</strong> {{ user$.phone }}</li>
 </ul>

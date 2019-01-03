@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
+import { MzButtonModule, MzInputModule } from 'ngx-materialize';
 
 // NG Translate
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -39,6 +40,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    MzButtonModule,
+    MzInputModule,
     AppRoutingModule,
     TranslateModule.forRoot({
       loader: {
@@ -47,6 +50,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     })
+
   ],
   providers: [ElectronService],
   bootstrap: [AppComponent]
