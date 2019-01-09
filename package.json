@@ -39,6 +39,7 @@
   "dependencies": {
     "angular": "^1.7.5",
     "mqtt": "^2.18.8",
+    "mysql": "^2.16.0",
     "shelljs": "^0.8.2",
     "shelljs-plugin-open": "^0.2.0"
   },
