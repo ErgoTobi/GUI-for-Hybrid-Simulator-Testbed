@@ -29,18 +29,24 @@ export class HomeComponent implements OnInit {
         });*/
         const name = 'TobiJonasCarmen';
         let con = mysql.createConnection({
-            host: "localhost",
-            user: "root",
-            password: null,
-            database: "application_testing_suite"
+            host: 'localhost',
+            user: 'root',
+            password: 'password',
+            database: 'applicationtestingsuite'
         });
 
         con.connect(function(err) {
             if (err) throw err;
-            console.log("Connected!");
-            con.query("SELECT * FROM suite", function (err, result) {
+            console.log('Connected!');
+            let sql = "INSERT INTO applicationtestingsuite.suite (id, name, isReady, description, Setting_id) " +
+                "VALUES (NULL, 'Microsoft AirSim', 0, 'nodejs', 1)";
+            con.query(sql, function (err, result) {
                 if (err) throw err;
-                console.log("Result: " + result[0].name);
+                console.log('INSERTED!');
+            });
+            con.query('SELECT * FROM suite', function (err, result) {
+                if (err) throw err;
+                console.log('Result: ' + result[0].name);
             });
         });
     }
