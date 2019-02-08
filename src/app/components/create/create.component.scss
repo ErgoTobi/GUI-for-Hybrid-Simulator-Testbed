@@ -1,0 +1,131 @@
+/*BUTTON STYLING*/
+
+#start-button{
+  z-index:10;
+  position: relative;
+  right: 15px;
+  background-color: #4ebfae;
+}
+
+#back-icon {
+  color: #4ebfae;
+}
+
+#radio-button {
+  color: #4ebfae;
+  margin-right:2px;
+}
+
+/*END BUTTON STYLING*/
+
+/*LIST TABLE STYLING*/
+
+.example-container {
+  height: 400px;
+  overflow-y: -webkit-paged-y;
+  width: 60%;
+  border-bottom-width: 1px !important;
+  border-bottom-style: solid;
+  border-color: #131920;
+}
+
+
+.example-container::-webkit-scrollbar-track
+{
+  background-color: #131920;
+  margin-top: 13.5%;
+}
+
+.example-container::-webkit-scrollbar
+{
+  width: 6px;
+}
+
+.example-container::-webkit-scrollbar-thumb
+{
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color:#979DA6;
+  width: 5px;
+}
+
+/*.example-container::-webkit-scrollbar{
+  width: 2px;
+}*/
+
+table {
+  width: 100%;
+  background-color:#131920;
+}
+
+td.mat-cell, td.mat-footer-cell{
+  border-bottom-width: 4px !important;
+  border-bottom-style: solid;
+  border-color: #131920;
+}
+
+.mat-table tbody{
+  background-color:#131920;
+}
+
+tr.mat-header-row{
+  background-color:#232B35;
+}
+tr.mat-row{
+  background-color:#232B35;
+}
+
+.mat-elevation-z8{
+  box-shadow: none;
+}
+
+.mat-cell, .mat-footer-cell{
+  position: relative;
+  left: 30px;
+  color: #FFFFFF;
+  height: 50px;
+}
+
+.mat-header-cell{
+  vertical-align: bottom;
+  padding-bottom: 10px !important;
+  color: #CECFD1;
+  padding-left: 30px;
+  width: 20%;
+}
+
+.mat-table tbody, .mat-table tfoot, .mat-table thead, .mat-table-sticky, [mat-footer-row], [mat-header-row], [mat-row], mat-footer-row, mat-header-row, mat-row{
+  border-bottom-width: 2px !important;
+  border-bottom-style: solid;
+  border-color: #131920 !important;
+}
+
+td.mat-cell:first-of-type{
+  padding-left:0;
+}
+th.mat-header-cell:first-of-type{
+  padding-left:28px;
+}
+
+#list-status {
+  width: 10px;
+  height: 50px;
+  margin-right: 40px;
+  background-color: #52D64D;
+  position: relative;
+}
+
+  /*END LIST TABLE STYLING*/
+
+
+
+
+#content{
+  height: -webkit-fill-available;
+  background: #232B35;
+}
+
+
+
+
+

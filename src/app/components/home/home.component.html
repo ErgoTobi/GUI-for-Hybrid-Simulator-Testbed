@@ -3,7 +3,8 @@
   <h1 class="title">
     {{ 'PAGES.HOME.TITLE' | translate }} Hier könnte ihre Werbung stehen
   </h1>
-  <button (click)="test()">hello</button>
+  <a routerLink="/create">Create</a>
+  <button (click)="test()"CreateTestset>hello</button>
   <!-- Accent-colored raised button with ripple -->
   <button (click)="test1()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
     test1
@@ -11,5 +12,6 @@
   <button (click)="test2()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
     Button
   </button>
+  <div>{{data}}</div>
 
 </div>

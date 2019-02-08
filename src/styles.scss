@@ -5,3 +5,128 @@ html, body {
 
   height: 100%;
 }
+
+/*You can add global styles to this file, and also import other style files */
+/* COLOR CORNER : #4FB4A5, #333333,
+*/
+
+a{
+  text-decoration: none;
+}
+
+/*FONT STYLES*/
+.mat-h1 {
+  font-style: normal;
+  font-weight: lighter;
+  font-size: 35px;
+  letter-spacing: -0.08800000190734864px;
+  font-family: Roboto;
+  line-height: 35px;
+
+}
+
+.mat-h2 {
+  font-size: 35px;
+  font-weight: lighter;
+}
+
+.mat-body{
+  font-size: 14px;
+  font-weight: normal;
+  color:#4ebfae;
+}
+
+.mat-body-2{
+
+}
+
+/*END FONT STYLES*/
+/*TAB BAR STYLING*/
+.mat-tab-label{
+  background-color: #979DA6;
+  margin: 0 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  min-width: 120px !important;
+  height: 40px !important;
+}
+
+.mat-tab-label-active {
+  background-color: #4FB4A5;
+  opacity: 1 !important;
+}
+
+.mat-ink-bar{
+  background-color:#4FB4A5 !important;
+}
+
+.mat-tab-list{
+  left:15px;
+}
+.mat-tab-label{
+  color:#FFFFFF;
+}
+
+.mat-tab-group{
+  position:relative;
+  bottom:40px;
+  width: 101.5%;
+  right: 7.8px;
+}
+/*END TAB BAR STYLING*/
+/*START TOOLBAR STYLING*/
+.mat-toolbar{
+  background: #FFFFFF;
+  position: relative;
+  top: 10px;
+  left: 10px;
+}
+.mat-toolbar-row{
+  padding: 0 20px;
+}
+.example-spacer {
+  flex: 1 1 auto;
+}
+/*END TOOLBAR STYLING*/
+/*PROGRESS BAR*/
+.mat-progress-bar-fill::after {
+  border-radius: 10px;
+  background-color:#4ebfae;
+}
+
+.mat-progress-bar-buffer {
+  border-radius: 10px;
+  background-color:#979DA6;
+}
+/*END PROGRESS BAR*/
+/*NAVIGATION LIST*/
+.mat-subheader{
+  color:white !important;
+}
+.mat-list-item {
+  color:white !important;
+}
+
+.mat-list-base {
+  width:20% !important;
+}
+
+.active-list-item {
+  background-color: white !important; /* Note: You could also use a custom theme */
+}
+
+.mat-list-item-content{
+  border: solid 1px !important;
+  border-color: #0E0F13 !important;
+  border-bottom-width: 0 !important;
+  border-left-width: 0 !important;
+}
+
+.mat-list-item-ripple.mat-ripple:last-of-type{
+  border-bottom-width: 1px !important;
+}
+
+.mat-list-item:active{
+  background-color: #0E0F13 !important;
+}
+/*END NAVIGATION LIST*/
