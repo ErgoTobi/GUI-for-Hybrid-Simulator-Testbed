@@ -13,7 +13,7 @@ const mysql = require('mysql');
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    public data = 'test';
+   // public data = 'test';
     constructor() {
     }
 
@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
     test() {
         const nodePath = (shell.which('node').toString());
         shell.config.execPath = nodePath;
-        let command = shell.exec('/home/user1/speed-dreams/build/games/speed-dreams-2 -s quickrace -x', {silent: false, async: true});
+        let command = shell.exec('/home/user1/speed-dreams/build/games/speed-dreams-2 -s quickrace', {silent: false, async: true});
         command.stdout.on('data', (data) => {
         });
 
@@ -82,5 +82,28 @@ export class HomeComponent implements OnInit {
         //setTimeout(function(){
         //   let command4 = shell.exec('PROJECT=idp_savm make jenkins_run', {silent: false, async: true});
         //},35000);
+    }
+    testTobi() {/*
+        const nodePath = (shell.which('node').toString());
+        shell.config.execPath = nodePath;
+        let command = shell.exec('/home/tobias/speed-dreams/build/games/speed-dreams-2 --text-only', {silent: false, async: true});
+        command.stdout.on('data', (data) => {
+        });*/
+        const name = 'TobiJonasCarmen';
+        let con = mysql.createConnection({
+            host: "localhost",
+            user: "root",
+            password: null,
+            database: "application_testing_suite"
+        });
+
+        con.connect(function(err) {
+            if (err) throw err;
+            console.log("Connected!");
+            con.query("SELECT * FROM suite", function (err, result) {
+                if (err) throw err;
+                console.log("Result: " + result[0].name);
+            });
+        });
     }
 }
