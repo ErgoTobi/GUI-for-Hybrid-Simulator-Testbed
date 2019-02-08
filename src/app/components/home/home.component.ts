@@ -3,8 +3,9 @@ import {Component, OnInit} from '@angular/core';
 const eshell = require('electron').shell;
 const shell = require('shelljs');
 // npmimport * as mqtt from 'mqtt';
-require('shelljs-plugin-open');
-let flag = 0;
+// require('shelljs-plugin-open');
+// let flag = 0;
+const mysql = require('mysql');
 
 @Component({
     selector: 'app-home',
