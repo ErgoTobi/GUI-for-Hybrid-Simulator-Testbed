@@ -6,10 +6,14 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(10).UNSIGNED,
       allowNull: false,
       primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
     },
     name: {
       type: DataTypes.STRING(45),
+      allowNull: false
+    },
+    isFinal: {
+      type: DataTypes.INTEGER(4),
       allowNull: false
     },
     Suite_id: {

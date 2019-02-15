@@ -6,21 +6,20 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(10).UNSIGNED,
       allowNull: false,
       primaryKey: true,
-        autoIncrement: true
-    },
+        autoIncrement: true,
     duration: {
       type: DataTypes.TIME,
       allowNull: false
     },
-    status: {
+    state: {
       type: DataTypes.STRING(45),
       allowNull: false
     },
-    SzenarioResult_id: {
+    ScenarioResult_id: {
       type: DataTypes.INTEGER(10).UNSIGNED,
       allowNull: false,
       references: {
-        model: 'szenarioresult',
+        model: 'scenarioresult',
         key: 'id'
       }
     },

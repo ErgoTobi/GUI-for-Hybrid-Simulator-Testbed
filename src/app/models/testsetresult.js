@@ -6,14 +6,14 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(10).UNSIGNED,
       allowNull: false,
       primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
     },
     name: {
       type: DataTypes.STRING(45),
       allowNull: false,
       defaultValue: 'Result'
     },
-    timestamp: {
+    startTimestamp: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP')

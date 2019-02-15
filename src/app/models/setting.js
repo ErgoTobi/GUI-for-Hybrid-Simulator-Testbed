@@ -6,9 +6,9 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(10).UNSIGNED,
       allowNull: false,
       primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
     },
-    ecu_amount: {
+    ecuAmount: {
       type: DataTypes.INTEGER(10).UNSIGNED,
       allowNull: false,
       defaultValue: '1'
