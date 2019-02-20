@@ -12,8 +12,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { MzButtonModule, MzInputModule } from 'ngx-materialize';
 
 // service for filtering
-// import { FilterPipe } from './pipe.service';
+import { FilterPipeModule } from 'ngx-filter-pipe';
 import { FilterPipe }from './filter.pipe';
+//import { FilterPipe } from './pipe.service';
+
 
 // service for ordering
 
@@ -55,6 +57,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MzInputModule,
     OrderModule,
     AppRoutingModule,
+    FilterPipeModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

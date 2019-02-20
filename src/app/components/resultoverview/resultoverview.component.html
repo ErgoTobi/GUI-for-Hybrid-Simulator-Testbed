@@ -19,21 +19,28 @@
       Home
     </button>
 
-    <button (click)="changeOrder('email')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-        Sortbyemail
-    </button>
 
     <h1>Results</h1>
 
+    <!--<input [(ngModel)]="searchText" placeholder="search text goes here">-->
+    <input type="text" [(ngModel)]="userFilter.name" placeholder="name">
     <input [(ngModel)]="searchText" placeholder="search text goes here">
-    <div class="row">
-        <div class="col s12 m4 l2" ><h4>Name</h4></div>
-        <div class="col s12 m4 l8"><h4>Email</h4></div>
-        <div class="col s12 m4 l2"><h4>Website</h4></div>
+    <div class="row" id = "titel">
+        <div class="col s12 m4 l2" [class.active]="order === 'name'"
+             (click)="changeOrder('name')" >Name<span [hidden]="reverse">▼</span
+        ><span [hidden]="!reverse">▲</span></div>
+        <div class="col s12 m4 l8" [class.active]="order === 'email'"
+             (click)="changeOrder('email')">Email<span [hidden]="reverse">▼</span
+        ><span [hidden]="!reverse">▲</span></div>
+        <div class="col s12 m4 l2" [class.active]="order === 'website'"
+             (click)="changeOrder('website')">Website<span [hidden]="reverse">▼</span
+        ><span [hidden]="!reverse">▲</span></div>
     </div>
 
     <ul class="collection">
-        <li *ngFor="let user of users$ | orderBy:  order" class="collection-item">
+        <!--<li *ngFor="let user of users$ | orderBy:  order:reverse:'case-insensitive'" class="collection-item">-->
+        <li *ngFor="let user of users$ | filter : searchText | orderBy:  order:reverse:'case-insensitive'" class="collection-item">
+        <!--<li *ngFor="let user of users$ | filterBy: userFilter | orderBy:  order:reverse:'case-insensitive'" class="collection-item">-->
             <!--<a routerLink="/details/{{user.id}}">{{ user.name }}</a>-->
             <a routerLink="/details/{{user.id}}">
                 <div class="row">
