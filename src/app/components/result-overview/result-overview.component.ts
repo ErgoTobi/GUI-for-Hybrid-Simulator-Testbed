@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../data.service';
 
 @Component({
   selector: 'app-result-overview',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResultOverviewComponent implements OnInit {
 
-  constructor() { }
+    users$: Object;
 
-  ngOnInit() {
-  }
+    constructor(private data: DataService) { }
+
+    ngOnInit() {
+        this.data.getResultData().subscribe(
+            data => this.users$ = data
+        );
+    }
 
 }

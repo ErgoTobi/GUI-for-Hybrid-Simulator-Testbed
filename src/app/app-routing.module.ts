@@ -12,6 +12,14 @@ const routes: Routes = [
         path: 'create',
         component: CreateComponent
     }
+    {
+        path: 'details/:id',
+        component: ResultComponent
+    },
+    {
+        path: 'resultOverview',
+        component: Result-overviewComponent
+    },
 ];
 
 @NgModule({
