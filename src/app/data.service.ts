@@ -52,6 +52,41 @@ export class DataService {
             });
         });
     }
+    readTestsetresult(Id: number) {
+        connection
+            .authenticate()
+            .then(() => {
+                console.log('Connection has been established successfully.');
+            })
+            .catch(err => {
+                console.error('Unable to connect to the database:', err);
+            }).then(function () {
+            Testsetresult.findAll({
+                where: {
+                    id: Id
+                }
+            }).catch(error => {
+            });
+        });
+    }
+
+    readAllTestsetresult() {
+        connection
+            .authenticate()
+            .then(() => {
+                console.log('Connection has been established successfully.');
+            })
+            .catch(err => {
+                console.error('Unable to connect to the database:', err);
+            }).then(function () {
+            Testsetresult.findAll({
+                attributes: ['id', 'name', 'startTimestamp', 'duration', 'Testset_id']
+            }).catch(error => {
+            });
+        });
+    }
+
+
 
 
   /*
