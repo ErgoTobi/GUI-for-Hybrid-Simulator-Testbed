@@ -27,7 +27,6 @@ export class DataService {
               console.error('Unable to connect to the database:', err);
           }).then(function () {
               Suite.create({
-                  id: 1,
                   name: name,
                   description: description,
                   isReady: (isReady === true) ? (1) : (0),

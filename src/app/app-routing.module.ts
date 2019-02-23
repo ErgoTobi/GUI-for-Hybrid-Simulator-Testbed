@@ -2,6 +2,7 @@ import { HomeComponent } from './components/home/home.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CreateComponent } from './components/create/create.component';
+import {OverviewComponent} from './components/overview/overview.component';
 
 const routes: Routes = [
     {
@@ -11,7 +12,11 @@ const routes: Routes = [
     {
         path: 'create',
         component: CreateComponent
-    }
+    },
+    {
+        path: 'overview',
+        component: OverviewComponent
+    },
 ];
 
 @NgModule({
