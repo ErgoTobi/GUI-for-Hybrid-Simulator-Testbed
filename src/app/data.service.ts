@@ -27,7 +27,6 @@ export class DataService {
               console.error('Unable to connect to the database:', err);
           }).then(function () {
               Suite.create({
-                  id: 1,
                   name: name,
                   description: description,
                   isReady: (isReady === true) ? (1) : (0),
@@ -52,6 +51,43 @@ export class DataService {
             });
         });
     }
+    readTestsetresult(Id: number) {
+        connection
+            .authenticate()
+            .then(() => {
+                console.log('Connection has been established successfully.');
+            })
+            .catch(err => {
+                console.error('Unable to connect to the database:', err);
+            }).then(function () {
+            Testsetresult.findAll({
+                attributes: ['id', 'name', 'startTimestamp', 'duration', 'Testset_id'],
+                where: {
+                    id: Id
+                }
+            }).catch(error => {
+            });
+        });
+    }
+
+    readAllTestsetresult() {
+        connection
+            .authenticate()
+            .then(() => {
+                console.log('Connection has been established successfully.');
+            })
+            .catch(err => {
+                console.error('Unable to connect to the database:', err);
+            }).then(function () {
+            Testsetresult.findAll({
+                attributes: ['id', 'name', 'startTimestamp', 'duration', 'Testset_id']
+            }).catch(error => {
+                console.error('Could not extract Testsetresults:', error);
+            });
+        });
+    }
+
+
 
 
   /*
