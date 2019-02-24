@@ -14,8 +14,14 @@ export class ResultoverviewComponent implements OnInit {
 
     }
 
-    test3() {
-        this.dataService.updateSuite('Tobi', 'Hi', true);
+    testCarmen1() {
+        const carmen1 = this.dataService.readAllTestsetresult();
+        console.log(carmen1[1]);
+    }
+    testCarmen2() {
+        const carmen2 = this.dataService.readTestsetresult(2);
+        console.log('show id');
+        console.log(carmen2);
     }
 
    /* users$: Object;
