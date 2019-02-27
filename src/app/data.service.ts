@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import {fromPromise} from 'rxjs/internal-compatibility';
+
+
 const Sequelize = require('sequelize');
 const connection = new Sequelize('application_testing_suite', 'root', 'password', {
     dialect: 'mysql'
@@ -10,6 +13,7 @@ const Setting = require('./models/setting')(connection, Sequelize);
 const Suite = require('./models/suite')(connection, Sequelize);
 const Testset = require('./models/testset')(connection, Sequelize);
 const Testsetresult = require('./models/testsetresult')(connection, Sequelize);
+const Promise = require('promise');
 
 
 @Injectable({
@@ -17,24 +21,26 @@ const Testsetresult = require('./models/testsetresult')(connection, Sequelize);
 })
 
 export class DataService {
-  updateSuite(name: String, description: String, isReady: Boolean) {
-      connection
-          .authenticate()
-          .then(() => {
-              console.log('Connection has been established successfully.');
-          })
-          .catch(err => {
-              console.error('Unable to connect to the database:', err);
-          }).then(function () {
-              Suite.create({
-                  name: name,
-                  description: description,
-                  isReady: (isReady === true) ? (1) : (0),
-                  Setting_id: 1 // Change for different Setting; necessary
-              }).catch(error => {
-              });
-          });
-  }
+
+    updateSuite(name: String, description: String, isReady: Boolean) {
+        connection
+            .authenticate()
+            .then(() => {
+                console.log('Connection has been established successfully.');
+            })
+            .catch(err => {
+                console.error('Unable to connect to the database:', err);
+            }).then(function () {
+            Suite.create({
+                name: name,
+                description: description,
+                isReady: (isReady === true) ? (1) : (0),
+                Setting_id: 1 // Change for different Setting; necessary
+            }).catch(error => {
+            });
+        });
+    }
+
     updateSetting() {
         connection
             .authenticate()
@@ -51,8 +57,9 @@ export class DataService {
             });
         });
     }
+
     readTestsetresult(Id: number) {
-        connection
+        return connection
             .authenticate()
             .then(() => {
                 console.log('Connection has been established successfully.');
@@ -62,49 +69,46 @@ export class DataService {
             }).then(function () {
             Testsetresult.findAll({
                 attributes: ['id', 'name', 'startTimestamp', 'duration', 'Testset_id'],
+                raw: true,
                 where: {
                     id: Id
                 }
+            }).pipe(function (data) {
+                console.log(data);
+                return this.data;
             }).catch(error => {
             });
         });
-    }
-
-    readAllTestsetresult() {
-        connection
-            .authenticate()
-            .then(() => {
-                console.log('Connection has been established successfully.');
-            })
-            .catch(err => {
-                console.error('Unable to connect to the database:', err);
-            }).then(function () {
-            Testsetresult.findAll({
-                attributes: ['id', 'name', 'startTimestamp', 'duration', 'Testset_id']
-            }).catch(error => {
-                console.error('Could not extract Testsetresults:', error);
-            });
-        });
+        // console.log('extracted data');
     }
 
 
+    readAllTestsetResult() {
+       return fromPromise(Testsetresult.findAll({
+                    attributes: ['id', 'name', 'startTimestamp', 'duration', 'Testset_id'],
+                    raw: true,
+       }));
+        // return connection
+        //     .authenticate()
+        //     .then(() => {
+        //         console.log('Connection has been established successfully.');
+        //     })
+        //     .catch(err => {
+        //         console.error('Unable to connect to the database:', err);
+        //     }).then(function () {
+        //     Testsetresult.findAll({
+        //         attributes: ['id', 'name', 'startTimestamp', 'duration', 'Testset_id'],
+        //         raw: true,
+        //     }).then(function (data) {
+        //         console.log(data);
+        //     }).catch(error => {
+        //     });
+        // });
+    }
+}
 
 
-  /*
-  * connection
-          .sync({
-              force: true
-          })
-          .then(function () {
-              Suite.build({
-                  su_Name: name,
-                  su_Description: description,
-                  su_IsFinal: (isFinal === true) ? ('1') : ('0')
-              }).save().catch(error => {
-              });
-          });
-          */
-    createTableInSuite() {/*
+   /* createTableInSuite() {/!*
       connection
           .authenticate()
           .then(() => {
@@ -126,6 +130,5 @@ export class DataService {
               su_Description: 'ffdfd',
               su_isFinal: 1
           });
-      });*/
-    }
-}
+      });*!/*
+      */

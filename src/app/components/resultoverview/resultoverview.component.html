@@ -14,6 +14,21 @@
   Carmen2
 </button>
 
+<div>
+  <ul>
+    <li *ngFor="let user of users$">
+      <a>{{ user.name }} <span>{{ user.name }}</span></a>
+
+      <ul>
+        <li>{{ user.name }}</li>
+        <li><a href="http://{{ user.name }}">{{ user.name }}</a></li>
+      </ul>
+    </li>
+  </ul>
+
+
+</div>
+
 
 <!--
 <ul>
