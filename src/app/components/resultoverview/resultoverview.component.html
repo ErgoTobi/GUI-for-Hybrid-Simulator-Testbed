@@ -49,6 +49,12 @@
 
 </mat-toolbar>
 
+    <div>
+        <mat-form-field >
+            <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+    </div>
+
     <div id="content">
       <div class="example-container mat-elevation-z8">
           <table mat-table [dataSource]="dataSource" matSort>

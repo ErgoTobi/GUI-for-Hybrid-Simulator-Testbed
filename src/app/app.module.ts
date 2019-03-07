@@ -4,11 +4,12 @@ import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatSortModule } from '@angular/material';
+import { MatSortModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
+// import { FlexLayoutModule } from '@angular/flex-layout';
 
 // Angular Material
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -45,6 +46,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         BrowserModule,
         FormsModule,
         MatSortModule,
+        MatFormFieldModule,
+        MatInputModule,
+//         FlexLayoutModule,
         HttpClientModule,
         AppRoutingModule,
         TranslateModule.forRoot({
@@ -58,7 +62,9 @@ export function HttpLoaderFactory(http: HttpClient) {
       MaterialModule
   ],
     exports: [
-        MatSortModule
+        MatSortModule,
+        MatFormFieldModule,
+        MatInputModule
         ],
   providers: [ElectronService],
   bootstrap: [AppComponent]

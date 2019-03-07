@@ -30,6 +30,10 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit  {
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
     }
+
+    doFilter = (value: string) => {
+        this.dataSource.filter = value.trim().toLocaleLowerCase();
+    }
 }
 
 /*    testCarmen1() {
