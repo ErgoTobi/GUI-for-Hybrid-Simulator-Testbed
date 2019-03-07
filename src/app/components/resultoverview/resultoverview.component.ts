@@ -34,6 +34,10 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit  {
     doFilter = (value: string) => {
         this.dataSource.filter = value.trim().toLocaleLowerCase();
     }
+
+    test() {
+        console.log('test');
+    }
 }
 
 /*    testCarmen1() {
