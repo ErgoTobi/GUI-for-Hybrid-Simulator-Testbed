@@ -23,7 +23,7 @@
 .example-container {
   height: 400px;
   overflow-y: -webkit-paged-y;
-  width: 60%;
+  width: 100%;
   border-bottom-width: 1px !important;
   border-bottom-style: solid;
   border-color: #131920;
@@ -56,6 +56,9 @@
 table {
   width: 100%;
   background-color:#131920;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-width: 500px;
 }
 
 td.mat-cell, td.mat-footer-cell{
@@ -121,6 +124,8 @@ th.mat-header-cell:first-of-type{
 
 
 #content{
+  position: relative;
+  margin-top: 3%;
   height: -webkit-fill-available;
   background: #232B35;
 }
