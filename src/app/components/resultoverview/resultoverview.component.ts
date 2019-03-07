@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from '../../data.service';
 import {FormControl} from '@angular/forms';
+import { MatTableDataSource } from '@angular/material';
+import {testsetresult} from '../../models/testsetresult.js';
 
 
 @Component({
@@ -12,8 +14,8 @@ export class ResultoverviewComponent implements OnInit {
     title = 'Data binding using String Interpolation';
     // test = this.testCarmen2();
     users$: Object;
-    displayedColumns = ['position', 'name', 'weight', 'symbol'];
-    dataSource = ELEMENT_DATA;
+    public displayedColumns = ['name', 'id', 'duration', 'Testset_id'];
+    dataSource = new MatTableDataSource<testsetresult>();
     tabs = ['First', 'Second', 'Third'];
     selected = new FormControl(0);
 
@@ -21,7 +23,7 @@ export class ResultoverviewComponent implements OnInit {
 
     ngOnInit() {
         this.dataService.readAllTestsetResult().subscribe(
-            data => {this.users$ = data; console.log(data); }
+            data => {this.dataSource.data = data as testsetresult[]; console.log(data); }
         );
     }
 
