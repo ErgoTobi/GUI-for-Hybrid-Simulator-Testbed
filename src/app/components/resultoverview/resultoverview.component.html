@@ -48,12 +48,13 @@
   </mat-toolbar-row>
 
 </mat-toolbar>
+<div id="inputfield">
 
-    <div>
-        <mat-form-field >
-            <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
-        </mat-form-field>
-    </div>
+    <mat-form-field appearance="outline">
+        <mat-label>Search for Testsetresults</mat-label>
+        <input matInput type="text" (keyup)="doFilter($event.target.value)" >
+    </mat-form-field>
+</div>
 
     <div id="content">
       <div class="example-container mat-elevation-z8">
