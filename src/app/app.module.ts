@@ -4,6 +4,7 @@ import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatSortModule } from '@angular/material';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
@@ -43,6 +44,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     imports: [
         BrowserModule,
         FormsModule,
+        MatSortModule,
         HttpClientModule,
         AppRoutingModule,
         TranslateModule.forRoot({
@@ -55,6 +57,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         BrowserAnimationsModule,
       MaterialModule
   ],
+    exports: [
+        MatSortModule
+        ],
   providers: [ElectronService],
   bootstrap: [AppComponent]
 })

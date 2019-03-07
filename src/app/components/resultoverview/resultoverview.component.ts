@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
 import {FormControl} from '@angular/forms';
-import { MatTableDataSource } from '@angular/material';
+import {MatSort, MatTableDataSource} from '@angular/material';
 import {testsetresult} from '../../models/testsetresult.js';
 
 
@@ -10,9 +10,11 @@ import {testsetresult} from '../../models/testsetresult.js';
   templateUrl: './resultoverview.component.html',
   styleUrls: ['./resultoverview.component.scss']
 })
-export class ResultoverviewComponent implements OnInit {
+export class ResultoverviewComponent implements OnInit, AfterViewInit  {
     public displayedColumns = ['name', 'id', 'duration', 'Testset_id'];
     dataSource = new MatTableDataSource<testsetresult>();
+
+    @ViewChild(MatSort) sort: MatSort;
 
     constructor(private dataService: DataService) {
     }
@@ -24,6 +26,9 @@ export class ResultoverviewComponent implements OnInit {
                 console.log(data);
             }
         );
+    }
+    ngAfterViewInit(): void {
+        this.dataSource.sort = this.sort;
     }
 }
 
