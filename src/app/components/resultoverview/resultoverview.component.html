@@ -1,11 +1,4 @@
-<p>
-  resultoverview works!
-</p>
-<button routerLink="" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-  Home
-</button>
 
-<h1>Users</h1>
 
 <button (click)="testCarmen1()">
   Carmen1
@@ -14,20 +7,101 @@
   Carmen2
 </button>
 
-<div>
-  <ul>
-    <li *ngFor="let user of users$">
-      <a>{{ user.name }} <span>{{ user.name }}</span></a>
-
-      <ul>
-        <li>{{ user.name }}</li>
-        <li><a href="http://{{ user.name }}">{{ user.name }}</a></li>
-      </ul>
-    </li>
-  </ul>
 
 
+<mat-toolbar color="">
+  <mat-toolbar-row>
+    <img id="logo" src="assets/logo.png" alt="logo" width="140px">
+    <span class="example-spacer"></span>
+    <i id="radio-button" class="material-icons">radio_button_checked</i>
+    <span class="mat-body">Backend Connected</span>
+  </mat-toolbar-row>
+
+  <mat-toolbar-row>
+    <i id="back-icon" class="material-icons">
+      keyboard_arrow_left</i>
+    <a routerLink="" class="mat-body">Back to Home</a>
+    <span class="example-spacer"></span>
+    <!--<span class="mat-body">Third Line</span>-->
+  </mat-toolbar-row>
+
+  <mat-toolbar-row>
+    <div id ="left-area">
+      <span class="mat-h1">Testsetresults</span>
+    </div>
+    <span class="example-spacer"></span>
+    <!--<span class="mat-body">Estimate Finish: 14-3-2018 19:23</span>-->
+  </mat-toolbar-row>
+
+</mat-toolbar>
+<div id="inputfield">
+
+    <mat-form-field appearance="outline">
+        <mat-label>Search for Testsetresults</mat-label>
+        <input matInput type="text" (keyup)="doFilter($event.target.value)" >
+    </mat-form-field>
 </div>
+
+    <div id="content">
+      <div class="example-container mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" matSort>
+              <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> id </th>
+                  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="duration">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> duration </th>
+                  <td mat-cell *matCellDef="let element"> {{element.duration}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Testset_id">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Testset_id </th>
+                  <td mat-cell *matCellDef="let element"> {{element.Testset_id}} </td>
+
+              </ng-container>
+
+              <!--<ng-container matColumnDef="update">
+                  <th mat-header-cell *matHeaderCellDef> Update </th>
+                  <td mat-cell *matCellDef="let element">
+                      <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+                          <mat-icon class="mat-18">system_update</mat-icon>
+                      </button>
+                  </td>
+              </ng-container>
+
+              <ng-container matColumnDef="delete">
+                  <th mat-header-cell *matHeaderCellDef> Delete </th>
+                  <td mat-cell *matCellDef="let element">
+                      <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+                          <mat-icon class="mat-18">delete</mat-icon>
+                      </button>
+                  </td>
+              </ng-container>-->
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/result/'+row.id" (click)="onRowClicked(row)"></tr>
+          </table>
+      </div>
+
+      <!-- <md-list ng-controller="NavCtrl" ng-cloak="" ng-app="MyApp">
+
+         <md-subheader class="md-no-sticky">Navigation</md-subheader>
+
+         <md-list-item ng-repeat="item in navItems" ng-click="navigateTo(item, $event)" ng-class="{ 'nav-active': item == activeItem }">
+           <md-icon md-font-set="material-icons">lens</md-icon>
+           <p>{{item.name}}</p>
+         </md-list-item>
+
+       </md-list>-->
+
+    </div>
+
 
 
 <!--

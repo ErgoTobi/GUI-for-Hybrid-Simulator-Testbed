@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
+import {FormControl} from '@angular/forms';
+import {MatSort, MatTableDataSource} from '@angular/material';
+import {testsetresult} from '../../models/testsetresult.js';
 
 
 @Component({
@@ -7,20 +10,37 @@ import {DataService} from '../../data.service';
   templateUrl: './resultoverview.component.html',
   styleUrls: ['./resultoverview.component.scss']
 })
-export class ResultoverviewComponent implements OnInit {
-    title = 'Data binding using String Interpolation';
-    // test = this.testCarmen2();
-    users$: Object;
+export class ResultoverviewComponent implements OnInit, AfterViewInit  {
+    public displayedColumns = ['name', 'id', 'duration', 'Testset_id'];
+    dataSource = new MatTableDataSource<testsetresult>();
 
-    constructor(private dataService: DataService) { }
+    @ViewChild(MatSort) sort: MatSort;
+
+    constructor(private dataService: DataService) {
+    }
 
     ngOnInit() {
         this.dataService.readAllTestsetResult().subscribe(
-            data => {this.users$ = data; console.log(data); }
+            data => {
+                this.dataSource.data = data as testsetresult[];
+                console.log(data);
+            }
         );
     }
+    ngAfterViewInit(): void {
+        this.dataSource.sort = this.sort;
+    }
 
-    testCarmen1() {
+    doFilter = (value: string) => {
+        this.dataSource.filter = value.trim().toLocaleLowerCase();
+    }
+
+    onRowClicked(row) {
+        console.log('Row clicked: ', row);
+    }
+}
+
+/*    testCarmen1() {
         const carmen1 = this.dataService.readAllTestsetResult();
         console.log('did the first thing');
         // console.log(carmen1[0].name);
@@ -38,17 +58,20 @@ export class ResultoverviewComponent implements OnInit {
         // this.dataService.readAllTestsetResult().subscribe({
          //   next: function() {}}
          // );
-    }
-
-
-   /* users$: Object;
-
-    constructor(private data: DataService) { }
-
-    ngOnInit() {
-        this.data.getResultData().subscribe(
-            data => this.users$ = data
-        );
     }*/
 
-}
+
+/* users$: Object;
+
+ constructor(private data: DataService) { }
+
+ ngOnInit() {
+     this.data.getResultData().subscribe(
+         data => this.users$ = data
+     );
+ }*/
+
+
+
+/* LIST CODE */
+

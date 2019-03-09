@@ -4,10 +4,12 @@ import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatSortModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
+// import { FlexLayoutModule } from '@angular/flex-layout';
 
 // Angular Material
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -25,6 +27,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { CreateComponent } from './components/create/create.component';
 import { ResultoverviewComponent } from './components/resultoverview/resultoverview.component';
+import { ResultComponent } from './components/result/result.component';
 
 
 // AoT requires an exported function for factories
@@ -38,11 +41,16 @@ export function HttpLoaderFactory(http: HttpClient) {
       HomeComponent,
       WebviewDirective,
       CreateComponent,
-      ResultoverviewComponent
+      ResultoverviewComponent,
+      ResultComponent
   ],
     imports: [
         BrowserModule,
         FormsModule,
+        MatSortModule,
+        MatFormFieldModule,
+        MatInputModule,
+//         FlexLayoutModule,
         HttpClientModule,
         AppRoutingModule,
         TranslateModule.forRoot({
@@ -55,6 +63,11 @@ export function HttpLoaderFactory(http: HttpClient) {
         BrowserAnimationsModule,
       MaterialModule
   ],
+    exports: [
+        MatSortModule,
+        MatFormFieldModule,
+        MatInputModule
+        ],
   providers: [ElectronService],
   bootstrap: [AppComponent]
 })
