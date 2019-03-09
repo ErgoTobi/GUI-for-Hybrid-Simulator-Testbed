@@ -58,7 +58,27 @@ export class DataService {
         });
     }
 
-    readTestsetresult(Id: number) {
+    readTestsetResult(Id: object) {
+        return fromPromise(Testsetresult.findAll({
+            attributes: ['id', 'name', 'startTimestamp', 'duration', 'Testset_id'],
+            raw: true,
+            where: {
+                id: Id
+            }
+        }));
+    }
+
+        readAllTestsetResult() {
+            return fromPromise(Testsetresult.findAll({
+                attributes: ['id', 'name', 'startTimestamp', 'duration', 'Testset_id'],
+                raw: true,
+            }));
+
+        }
+}
+
+
+/*    readTestsetresult(Id: object) {
         return connection
             .authenticate()
             .then(() => {
@@ -80,14 +100,9 @@ export class DataService {
             });
         });
         // console.log('extracted data');
-    }
+    }*/
 
 
-    readAllTestsetResult() {
-       return fromPromise(Testsetresult.findAll({
-                    attributes: ['id', 'name', 'startTimestamp', 'duration', 'Testset_id'],
-                    raw: true,
-       }));
         // return connection
         //     .authenticate()
         //     .then(() => {
@@ -104,8 +119,7 @@ export class DataService {
         //     }).catch(error => {
         //     });
         // });
-    }
-}
+
 
 
    /* createTableInSuite() {/!*

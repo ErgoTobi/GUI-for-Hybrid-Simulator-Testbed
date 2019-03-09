@@ -35,8 +35,8 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit  {
         this.dataSource.filter = value.trim().toLocaleLowerCase();
     }
 
-    test() {
-        console.log('test');
+    onRowClicked(row) {
+        console.log('Row clicked: ', row);
     }
 }
 
