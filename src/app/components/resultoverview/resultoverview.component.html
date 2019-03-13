@@ -56,7 +56,7 @@
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true "></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/result/{{row.id}}" (click)="onRowClicked(row)"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/result/{{row.id}}" (click)="onRowClicked(row)" style="cursor: pointer;"></tr>
           </table>
       </div>
 

@@ -70,6 +70,7 @@ td.mat-cell, td.mat-footer-cell{
 
 .mat-table tbody{
   background-color:#131920;
+  cursor: pointer;
 }
 
 tr.mat-header-row{
@@ -77,7 +78,16 @@ tr.mat-header-row{
 }
 tr.mat-row{
   background-color:#232B35;
+  curser:pointer;
 }
+
+
+tr.mat-row:hover {
+  background-color: #131920;
+  curser:pointer;
+}
+
+
 
 .mat-elevation-z8{
   box-shadow: none;
@@ -119,6 +129,10 @@ th.mat-header-cell:first-of-type{
   position: relative;
 }
 
+
+.md-table tbody tr:hover, .md-table tbody tr:focus {
+  cursor:pointer;
+}
 /*END LIST TABLE STYLING*/
 
 
