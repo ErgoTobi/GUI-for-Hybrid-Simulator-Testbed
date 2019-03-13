@@ -12,11 +12,14 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ResultComponent implements OnInit {
 
-    user$: Object;
+    user$: (string|number)[] = [];
 
     constructor(private route: ActivatedRoute, private dataService: DataService) {
         this.route.params.subscribe( params => {this.user$ = params.id;
+        console.log('logge paramsid')
         console.log(params.id);
+                console.log('logge thisuser')
+        console.log(this.user$);
         }
         );
 
@@ -25,8 +28,10 @@ export class ResultComponent implements OnInit {
     ngOnInit() {
         this.dataService.readTestsetResult(this.user$).subscribe(
         data => {
-            this.user$ = data;
-            console.log(data);
+            this.user$ = data[0];
+            console.log("logge data")
+            console.log(this.user$);
+
         }
         );
     }

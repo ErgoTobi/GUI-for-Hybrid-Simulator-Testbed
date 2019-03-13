@@ -37,6 +37,8 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit  {
 
     onRowClicked(row) {
         console.log('Row clicked: ', row);
+        console.log('id of row');
+        console.log(row.id);
     }
 }
 
