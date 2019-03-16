@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
 
 const eshell = require('electron').shell;
@@ -15,6 +15,7 @@ const mysql = require('mysql');
 })
 export class HomeComponent implements OnInit {
    // public data = 'test';
+    @ViewChild('lastNameInput') nameInputRef: ElementRef;
     constructor(private dataService: DataService) { }
 
     ngOnInit() {
@@ -85,10 +86,18 @@ export class HomeComponent implements OnInit {
     }
 
     test3() {
-        this.dataService.updateSuite('Tobi', 'Hi', true);
+        console.log(this.nameInputRef);
+        // this.dataService.updateSuite('Tobi', 'Hi', true);
+        console.log(this.dataService.createRunResultData());
     }
 
     test4() {
-        this.dataService.updateSetting();
+        this.dataService.readTestsetById(1).subscribe(
+            data => { console.log(data);
+            });
+    }
+
+    auth() {
+        this.dataService.authenticateDatabase();
     }
 }
