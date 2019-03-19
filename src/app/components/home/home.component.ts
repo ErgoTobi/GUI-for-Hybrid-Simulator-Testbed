@@ -1,12 +1,14 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
+import {Timestamp} from 'rxjs';
+
 
 const eshell = require('electron').shell;
 const shell = require('shelljs');
+const Sequelize = require('sequelize');
 // npmimport * as mqtt from 'mqtt';
 // require('shelljs-plugin-open');
 // let flag = 0;
-const mysql = require('mysql');
 
 @Component({
     selector: 'app-home',
@@ -86,18 +88,53 @@ export class HomeComponent implements OnInit {
     }
 
     test3() {
+        /*
         console.log(this.nameInputRef);
         // this.dataService.updateSuite('Tobi', 'Hi', true);
         console.log(this.dataService.createRunResultData());
-    }
-
-    test4() {
-        this.dataService.readTestsetById(1).subscribe(
-            data => { console.log(data);
+        */
+        this.dataService.authenticateDatabase();
+        this.dataService.createDummyResultData();
+        this.dataService.readAllTestsets().subscribe(
+            data => { console.log('readAllTestsets: '); console.log(data);
+            });
+        this.dataService.readTestsetById(3).subscribe(
+            data => { console.log('readTestsetById 3: '); console.log(data);
+            });
+        this.dataService.readSettingById(1).subscribe(
+            data => { console.log('readSettingById 1: '); console.log(data);
+            });
+        this.dataService.readAllRunDetailsByRunResultId(2).subscribe(
+            data => { console.log('readRunDetailById 2: '); console.log(data);
+            });
+        this.dataService.readAllRunResultsByScenarioResultId(1).subscribe(
+            data => { console.log('readRunResultById 1: '); console.log(data);
+            });
+        this.dataService.readAllScenarioResultsByTestsetResultId(2).subscribe(
+            data => { console.log('readScenarioDetailById 2: '); console.log(data);
+            });
+        this.dataService.readAllTestsetResultsOnly().subscribe(
+            data => { console.log('readAllTestsetResultsOnly: '); console.log(data);
             });
     }
 
+    test4() {
+        /*
+        this.dataService.readTestsetById(1).subscribe(
+            data => { console.log(data);
+            });
+            */
+        this.dataService.deleteTestsetResultById(2);
+        this.dataService.deleteTestsetById(1);
+    }
+
     auth() {
-        this.dataService.authenticateDatabase();
+        this.dataService.createTestset('WSTestset');
+        this.dataService.createScenario('WSScenario', 'ACC', 'Munich', 4, true, 2);
+        this.dataService.createTestsetResult('WSTestsetResult', Sequelize.fn('NOW'), Sequelize.fn('NOW'), 2);
+        this.dataService.createScenarioResult('WSTestsetResult', Sequelize.fn('NOW'), Sequelize.fn('NOW'), 3, 2);
+        this.dataService.createRunResult(Sequelize.fn('NOW'), Sequelize.fn('NOW'), 'failed', 3);
+        this.dataService.createRunDetail (Sequelize.fn('NOW'), 4.66, 8.98, 2,
+            'WSAudi', true, false, 4);
     }
 }
