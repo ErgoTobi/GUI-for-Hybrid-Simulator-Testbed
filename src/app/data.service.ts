@@ -4,7 +4,7 @@ import {fromPromise} from 'rxjs/internal-compatibility';
 
 const Sequelize = require('sequelize');
 const connection = new Sequelize('application_testing_suite', 'root', 'password', {
-    dialect: 'mysql'
+     dialect: 'mysql'
 });
 const Runresult = require('./models/runresult')(connection, Sequelize);
 const Scenario = require('./models/scenario')(connection, Sequelize);
@@ -68,13 +68,12 @@ export class DataService {
         }));
     }
 
-        readAllTestsetResult() {
-            return fromPromise(Testsetresult.findAll({
-                attributes: ['id', 'name', 'startTimestamp', 'duration', 'Testset_id'],
-                raw: true,
-            }));
-
-        }
+    readAllTestsetResult() {
+        return fromPromise(Testsetresult.findAll({
+            attributes: ['id', 'name', 'startTimestamp', 'duration', 'Testset_id'],
+            raw: true,
+        }));
+    }
 }
 
 

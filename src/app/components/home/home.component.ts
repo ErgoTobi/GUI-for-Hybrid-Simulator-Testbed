@@ -3,7 +3,7 @@ import {DataService} from '../../data.service';
 
 const eshell = require('electron').shell;
 const shell = require('shelljs');
-// npmimport * as mqtt from 'mqtt';
+const mqtt = require('mqtt');
 // require('shelljs-plugin-open');
 // let flag = 0;
 const mysql = require('mysql');
@@ -23,12 +23,13 @@ export class HomeComponent implements OnInit {
     test() {
         const nodePath = (shell.which('node').toString());
         shell.config.execPath = nodePath;
-        let command = shell.exec('/home/user1/speed-dreams/build/games/speed-dreams-2 -s quickrace', {silent: false, async: true});
-        command.stdout.on('data', (data) => {
-        });
+       // let command = shell.exec('/home/user1/speed-dreams/build/games/speed-dreams-2 -s quickrace', {silent: false, async: true});
+       // command.stdout.on('data', (data) => {
+      //  });
 
         shell.cd('/home/user1/operating-system/');
-        let command2 = shell.exec('make vde < pass.txt', {silent: false, async: true});
+       // let command2 = shell.exec('echo administrator |--stdin make vde', {silent: false, async: true});
+        //let command23 = shell.exec('make vde', {silent: false, async: true});
 
         let command3 = shell.exec('PROJECT=idp_acc make jenkins_run', {silent: false, async: true});
         command3.stdout.on('data', function (data) {
@@ -42,17 +43,18 @@ export class HomeComponent implements OnInit {
                     //         //data = data1;
                     //     }
                     // });
-                setTimeout(function () {
-                    let command10 = shell.exec('pkill -P $$', {silent: false, async: true});
-                  command.kill();
-                }, 19000);
+              //  setTimeout(function () {
+                //    let command10 = shell.exec('pkill -P $$', {silent: false, async: true});
+                 // command.kill();
+                //}, 19000);
             }
         });
     }
 
     test1() {
         shell.cd('/home/user1/operating-system/');
-        let command2 = shell.exec('make vde < pass.txt', {silent: false, async: true});
+         let command2 = shell.exec('make vde', {silent: false, async: true});
+        //let command2 = shell.exec('make vde < pass.txt', {silent: false, async: true});
        // let command8 = shell.exec('echo administrator', {silent: false, async: true});
 
        /* setTimeout(function () {
@@ -85,7 +87,20 @@ export class HomeComponent implements OnInit {
     }
 
     test3() {
-        this.dataService.updateSuite('Tobi', 'Hi', true);
+        const client = mqtt.connect([{ host: 'localhost', port: 1883}]);
+        client.on('connect', function () {
+            client.subscribe('savm/car/0/ownPos', function (err) {
+                if (!err) {
+                    client.publish('ecu', 'error');
+                }
+            });
+        });
+
+        client.on('message', function (topic, message, packet) {
+            // message is Buffer
+            console.log(message);
+        });
+       // this.dataService.updateSuite('Tobi', 'Hi', true);
     }
 
     test4() {
