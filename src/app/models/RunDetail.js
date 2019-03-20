@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const RunDetail = sequelize.define('RunDetail', {
+  const RunDetail = sequelize.define('rundetail', {
     startTimestamp: DataTypes.DATE,
     distance: DataTypes.FLOAT,
     velocity: DataTypes.FLOAT,

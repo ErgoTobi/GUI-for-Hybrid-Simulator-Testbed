@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
 import {FormControl} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
-import {testsetresult} from '../../models/testsetresult.js';
+import {TestsetResult} from '../../models/TestsetResult';
 
 
 @Component({
@@ -12,7 +12,7 @@ import {testsetresult} from '../../models/testsetresult.js';
 })
 export class ResultoverviewComponent implements OnInit, AfterViewInit  {
     public displayedColumns = ['name', 'id', 'duration', 'Testset_id'];
-    dataSource = new MatTableDataSource<testsetresult>();
+    dataSource = new MatTableDataSource<TestsetResult>();
 
     @ViewChild(MatSort) sort: MatSort;
 
@@ -22,7 +22,7 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit  {
     ngOnInit() {
         this.dataService.readAllTestsetResultsOnly().subscribe(
             data => {
-                this.dataSource.data = data as testsetresult[];
+                this.dataSource.data = data as TestsetResult[];
                 console.log(data);
             }
         );

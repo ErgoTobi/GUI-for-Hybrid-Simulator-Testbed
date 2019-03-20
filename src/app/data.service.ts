@@ -12,9 +12,9 @@ const Testset = require('./models/Testset')(connection, Sequelize);
 const Scenario = require('./models/Scenario')(connection, Sequelize);
 const Testsetresult = require('./models/TestsetResult')(connection, Sequelize);
 const Scenarioresult = require('./models/ScenarioResult')(connection, Sequelize);
-const Runresult = require('./models/runresult')(connection, Sequelize);
-const Rundetail = require('./models/rundetail')(connection, Sequelize);
-const Setting = require('./models/setting')(connection, Sequelize);
+const Runresult = require('./models/RunResult')(connection, Sequelize);
+const Rundetail = require('./models/RunDetail')(connection, Sequelize);
+const Setting = require('./models/Setting')(connection, Sequelize);
 
 const Promise = require('promise');
 Scenario.belongsTo(Testset);

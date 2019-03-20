@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../data.service';
 import {FormControl} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
-import {testsetresult} from '../../models/testsetresult.js';
+import { TestsetResult } from '../../models/TestsetResult';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
