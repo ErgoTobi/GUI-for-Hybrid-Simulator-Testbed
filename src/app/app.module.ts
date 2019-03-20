@@ -28,6 +28,7 @@ import { HomeComponent } from './components/home/home.component';
 import { CreateComponent } from './components/create/create.component';
 import { ResultoverviewComponent } from './components/resultoverview/resultoverview.component';
 import { ResultComponent } from './components/result/result.component';
+import { RunComponent } from './components/run/run.component';
 
 
 // AoT requires an exported function for factories
@@ -42,7 +43,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       WebviewDirective,
       CreateComponent,
       ResultoverviewComponent,
-      ResultComponent
+      ResultComponent,
+      RunComponent
   ],
     imports: [
         BrowserModule,
