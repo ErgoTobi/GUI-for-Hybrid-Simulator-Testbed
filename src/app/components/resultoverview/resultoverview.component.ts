@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
 import {FormControl} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
-import {TestsetResult} from '../../models/TestsetResult';
+import {TestsetResult} from '../../models/testsetresult';
 
 
 @Component({
