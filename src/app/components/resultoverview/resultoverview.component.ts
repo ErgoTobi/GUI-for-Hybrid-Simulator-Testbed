@@ -4,7 +4,6 @@ import {FormControl} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
 import {TestsetResult} from '../../models/TestsetResult';
 
-
 @Component({
     selector: 'app-resultoverview',
     templateUrl: './resultoverview.component.html',
