@@ -1,8 +1,5 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
-import {FormControl} from '@angular/forms';
-import {MatSort, MatTableDataSource} from '@angular/material';
-import {testsetresult} from '../../models/testsetresult.js';
 
 
 @Component({
@@ -10,40 +7,22 @@ import {testsetresult} from '../../models/testsetresult.js';
   templateUrl: './resultoverview.component.html',
   styleUrls: ['./resultoverview.component.scss']
 })
-export class ResultoverviewComponent implements OnInit, AfterViewInit  {
-    public displayedColumns = ['name', 'id', 'duration', 'Testset_id'];
-    dataSource = new MatTableDataSource<testsetresult>();
+export class ResultoverviewComponent implements OnInit {
+    title = 'Data binding using String Interpolation';
+    @ViewChild('lastNameInput') nameInputRef: ElementRef;
+    // test = this.testCarmen2();
+    users$: Object;
 
-    @ViewChild(MatSort) sort: MatSort;
-
-    constructor(private dataService: DataService) {
-    }
+    constructor(private dataService: DataService) { }
 
     ngOnInit() {
-        this.dataService.readAllTestsetResult().subscribe(
-            data => {
-                this.dataSource.data = data as testsetresult[];
-                console.log(data);
-            }
+        this.dataService.readAllTestsetResultsOnly().subscribe(
+            data => {this.users$ = data; console.log(data); }
         );
     }
-    ngAfterViewInit(): void {
-        this.dataSource.sort = this.sort;
-    }
 
-    doFilter = (value: string) => {
-        this.dataSource.filter = value.trim().toLocaleLowerCase();
-    }
-
-    onRowClicked(row) {
-        console.log('Row clicked: ', row);
-        console.log('id of row');
-        console.log(row.id);
-    }
-}
-
-/*    testCarmen1() {
-        const carmen1 = this.dataService.readAllTestsetResult();
+    testCarmen1() {
+        const carmen1 = this.dataService.readAllTestsetResultsOnly();
         console.log('did the first thing');
         // console.log(carmen1[0].name);
         // const carmen1_1 = carmen1[1].get('name');
@@ -51,29 +30,26 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit  {
         // console.log(carmen1_1);
     }
     testCarmen2() {
-        const carmen2 = this.dataService.readTestsetresult(2);
+        const carmen2 = this.dataService.readAllTestsetResultsOnly();
         console.log('show id');
         console.log(carmen2);
-        this.dataService.readAllTestsetResult().subscribe(
+        this.dataService.readAllTestsetResultsOnly().subscribe(
             data => {this.users$ = data; console.log(data); }
         );
         // this.dataService.readAllTestsetResult().subscribe({
          //   next: function() {}}
          // );
+    }
+
+
+   /* users$: Object;
+
+    constructor(private data: DataService) { }
+
+    ngOnInit() {
+        this.data.getResultData().subscribe(
+            data => this.users$ = data
+        );
     }*/
 
-
-/* users$: Object;
-
- constructor(private data: DataService) { }
-
- ngOnInit() {
-     this.data.getResultData().subscribe(
-         data => this.users$ = data
-     );
- }*/
-
-
-
-/* LIST CODE */
-
+}
