@@ -1,6 +1,7 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
 import {Timestamp} from 'rxjs';
+import {Time} from '@angular/common';
 
 
 const eshell = require('electron').shell;
@@ -19,7 +20,7 @@ const mqtt = require('mqtt');
 export class HomeComponent implements OnInit {
    // public data = 'test';
     @ViewChild('lastNameInput') nameInputRef: ElementRef;
-    activeChunk: string;
+    //activeChunk: Array;
 
     constructor(private dataService: DataService) {
     }
@@ -151,56 +152,46 @@ export class HomeComponent implements OnInit {
 
     test5() {
         const service = this.dataService;
+        const values = [];
+        localStorage.setItem('values', JSON.stringify(values));
+        //const convert = this.convertValues;
+
         const client = mqtt.connect([{host: 'localhost', port: 1883}]);
         client.on('connect', function () {
-            client.subscribe('savm/car/0/isPositionTracked', function (err) {
+            client.subscribe('#', function (err) {
                 if (err) {
-                    client.publish('savm/car/0/isPositionTracked', 'Error: Missing Data');
-                }
-            });
-            client.subscribe('savm/car/0/isSpeedTracked', function (err) {
-                if (err) {
-                    client.publish('savm/car/0/isSpeedTracked', 'Error: Missing Data');
-                }
-            });
-            client.subscribe('savm/car/0/leadPos', function (err) {
-                if (err) {
-                    client.publish('savm/car/0/leadPos', 'Error: Missing Data');
-                }
-            });
-            client.subscribe('savm/car/0/ownPos', function (err) {
-                if (err) {
-                    client.publish('savm/car/0/ownPos', 'Error: Missing Data');
-                }
-            });
-            client.subscribe('savm/car/0/leadSpeed', function (err) {
-                if (err) {
-                    client.publish('savm/car/0/leadSpeed', 'Error: Missing Data');
-                }
-            });
-            client.subscribe('savm/car/0/ownSpeed', function (err) {
-                if (err) {
-                    client.publish('savm/car/0/ownSpeed', 'Error: Missing Data');
-                }
-            });
-            client.subscribe('savm/car/0/curGear', function (err) {
-                if (err) {
-                    client.publish('savm/car/0/curGear', 'Error: Missing Data');
+                  //  client.publish('savm/car/0/isPositionTracked', 'Error: Missing Data');
                 }
             });
         });
-
         client.on('message', function (topic, message) {
-            // message is Buffer
-            sessionStorage.setItem(topic, message.toString());
-            if (topic === 'savm/car/0/curGear') {
-                service.createRunDetail(sessionStorage.getItem('savm/car/0/isPositionTracked'),
-                    sessionStorage.getItem('savm/car/0/isPositionTracked'), sessionStorage.getItem('savm/car/0/isPositionTracked'),
-                    sessionStorage.getItem('savm/car/0/isPositionTracked'), sessionStorage.getItem('savm/car/0/isPositionTracked'),
-                    sessionStorage.getItem('savm/car/0/isPositionTracked'),
-                    sessionStorage.getItem('savm/car/0/isPositionTracked'), sessionStorage.getItem('savm/car/0/isPositionTracked'));
+            console.log(message.toString());
+            const storedNames = JSON.parse(localStorage.getItem('values'));
+            storedNames.push({time: new Date().getTime(), key: topic, val: message.toString()});
+            localStorage.setItem('values', JSON.stringify(storedNames));
+            if (storedNames.length === 200) {
+                //service.createRunDetail(storedNames);
+                storedNames.length = 0;
+                localStorage.setItem('values', JSON.stringify(storedNames));
             }
         });
-        // this.dataService.updateSuite('Tobi', 'Hi', true);
     }
+
+   /* convertValues(messagePair) {
+        if (messagePair[0] === 'savm/car/0/isSpeedTracked' || messagePair[0] === 'savm/car/0/isPositionTracked') {
+            return this.booleanize(messagePair[1]);
+        }
+        if (topic === 'savm/car/0/isSpeedTracked' || topic === 'savm/car/0/isSpeedTracked' || topic === 'savm/car/0/isSpeedTracked'
+            || topic === 'savm/car/0/isSpeedTracked' || topic === 'savm/car/0/isSpeedTracked' ||) {
+
+        }
+    }
+
+    booleanize(message) {
+        return message === 1;
+    }
+
+    splitCoordinates(coordinates) {
+        return coordinates.split(', ');
+    }*/
 }
