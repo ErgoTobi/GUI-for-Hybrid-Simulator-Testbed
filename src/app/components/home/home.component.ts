@@ -137,8 +137,13 @@ export class HomeComponent implements OnInit {
         this.dataService.createTestsetResult('WSTestsetResult', Sequelize.fn('NOW'), Sequelize.fn('NOW'), 2);
         this.dataService.createScenarioResult('WSTestsetResult', Sequelize.fn('NOW'), Sequelize.fn('NOW'), 3, 2);
         this.dataService.createRunResult(Sequelize.fn('NOW'), Sequelize.fn('NOW'), 'failed', 3);
-        this.dataService.createRunDetail (Sequelize.fn('NOW'), 4.66, 8.98, 2,
-            'WSAudi', true, false, 4);
+        this.dataService.createRunDetail (Sequelize.fn('NOW'), Sequelize.fn('NOW'), 0, false, false,
+            352.707672, 19.758799, 345.900513, 13.071578, 348.513123,
+            13.969010, 338.821075, 13.845463, 334.953339,
+            12.287340, 332.261292, 12.163793, 8.417906, 6.142469,
+            2, 0.485398, 203.593704, 892.117920, 0.081214, 0.000044,
+            0.000034, 	0.000056, 0.000078, 'WSacc', 0.034794, 2.392970, 0.000023,
+            0.000023, 	0.000034, 	0.000045,	2, 1);
     }
 
     test5() {
