@@ -20,7 +20,10 @@ const mqtt = require('mqtt');
 export class HomeComponent implements OnInit {
    // public data = 'test';
     @ViewChild('lastNameInput') nameInputRef: ElementRef;
-    constructor(private dataService: DataService) { }
+    //activeChunk: Array;
+
+    constructor(private dataService: DataService) {
+    }
 
     ngOnInit() {
     }
@@ -28,12 +31,12 @@ export class HomeComponent implements OnInit {
     test() {
         const nodePath = (shell.which('node').toString());
         shell.config.execPath = nodePath;
-        // let command = shell.exec('/home/user1/speed-dreams/build/games/speed-dreams-2 -s quickrace', {silent: false, async: true});
+        let command = shell.exec('/home/user1/speed-dreams/build/games/speed-dreams-2 -s quickrace', {silent: false, async: true});
         // command.stdout.on('data', (data) => {
         //  });
 
         shell.cd('/home/user1/operating-system/');
-        // let command2 = shell.exec('echo administrator |--stdin make vde', {silent: false, async: true});
+        let command2 = shell.exec('echo administrator | sudo -S make vde', {silent: false, async: true});
         //let command23 = shell.exec('make vde', {silent: false, async: true});
 
         let command3 = shell.exec('PROJECT=idp_acc make jenkins_run', {silent: false, async: true});
@@ -155,19 +158,47 @@ export class HomeComponent implements OnInit {
     }
 
     test5() {
+        const service = this.dataService;
+        const values = [];
+        localStorage.setItem('values', JSON.stringify(values));
+        //const convert = this.convertValues;
+
         const client = mqtt.connect([{host: 'localhost', port: 1883}]);
         client.on('connect', function () {
-            client.subscribe('savm/car/0/ownPos', function (err) {
-                if (!err) {
-                    client.publish('ecu', 'error');
+            client.subscribe('#', function (err) {
+                if (err) {
+                  //  client.publish('savm/car/0/isPositionTracked', 'Error: Missing Data');
                 }
             });
         });
-
-        client.on('message', function (topic, message, packet) {
-            // message is Buffer
-            console.log(message);
+        client.on('message', function (topic, message) {
+            console.log(message.toString());
+            const storedNames = JSON.parse(localStorage.getItem('values'));
+            storedNames.push({time: new Date().getTime(), key: topic, val: message.toString()});
+            localStorage.setItem('values', JSON.stringify(storedNames));
+            if (storedNames.length === 200) {
+                //service.createRunDetail(storedNames);
+                storedNames.length = 0;
+                localStorage.setItem('values', JSON.stringify(storedNames));
+            }
         });
-        // this.dataService.updateSuite('Tobi', 'Hi', true);
     }
+
+   /* convertValues(messagePair) {
+        if (messagePair[0] === 'savm/car/0/isSpeedTracked' || messagePair[0] === 'savm/car/0/isPositionTracked') {
+            return this.booleanize(messagePair[1]);
+        }
+        if (topic === 'savm/car/0/isSpeedTracked' || topic === 'savm/car/0/isSpeedTracked' || topic === 'savm/car/0/isSpeedTracked'
+            || topic === 'savm/car/0/isSpeedTracked' || topic === 'savm/car/0/isSpeedTracked' ||) {
+
+        }
+    }
+
+    booleanize(message) {
+        return message === 1;
+    }
+
+    splitCoordinates(coordinates) {
+        return coordinates.split(', ');
+    }*/
 }
