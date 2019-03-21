@@ -192,17 +192,53 @@ export class DataService {
 
     // RUNRESULTDATA
     // C(): Creates a runresultdata; Running
-    createRunDetail (startTimestamp: Timestamp<any>, distance: number, velocity: number, ecu: number,
-                     vehicle: string, initiated: boolean, actual: boolean, runresultId: number) {
+    createRunDetail (timestamp: Timestamp<any>, relativeTime: Time, car: number, carIsPositionTracked: boolean, carIsSpeedTracked: boolean,
+                     carLeadPosLat: number, carLeadPosLong: number, carOwnPosLat: number, carOwnPosLong: number,
+                     carCornerFrontRightLat: number, carCornerFrontRightLong: number, carCornerFrontLeftLat: number,
+                     carCornerFrontLeftLong: number, carCornerRearRightLat: number, carCornerRearRightLong: number,
+                     carCornerRearLeftLat: number, carCornerRearLeftLong: number, carLeadSpeed: number, carOwnSpeed: number,
+                     carCurGear: number, carSteerLock: number, carEnginerpm: number, carEnginerpmMax: number, carSteer: number,
+                     carBrakeFL: number, carBrakeFR: number, carBrakeRL: number, carBrakeRR: number,
+                     ecu: string, ecuSteer: number, ecuAccel: number, ecuBrakeFL: number, ecuBrakeFR: number, ecuBrakeRL: number,
+                     ecuBrakeRR: number, ecuGear: number, runResultId: number) {
         Rundetail.create({
-            startTimestamp: startTimestamp,
-            distance: distance,
-            velocity: velocity,
+            timestamp: timestamp,
+            relativeTime: relativeTime,
+            car: car,
+            carIsPositionTracked: carIsPositionTracked,
+            carIsSpeedTracked: carIsSpeedTracked,
+            carLeadPosLat: carLeadPosLat,
+            carLeadPosLong: carLeadPosLong,
+            carOwnPosLat: carOwnPosLat,
+            carOwnPosLong: carOwnPosLong,
+            carCornerFrontRightLat: carCornerFrontRightLat,
+            carCornerFrontRightLong: carCornerFrontRightLong,
+            carCornerFrontLeftLat: carCornerFrontLeftLat,
+            carCornerFrontLeftLong: carCornerFrontLeftLong,
+            carCornerRearRightLat: carCornerRearRightLat,
+            carCornerRearRightLong: carCornerRearRightLong,
+            carCornerRearLeftLat: carCornerRearLeftLat,
+            carCornerRearLeftLong: carCornerRearLeftLong,
+            carLeadSpeed: carLeadSpeed,
+            carOwnSpeed: carOwnSpeed,
+            carCurGear: carCurGear,
+            carSteerLock: carSteerLock,
+            carEnginerpm: carEnginerpm,
+            carEnginerpmMax: carEnginerpmMax,
+            carSteer: carSteer,
+            carBrakeFL: carBrakeFL,
+            carBrakeFR: carBrakeFR,
+            carBrakeRL: carBrakeRL,
+            carBrakeRR: carBrakeRR,
             ecu: ecu,
-            vehicle: vehicle,
-            initiated: initiated,
-            actual: actual,
-            runResultId: runresultId
+            ecuSteer: ecuSteer,
+            ecuAccel: ecuAccel,
+            ecuBrakeFL: ecuBrakeFL,
+            ecuBrakeFR: ecuBrakeFR,
+            ecuBrakeRL: ecuBrakeRL,
+            ecuBrakeRR: ecuBrakeRR,
+            ecuGear: ecuGear,
+            runResultId: runResultId
         }).catch(error => {
             console.error('createScenario:', error);
         });
