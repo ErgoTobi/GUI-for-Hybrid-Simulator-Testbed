@@ -5,7 +5,7 @@ import {from, Timestamp} from 'rxjs';
 
 
 const Sequelize = require('sequelize');
-const connection = new Sequelize('suite_speeddreams', 'root', 'password', {
+const connection = new Sequelize('suite_simulator', 'root', 'password', {
     dialect: 'mysql'
 });
 const Testset = require('./models/Testset')(connection, Sequelize);
@@ -125,7 +125,7 @@ export class DataService {
             duration: duration,
             testsetId: testsetId
         }).catch(error => {
-            console.error('createTestsetResult:', error);
+            console.error('createTestsetResult: ', error);
         });
     }
     // R(w): Pulls all testsetsresults (only!); Resultoverview
@@ -154,7 +154,7 @@ export class DataService {
             scenarioId: scenarioId,
             testsetResultId: testsetresultId
         }).catch(error => {
-            console.error('createScenarioResult:', error);
+            console.error('createScenarioResult: ', error);
         });
     }
     // R(): Pulls all scenarioresults (only!) by testsetresult Id; Resultdetails
@@ -177,7 +177,7 @@ export class DataService {
             state: state,
             scenarioResultId: scenarioresultId
         }).catch(error => {
-            console.error('createRunResult:', error);
+            console.error('createRunResult: ', error);
         });
     }
     // R(): Pulls all runresults (only!) by scenarioresult Id; Resultdetails
@@ -192,55 +192,20 @@ export class DataService {
 
     // RUNRESULTDATA
     // C(): Creates a runresultdata; Running
-    createRunDetail (timestamp: Timestamp<any>, relativeTime: Time, car: number, carIsPositionTracked: boolean, carIsSpeedTracked: boolean,
-                     carLeadPosLat: number, carLeadPosLong: number, carOwnPosLat: number, carOwnPosLong: number,
-                     carCornerFrontRightLat: number, carCornerFrontRightLong: number, carCornerFrontLeftLat: number,
-                     carCornerFrontLeftLong: number, carCornerRearRightLat: number, carCornerRearRightLong: number,
-                     carCornerRearLeftLat: number, carCornerRearLeftLong: number, carLeadSpeed: number, carOwnSpeed: number,
-                     carCurGear: number, carSteerLock: number, carEnginerpm: number, carEnginerpmMax: number, carSteer: number,
-                     carBrakeFL: number, carBrakeFR: number, carBrakeRL: number, carBrakeRR: number,
-                     ecu: string, ecuSteer: number, ecuAccel: number, ecuBrakeFL: number, ecuBrakeFR: number, ecuBrakeRL: number,
-                     ecuBrakeRR: number, ecuGear: number, runResultId: number) {
+    createRunDetail (relativeTime: Time, key: string, value: string, runResultId: number) {
         Rundetail.create({
-            timestamp: timestamp,
             relativeTime: relativeTime,
-            car: car,
-            carIsPositionTracked: carIsPositionTracked,
-            carIsSpeedTracked: carIsSpeedTracked,
-            carLeadPosLat: carLeadPosLat,
-            carLeadPosLong: carLeadPosLong,
-            carOwnPosLat: carOwnPosLat,
-            carOwnPosLong: carOwnPosLong,
-            carCornerFrontRightLat: carCornerFrontRightLat,
-            carCornerFrontRightLong: carCornerFrontRightLong,
-            carCornerFrontLeftLat: carCornerFrontLeftLat,
-            carCornerFrontLeftLong: carCornerFrontLeftLong,
-            carCornerRearRightLat: carCornerRearRightLat,
-            carCornerRearRightLong: carCornerRearRightLong,
-            carCornerRearLeftLat: carCornerRearLeftLat,
-            carCornerRearLeftLong: carCornerRearLeftLong,
-            carLeadSpeed: carLeadSpeed,
-            carOwnSpeed: carOwnSpeed,
-            carCurGear: carCurGear,
-            carSteerLock: carSteerLock,
-            carEnginerpm: carEnginerpm,
-            carEnginerpmMax: carEnginerpmMax,
-            carSteer: carSteer,
-            carBrakeFL: carBrakeFL,
-            carBrakeFR: carBrakeFR,
-            carBrakeRL: carBrakeRL,
-            carBrakeRR: carBrakeRR,
-            ecu: ecu,
-            ecuSteer: ecuSteer,
-            ecuAccel: ecuAccel,
-            ecuBrakeFL: ecuBrakeFL,
-            ecuBrakeFR: ecuBrakeFR,
-            ecuBrakeRL: ecuBrakeRL,
-            ecuBrakeRR: ecuBrakeRR,
-            ecuGear: ecuGear,
+            key: key,
+            value: value,
             runResultId: runResultId
         }).catch(error => {
-            console.error('createScenario:', error);
+            console.error('createRunDetail: ', error);
+        });
+    }
+    // C(): Creates a bulk of runresultdata; Running
+    createRunDetailBulk (runDetails: object[]) {
+        Rundetail.bulkCreate(runDetails).catch(error => {
+            console.error('createRunDetailBulk: ', error);
         });
     }
     // R(): Pulls all runresultsdata(only!) by runresult Id; Resultdetails
