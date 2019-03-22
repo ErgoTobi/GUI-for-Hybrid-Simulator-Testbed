@@ -1,0 +1,36 @@
+<p>
+  overview-detail works!
+</p>
+
+<button routerLink="" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+  Home
+</button>
+
+<!--<h1>{{ user$.name }}</h1>-->
+
+
+<ul class="collection">
+  <li class="collection-item"><strong>Id:</strong> <!--{{ user$.id }} --> </li>
+  <li class="collection-item"><strong>duration:</strong> <!--{{ user$.duration }} --></li>
+</ul>
+
+<div *ngIf="testset">
+    <h2>{{testset.name | uppercase}}</h2>
+    <div><span>id: </span>{{testset.id}}</div>
+    <div>
+        <label>name:
+            <span>{{testset.name}}</span>
+        </label>
+    </div>
+</div>
+
+<div *ngIf="testset">
+    <mat-nav-list>
+        <h3 mat-subheader>Scenario</h3>
+        <mat-list-item *ngFor="let scenario of testset.scenarios">
+            <span>id: {{scenario.id}}, </span><span>name: {{scenario.name}}, </span>
+        </mat-list-item>
+    </mat-nav-list>
+</div>
+
+

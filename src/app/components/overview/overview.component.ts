@@ -2,7 +2,11 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
 import {FormControl} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
-import {TestsetResult} from '../../models/TestsetResult';
+import {Testsets} from '../../models/TestsetResult';
+import { TESTSET } from '../../mock-data';
+import { SCENARIO } from '../../mock-data';
+import {Testset} from '../../data';
+
 
 @Component({
   selector: 'app-overview',
@@ -10,24 +14,36 @@ import {TestsetResult} from '../../models/TestsetResult';
   styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
-    public displayedColumns = ['name', 'id', 'duration', 'Testset_id'];
-    dataSource = new MatTableDataSource<TestsetResult>();
+    testsets = TESTSET;
 
+
+    selectedTestset: Testset;
+
+
+    dataSource = new MatTableDataSource<Testsets>();
+    /*
+    public displayedColumns = ['name'];
     @ViewChild(MatSort) sort: MatSort;
-
+*/
     constructor(private dataService: DataService) {
     }
 
     ngOnInit() {
-        this.dataService.readAllTestsetResultsOnly().subscribe(
+        this.dataService.readAllTestsets().subscribe(
             data => {
-                this.dataSource.data = data as TestsetResult[];
+                this.dataSource.data = data as Testsets[];
                 console.log(data);
             }
         );
     }
+    /*
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
+    }*/
+
+    onSelect(testset: Testset) {
+        this.selectedTestset = testset;
+        console.log(this.selectedTestset);
     }
 
     doFilter = (value: string) => {

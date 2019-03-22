@@ -5,6 +5,7 @@ import { CreateComponent } from './components/create/create.component';
 import {ResultoverviewComponent} from './components/resultoverview/resultoverview.component';
 import {ResultComponent} from './components/result/result.component';
 import {OverviewComponent} from './components/overview/overview.component';
+import {OverviewDetailComponent} from './components/overview-detail/overview-detail.component';
 
 const routes: Routes = [
     {
@@ -26,7 +27,7 @@ const routes: Routes = [
     {
         path: 'overview',
         component: OverviewComponent
-    },
+    }
 ];
 
 @NgModule({

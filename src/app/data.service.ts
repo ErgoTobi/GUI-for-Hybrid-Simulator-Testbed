@@ -75,18 +75,28 @@ export class DataService {
     readAllTestsets () {
         return fromPromise(Testset.findAll({
             raw: true,
+            /*
             include: [{
                 model: Scenario
-            }]
+            }]*/
         }));
     }
     // R(w): Pulls a testset (incl. scenario data) by id that the method gets from onclick event; Overview -> Running
     readTestsetById (testsetId: number) {
-        return fromPromise(Testset.findOne({
+        /*
+        return fromPromise(Testset.findAll({
             where: { id: testsetId },
             raw: true,
             include: [{
                 model: Scenario
+            }]
+        }));*/
+        return fromPromise(Testset.findByPk(testsetId, {
+            include: [{
+                model: Scenario,
+                where: {
+                    testsetId: testsetId
+                }
             }]
         }));
     }
@@ -230,7 +240,7 @@ export class DataService {
             include: Scenarioresult
         }).then(() => console.log('Worked'));
     }
-    readTestsetResultById (testsetResultId: object) {
+    readTestsetResultByIdObject (testsetResultId: object) {
         return fromPromise(Testsetresult.findAll({
             attributes: ['id', 'name', 'startTimestamp', 'duration', 'testsetId'],
             raw: true,
@@ -244,6 +254,17 @@ export class DataService {
                 model: Scenarioresult
             }]
         }));*/
+    }
+
+    readTestsetByIdObject (testsetId: object) {
+        return fromPromise(Testset.findAll({
+            attributes: ['id', 'name'],
+            raw: true,
+            where: { id: testsetId },
+            include: [{
+            model: Scenario
+        }]
+        }));
     }
 }
 

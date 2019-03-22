@@ -27,7 +27,7 @@ export class ResultComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.dataService.readTestsetResultById(this.user$).subscribe(
+        this.dataService.readTestsetResultByIdObject(this.user$).subscribe(
         data => {
             this.user$ = data[0];
             console.log("logge data");

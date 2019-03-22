@@ -105,8 +105,8 @@ export class HomeComponent implements OnInit {
         this.dataService.readAllTestsets().subscribe(
             data => { console.log('readAllTestsets: '); console.log(data);
             });
-        this.dataService.readTestsetById(3).subscribe(
-            data => { console.log('readTestsetById 3: '); console.log(data);
+        this.dataService.readTestsetById(1).subscribe(
+            data => { console.log('readTestsetById 1: '); console.log(data);
             });
         this.dataService.readSettingById(1).subscribe(
             data => { console.log('readSettingById 1: '); console.log(data);
