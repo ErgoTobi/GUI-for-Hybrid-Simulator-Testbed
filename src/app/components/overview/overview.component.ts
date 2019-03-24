@@ -4,7 +4,6 @@ import {FormControl} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
 import {Testsets} from '../../models/TestsetResult';
 import { TESTSET } from '../../mock-data';
-import { SCENARIO } from '../../mock-data';
 import {Testset} from '../../data';
 
 
@@ -15,9 +14,11 @@ import {Testset} from '../../data';
 })
 export class OverviewComponent implements OnInit {
     testsets = TESTSET;
-
-
     selectedTestset: Testset;
+    //testsets: Object[];
+    //selectedTestset: Object[];
+
+
 
 
     dataSource = new MatTableDataSource<Testsets>();
@@ -32,6 +33,7 @@ export class OverviewComponent implements OnInit {
         this.dataService.readAllTestsets().subscribe(
             data => {
                 this.dataSource.data = data as Testsets[];
+
                 console.log(data);
             }
         );

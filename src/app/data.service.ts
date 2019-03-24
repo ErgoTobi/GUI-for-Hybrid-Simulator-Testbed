@@ -50,7 +50,6 @@ export class DataService {
     readSettingById (id: number) {
         return fromPromise(Testset.findOne({
             where: { id: id },
-            raw: true,
         }));
     }
     // U(): ECU update
@@ -74,23 +73,13 @@ export class DataService {
     // R(w): Pulls all testsets (incl. scenario data) where the Suite_id equals SpeedDreams; Overview
     readAllTestsets () {
         return fromPromise(Testset.findAll({
-            raw: true,
-            /*
             include: [{
                 model: Scenario
-            }]*/
+            }]
         }));
     }
     // R(w): Pulls a testset (incl. scenario data) by id that the method gets from onclick event; Overview -> Running
     readTestsetById (testsetId: number) {
-        /*
-        return fromPromise(Testset.findAll({
-            where: { id: testsetId },
-            raw: true,
-            include: [{
-                model: Scenario
-            }]
-        }));*/
         return fromPromise(Testset.findByPk(testsetId, {
             include: [{
                 model: Scenario,
@@ -141,7 +130,7 @@ export class DataService {
     // R(w): Pulls all testsetsresults (only!); Resultoverview
     readAllTestsetResultsOnly () {
         return fromPromise(Testsetresult.findAll({
-            raw: true,
+            // raw: true,
         }));
     }
     // D(w): Deletes a testset (incl. cascading deletion of cohesive data) by id that the method gets from on onclick event; Overview
@@ -171,7 +160,7 @@ export class DataService {
     readAllScenarioResultsByTestsetResultId (testsetResultId: number) {
         // let eventId = event.currentTarget;
         return fromPromise(Scenarioresult.findAll({
-            raw: true,
+            // raw: true,
             where: {
                 id: testsetResultId
             }
@@ -193,7 +182,7 @@ export class DataService {
     // R(): Pulls all runresults (only!) by scenarioresult Id; Resultdetails
     readAllRunResultsByScenarioResultId (scenarioResultId: number) {
         return fromPromise(Runresult.findAll({
-            raw: true,
+            // raw: true,
             where: {
                 id: scenarioResultId
             }
@@ -221,7 +210,7 @@ export class DataService {
     // R(): Pulls all runresultsdata(only!) by runresult Id; Resultdetails
     readAllRunDetailsByRunResultId (runResultId: number) {
         return fromPromise(Rundetail.findAll({
-            raw: true,
+            // raw: true,
             where: {
                 id: runResultId
             }
@@ -243,7 +232,7 @@ export class DataService {
     readTestsetResultByIdObject (testsetResultId: object) {
         return fromPromise(Testsetresult.findAll({
             attributes: ['id', 'name', 'startTimestamp', 'duration', 'testsetId'],
-            raw: true,
+            // raw: true,
             where: { id: testsetResultId },
         }));
         /*return fromPromise(Testsetresult.findOne({
@@ -259,7 +248,7 @@ export class DataService {
     readTestsetByIdObject (testsetId: object) {
         return fromPromise(Testset.findAll({
             attributes: ['id', 'name'],
-            raw: true,
+            // raw: true,
             where: { id: testsetId },
             include: [{
             model: Scenario
