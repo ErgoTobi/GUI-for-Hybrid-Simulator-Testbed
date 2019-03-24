@@ -4,7 +4,7 @@ import {FormControl} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
 import {Testsets} from '../../models/TestsetResult';
 import { TESTSET } from '../../mock-data';
-import {Testset} from '../../data';
+import {Testset} from '../../models/Testset';
 
 
 @Component({
@@ -13,35 +13,21 @@ import {Testset} from '../../data';
   styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
-    testsets = TESTSET;
+    testsets: Testset[];
+    testsetsOnLoad: Testset[];
     selectedTestset: Testset;
-    //testsets: Object[];
-    //selectedTestset: Object[];
-
-
-
-
-    dataSource = new MatTableDataSource<Testsets>();
-    /*
-    public displayedColumns = ['name'];
-    @ViewChild(MatSort) sort: MatSort;
-*/
     constructor(private dataService: DataService) {
     }
 
     ngOnInit() {
         this.dataService.readAllTestsets().subscribe(
             data => {
-                this.dataSource.data = data as Testsets[];
-
+                this.testsets = data as Testset[];
+                this.testsetsOnLoad = data as Testset[];
                 console.log(data);
             }
         );
     }
-    /*
-    ngAfterViewInit(): void {
-        this.dataSource.sort = this.sort;
-    }*/
 
     onSelect(testset: Testset) {
         this.selectedTestset = testset;
@@ -49,9 +35,9 @@ export class OverviewComponent implements OnInit {
     }
 
     doFilter = (value: string) => {
-        this.dataSource.filter = value.trim().toLocaleLowerCase();
+        if (value === '' || value.length === 1) { this.testsets = this.testsetsOnLoad; }
+        this.testsets = this.testsets.filter(testset => testset.name.toLowerCase().indexOf(value.toLowerCase()) !== -1);
     }
-
     onRowClicked(row) {
         console.log('Row clicked: ', row);
         console.log('id of row');
