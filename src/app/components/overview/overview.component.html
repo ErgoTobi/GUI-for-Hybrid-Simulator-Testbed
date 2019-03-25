@@ -19,12 +19,14 @@
 
 <div id="content">
   <div id="master" class="example-container mat-elevation-z8">
+
       <div id="inputfield">
           <mat-form-field appearance="">
               <mat-label>Testsets</mat-label>
               <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search for Testsets">
           </mat-form-field>
       </div>
+
       <mat-nav-list>
           <mat-list-item *ngFor="let testset of testsets"
                          [class.selected]="testset === selectedTestset"
@@ -32,6 +34,9 @@
             <span mat-line>{{testset.name}}</span>
           </mat-list-item>
       </mat-nav-list>
+
+      <button mat-mini-fab color="primary">+</button>
+
   </div>
 
   <app-overview-detail id="detail" class="example-container" [testset]="selectedTestset"></app-overview-detail>

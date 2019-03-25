@@ -55,7 +55,7 @@
 
 .mat-nav-list {
   width: 100%;
-  height: 100%;
+  height: 89%;
   overflow-x: hidden;
   overflow-y: auto;
   min-width: 100px;
@@ -71,7 +71,7 @@
 
 .selected {
   border-color: #4ebfae !important;
-  background-color:#131920;
+  background-color: #131920;
 }
 
 .mat-elevation-z8{
@@ -97,6 +97,14 @@
 
 #back-icon {
   color: #4ebfae;
+}
+
+.mat-mini-fab {
+  color: #131920;
+  font-size: 30px;
+  background-color: #4ebfae;
+  left: 80%;
+  bottom: 80px;
 }
 /*END BUTTON STYLING*/
 
