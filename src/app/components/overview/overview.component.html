@@ -13,40 +13,26 @@
     <span class="example-spacer"></span>
     <!--<span class="mat-body">Third Line</span>-->
   </mat-toolbar-row>
-
-  <mat-toolbar-row>
-    <div id ="left-area">
-      <span class="mat-h1">Testsets</span>
-    </div>
-    <span class="example-spacer"></span>
-    <!--<span class="mat-body">Estimate Finish: 14-3-2018 19:23</span>-->
-  </mat-toolbar-row>
 </mat-toolbar>
 
-<div id="inputfield">
-  <mat-form-field appearance="outline">
-    <mat-label>Search for Testsets</mat-label>
-    <input matInput type="text" (keyup)="doFilter($event.target.value)" >
-  </mat-form-field>
-</div>
+
 
 <div id="content">
   <div id="master" class="example-container mat-elevation-z8">
+      <div id="inputfield">
+          <mat-form-field appearance="">
+              <mat-label>Testsets</mat-label>
+              <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search for Testsets">
+          </mat-form-field>
+      </div>
       <mat-nav-list>
-          <h3 mat-subheader>Folder</h3>
           <mat-list-item *ngFor="let testset of testsets"
                          [class.selected]="testset === selectedTestset"
                          (click)="onSelect(testset)">
-            <span>{{testset.name}}</span>
+            <span mat-line>{{testset.name}}</span>
           </mat-list-item>
       </mat-nav-list>
   </div>
 
-
-  <app-overview-detail id="detail" class="example-container mat-elevation-z8" [testset]="selectedTestset">
-
-  </app-overview-detail>
-
-
-
+  <app-overview-detail id="detail" class="example-container" [testset]="selectedTestset"></app-overview-detail>
 </div>

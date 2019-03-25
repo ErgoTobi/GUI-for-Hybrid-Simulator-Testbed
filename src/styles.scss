@@ -3,7 +3,6 @@
 html, body {
   margin: 0;
   padding: 0;
-
   height: 100%;
 }
 
@@ -105,11 +104,16 @@ a{
   color:white !important;
 }
 .mat-list-item {
-  color:white !important;
+  color: #F8F8F8 !important;
+  border-width: 1.2px !important;
+  border-style: solid;
+  border-color: #131920 !important;
+  width: 99% !important;
 }
 
 .mat-list-base {
-  width: 20% !important;
+  padding-top: 1.2px !important;
+  width: 20%;
 }
 
 .active-list-item {
