@@ -1,10 +1,10 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
-import {FormControl} from '@angular/forms';
-import {MatSort, MatTableDataSource} from '@angular/material';
 import {Testsets} from '../../models/TestsetResult';
-import { TESTSET } from '../../mock-data';
 import {Testset} from '../../models/Testset';
+import {MatDialog} from '@angular/material';
+import {DeleteDialogComponent} from '../overview-detail/delete-dialog/delete-dialog.component';
+import {SettingsDialogComponent} from '../settings-dialog/settings-dialog.component';
 
 
 @Component({
@@ -16,7 +16,7 @@ export class OverviewComponent implements OnInit {
     testsets: Testset[];
     testsetsOnLoad: Testset[];
     selectedTestset: Testset;
-    constructor(private dataService: DataService) {
+    constructor(private dataService: DataService, public dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -39,6 +39,18 @@ export class OverviewComponent implements OnInit {
     doFilter = (value: string) => {
         if (value === '' || value.length === 1) { this.testsets = this.testsetsOnLoad; }
         this.testsets = this.testsets.filter(testset => testset.name.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+    }
+
+    openSettingsDialog() {
+        const dialogRef = this.dialog.open(SettingsDialogComponent, {
+            data: {
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+            console.log(result);
+        });
     }
 
     onRowClicked(row) {

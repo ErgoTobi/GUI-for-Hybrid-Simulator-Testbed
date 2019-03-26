@@ -31,6 +31,7 @@ import { ResultComponent } from './components/result/result.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { OverviewDetailComponent } from './components/overview-detail/overview-detail.component';
 import { DeleteDialogComponent } from './components/overview-detail/delete-dialog/delete-dialog.component';
+import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
 
 
 // AoT requires an exported function for factories
@@ -48,7 +49,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       ResultComponent,
       OverviewComponent,
       OverviewDetailComponent,
-      DeleteDialogComponent
+      DeleteDialogComponent,
+      SettingsDialogComponent
   ],
     imports: [
         BrowserModule,
@@ -77,7 +79,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         DeleteDialogComponent
         ],
     entryComponents: [
-        DeleteDialogComponent
+        DeleteDialogComponent,
+        SettingsDialogComponent
     ],
   providers: [ElectronService],
   bootstrap: [AppComponent]
