@@ -2,9 +2,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import { DataService } from '../../data.service';
 import {FormControl} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
-import { TestsetResult } from '../../models/TestsetResult';
+import { Scenario } from '../../models/Scenario';
+import { Testset } from '../../models/Testset';
 import { ActivatedRoute } from '@angular/router';
-import {Scenario, Testset} from '../../data';
+import {MatDialog} from '@angular/material';
+import {DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-overview-detail',
@@ -15,12 +17,7 @@ export class OverviewDetailComponent implements OnInit {
     // user$: (string|number)[] = [];
     // user$: Object;
     @Input() testset: Testset;
-    // scenario: Scenario;
-    // scenarios = SCENARIO;
-
-
-
-    constructor(/*private route: ActivatedRoute, private dataService: DataService*/) {
+    constructor(/*private route: ActivatedRoute, */public dialog: MatDialog) {
         /*this.route.params.subscribe( params => {this.user$ = params.id;
                 console.log('logge paramsid');
                 console.log(params.id);
@@ -28,23 +25,21 @@ export class OverviewDetailComponent implements OnInit {
                 console.log(this.user$);
             }
         );*/
-
     }
 
     ngOnInit() {
-        /*this.dataService.readTestsetByIdObject(this.user$).subscribe(
-            data => {
-                this.user$ = data[0];
-                console.log("logge data");
-                console.log(this.user$);
-
+    }
+    openDeleteDialog(name: string, id: number): void {
+        const dialogRef = this.dialog.open(DeleteDialogComponent, {
+            data: {
+                name: name,
+                id: id
             }
-        );*/
+        });
 
-        /*this.scenarios.forEach((element) => {
-            if (element.testsetId = this.testset.id){
-                this.scenario = element;
-            }
-        });*/
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+            console.log(result);
+        });
     }
 }

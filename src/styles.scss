@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 html, body {
   margin: 0;
   padding: 0;
@@ -96,19 +97,12 @@ a{
 
 .mat-progress-bar-buffer {
   border-radius: 10px;
-  background-color:#979DA6;
+  background-color: #979DA6;
 }
 /*END PROGRESS BAR*/
 /*NAVIGATION LIST*/
 .mat-subheader{
   color:white !important;
-}
-.mat-list-item {
-  color: #F8F8F8 !important;
-  border-width: 1.2px !important;
-  border-style: solid;
-  border-color: #131920 !important;
-  width: 99% !important;
 }
 
 .mat-list-base {
@@ -116,22 +110,13 @@ a{
   width: 20%;
 }
 
+.mat-list-item {
+  color: #F8F8F8 !important;
+}
+
 .active-list-item {
   background-color: white !important; /* Note: You could also use a custom theme */
 }
 
-.mat-list-item-content{
-  border: solid 1px !important;
-  border-color: #0E0F13 !important;
-  border-bottom-width: 0 !important;
-  border-left-width: 0 !important;
-}
 
-.mat-list-item-ripple.mat-ripple:last-of-type{
-  border-bottom-width: 1px !important;
-}
-
-.mat-list-item:active{
-  background-color: #0E0F13 !important;
-}
 /*END NAVIGATION LIST*/

@@ -19,7 +19,6 @@
 
 <div id="content">
   <div id="master" class="example-container mat-elevation-z8">
-
       <div id="inputfield">
           <mat-form-field appearance="">
               <mat-label>Testsets</mat-label>
@@ -35,9 +34,7 @@
           </mat-list-item>
       </mat-nav-list>
 
-      <button mat-mini-fab color="primary">+</button>
-
+      <button mat-mini-fab color="primary" routerLink="">+</button>
   </div>
-
   <app-overview-detail id="detail" class="example-container" [testset]="selectedTestset"></app-overview-detail>
 </div>

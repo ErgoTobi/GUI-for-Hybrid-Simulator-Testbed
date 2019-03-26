@@ -63,6 +63,25 @@
 }
 .mat-list-item {
   background-color:#232B35;
+  border-width: 1.2px !important;
+  border-style: solid;
+  border-color: #131920 !important;
+  width: 99% !important;
+}
+
+.mat-list-item-content{
+  border: solid 1px !important;
+  border-color: #0E0F13 !important;
+  border-bottom-width: 0 !important;
+  border-left-width: 0 !important;
+}
+
+.mat-list-item-ripple.mat-ripple:last-of-type{
+  border-bottom-width: 1px !important;
+}
+
+.mat-list-item:active{
+  background-color: #0E0F13 !important;
 }
 
 .mat-list-item:hover {

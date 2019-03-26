@@ -13,7 +13,7 @@ const routes: Routes = [
         component: HomeComponent
     },
     {
-        path: 'create',
+        path: 'overview/create',
         component: CreateComponent
     },
     {

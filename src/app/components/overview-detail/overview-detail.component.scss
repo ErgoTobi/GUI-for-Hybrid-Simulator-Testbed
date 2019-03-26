@@ -1,0 +1,100 @@
+/*BUTTON STYLING*/
+::ng-deep .mat-raised-button {
+  z-index:10;
+  justify-self: end;
+  background-color: #4ebfae !important;
+  margin-right: 5px;
+  margin-left: 5px;
+  padding: 0 !important;
+  min-width: 81px;
+}
+
+.header-row {
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#header-buttons {
+}
+
+#header-heading {
+}
+
+::ng-deep .timeline-content::after {
+  top: 65px !important;
+}
+
+::ng-deep .timeline-content {
+  background-color: #2D343C;
+}
+::ng-deep .timeline-item {
+  text-align: justify-all;
+}
+
+/*TIMELINE STYLING*/
+.mat-list, .timeline {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-width: 100px;
+}
+.mat-list-item {
+
+}
+
+.list-details {
+  display: inline-flex !important;
+  justify-content: space-between !important;
+}
+
+.list-details:nth-child(2) {
+}
+
+h2 {
+  font-weight: bold !important;
+  line-height: 28px !important;
+}
+
+.mat-list-item:hover {
+  cursor: default;
+}
+
+.timeline mat-list {
+  position: absolute;
+  overflow: hidden;
+  left: 10%;
+}
+
+.timeline mat-list:before {
+  content: '';
+  width: 1px;
+  height: 100%;
+  position: absolute;
+  border-left: 2px solid #979DA6;
+
+}
+.timeline mat-list mat-list-item {
+  position: relative;
+  margin-left: 30px ;
+  width: 80%;
+  // border-radius: 6px;
+  // background-color: rgba(255, 255, 255, 0.2);
+  // box-shadow: 0 0 4px rgba(0, 0, 0, .12), 0 2px 2px rgba(0, 0, 0, .08)
+}
+.timeline mat-list mat-list-item:not(:first-child) {
+  margin-top: 10px;
+}
+
+.timeline mat-list mat-list-item:before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid #979DA6;
+  position: absolute;
+  background: #979DA6;
+  left: -35px;
+  top: 20px;
+}

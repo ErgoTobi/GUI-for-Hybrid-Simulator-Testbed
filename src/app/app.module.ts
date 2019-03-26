@@ -4,7 +4,7 @@ import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatSortModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import {MatSortModule, MatFormFieldModule, MatInputModule, MatDialogModule} from '@angular/material';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
@@ -30,6 +30,7 @@ import { ResultoverviewComponent } from './components/resultoverview/resultoverv
 import { ResultComponent } from './components/result/result.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { OverviewDetailComponent } from './components/overview-detail/overview-detail.component';
+import { DeleteDialogComponent } from './components/overview-detail/delete-dialog/delete-dialog.component';
 
 
 // AoT requires an exported function for factories
@@ -46,7 +47,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       ResultoverviewComponent,
       ResultComponent,
       OverviewComponent,
-      OverviewDetailComponent
+      OverviewDetailComponent,
+      DeleteDialogComponent
   ],
     imports: [
         BrowserModule,
@@ -65,13 +67,18 @@ export function HttpLoaderFactory(http: HttpClient) {
             }
         }),
         BrowserAnimationsModule,
-      MaterialModule
+        MaterialModule,
+        MatDialogModule
   ],
     exports: [
         MatSortModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        DeleteDialogComponent
         ],
+    entryComponents: [
+        DeleteDialogComponent
+    ],
   providers: [ElectronService],
   bootstrap: [AppComponent]
 })

@@ -25,6 +25,8 @@ export class OverviewComponent implements OnInit {
                 this.testsets = data as Testset[];
                 this.testsetsOnLoad = data as Testset[];
                 console.log(data);
+                // Autoselects first item in list
+                this.selectedTestset = this.testsets[0];
             }
         );
     }
@@ -38,6 +40,7 @@ export class OverviewComponent implements OnInit {
         if (value === '' || value.length === 1) { this.testsets = this.testsetsOnLoad; }
         this.testsets = this.testsets.filter(testset => testset.name.toLowerCase().indexOf(value.toLowerCase()) !== -1);
     }
+
     onRowClicked(row) {
         console.log('Row clicked: ', row);
         console.log('id of row');

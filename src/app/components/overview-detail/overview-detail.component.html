@@ -1,22 +1,25 @@
 <div *ngIf="testset">
-    <h2>{{testset.name | uppercase}}</h2>
-    <div><span>id: </span>{{testset.id}}</div>
-    <div>
-        <label>name:
-            <span>{{testset.name}}</span>
-        </label>
-    </div>
+    <h4 class="header-row">
+        <span id="header-heading">{{testset.name}}</span>
+        <span id="header-buttons">
+            <button mat-raised-button (click)="openDeleteDialog(testset.name, testset.id)">Delete
+                <i id="delete-icon" class="material-icons">delete</i>
+            </button>
+            <button mat-raised-button class="start-button" >Start
+                <i id="back-icon" class="material-icons">keyboard_arrow_right</i>
+            </button>
+        </span>
+
+    </h4>
 </div>
 
-<div *ngIf="testset">
-    <mat-nav-list>
-        <h3 mat-subheader>Scenario</h3>
+<div *ngIf="testset" class="timeline">
+    <mat-list>
         <mat-list-item *ngFor="let scenario of testset.scenarios">
-            <span>id: {{scenario.id}}, </span><span>name: {{scenario.name}}, </span>
+            <h2 mat-line >{{scenario.name}}</h2>
+            <div mat-line class="list-details">
+                <span>{{scenario.mode}}</span> <span>{{scenario.route}}</span> <span>{{scenario.runQuantity}} x </span>
+            </div>
         </mat-list-item>
-    </mat-nav-list>
+    </mat-list>
 </div>
-
-<button routerLink="" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-    Home
-</button>
