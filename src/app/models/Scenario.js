@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
     mode: DataTypes.STRING,
     route: DataTypes.STRING,
     runQuantity: DataTypes.INTEGER,
-    isTextOnly: DataTypes.BOOLEAN,
     testsetId: DataTypes.INTEGER
   }, {});
   Scenario.associate = function(models) {

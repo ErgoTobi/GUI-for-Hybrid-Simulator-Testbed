@@ -17,7 +17,7 @@ module.exports = {
       value: {
         type: Sequelize.STRING
       },
-      runResultId: {
+      runId: {
         type: Sequelize.INTEGER
       },
       createdAt: {

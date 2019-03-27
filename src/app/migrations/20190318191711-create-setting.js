@@ -14,6 +14,9 @@ module.exports = {
       ecuAmount: {
         type: Sequelize.INTEGER
       },
+      isTextOnly: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

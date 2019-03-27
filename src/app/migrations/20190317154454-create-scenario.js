@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       isTextOnly: {
-        type: Sequelize.BOOLEAN
+          type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

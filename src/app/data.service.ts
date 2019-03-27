@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import {fromPromise} from 'rxjs/internal-compatibility';
 import {Time} from '@angular/common';
-import {from, Timestamp} from 'rxjs';
-import { Testset } from './models/Testset';
-
 
 const Sequelize = require('sequelize');
 const connection = new Sequelize('suite_simulator', 'root', 'password', {
@@ -11,23 +8,20 @@ const connection = new Sequelize('suite_simulator', 'root', 'password', {
 });
 const Testset = require('./models/Testset')(connection, Sequelize);
 const Scenario = require('./models/Scenario')(connection, Sequelize);
-const Testsetresult = require('./models/TestsetResult')(connection, Sequelize);
-const Scenarioresult = require('./models/ScenarioResult')(connection, Sequelize);
-const Runresult = require('./models/RunResult')(connection, Sequelize);
+const Result = require('./models/Result')(connection, Sequelize);
+const Run = require('./models/Run')(connection, Sequelize);
 const Rundetail = require('./models/RunDetail')(connection, Sequelize);
 const Setting = require('./models/Setting')(connection, Sequelize);
 
 const Promise = require('promise');
 Scenario.belongsTo(Testset);
 Testset.hasMany(Scenario);
-Testsetresult.belongsTo(Testset);
-Testset.hasMany(Testsetresult);
-Scenarioresult.belongsTo(Testsetresult);
-Testsetresult.hasMany(Scenarioresult);
-Runresult.belongsTo(Scenarioresult);
-Scenarioresult.hasMany(Runresult);
-Rundetail.belongsTo(Runresult);
-Runresult.hasMany(Rundetail);
+Result.belongsTo(Testset);
+Testset.hasMany(Result);
+Run.belongsTo(Result);
+Result.hasMany(Run);
+Rundetail.belongsTo(Run);
+Run.hasMany(Rundetail);
 
 @Injectable({
     providedIn: 'root'
@@ -47,19 +41,20 @@ export class DataService {
     }
 
     // SETTING
-    // R(): Pulls a setting where the Suite_id equals SpeedDreams; Overview
+    // R(w): Pulls a setting where the Suite_id equals SpeedDreams; Overview
     readSettingById (id: number) {
         return fromPromise(Testset.findOne({
             where: { id: id },
         }));
     }
-    // C(): ECU update
-    createSetting(ecuAmount: number) {
-        Setting.create({
-            ecuAmount: ecuAmount
+    // C(w): ECU create
+    createSetting(ecuAmount: number, isTextOnly: Boolean) {
+        return fromPromise(Setting.create({
+            ecuAmount: ecuAmount,
+            isTextOnly: isTextOnly
         }).catch(error => {
             console.error('createSetting:', error);
-        });
+        }));
     }
 
     // TESTSET
@@ -103,13 +98,12 @@ export class DataService {
 
     // SCENARIO
     // C(w): Creates a scenario; Create
-    createScenario (name: String, mode: String, route: String, runQuantity: number, isTextOnly: Boolean, testsetId: number) {
+    createScenario (name: String, mode: String, route: String, runQuantity: number, testsetId: number) {
         return fromPromise(Scenario.create({
             name: name,
             mode: mode,
             route: route,
             runQuantity: runQuantity,
-            isTextOnly: isTextOnly,
             testsetId: testsetId
         }).catch(error => {
             console.error('createScenario:', error);
@@ -117,103 +111,78 @@ export class DataService {
     }
 
     // TESTSETRESULT
-    // C(w): Creates a testsetresult and returns the model back via a promise; Running -> Overview
-    createTestsetResult (name: String, startTimestamp: Timestamp<any>, duration: Time, testsetId: number) {
-        return fromPromise(Testsetresult.create({
+    // C(w): Creates a result and returns the model back via a promise; Running -> Overview
+    createResult (name: String, startTimestamp: number, duration: Time, testsetId: number) {
+        return fromPromise(Result.create({
             name: name,
             startTimestamp: startTimestamp,
             duration: duration,
             testsetId: testsetId
         }).catch(error => {
-            console.error('createTestsetResult: ', error);
+            console.error('createResult: ', error);
         }));
     }
-    // R(w): Pulls all testsetsresults (only!); Resultoverview
-    readAllTestsetResultsOnly () {
-        return fromPromise(Testsetresult.findAll({
-            // raw: true,
+    // R(w): Pulls all results (only!); Resultoverview
+    readAllResultsOnly () {
+        return fromPromise(Result.findAll({
         }));
     }
-    // D(w): Deletes a testset (incl. cascading deletion of cohesive data) by id that the method gets from on onclick event; Overview
-    deleteTestsetResultById (testsetresultId: number) {
-        Testsetresult.destroy({
+    // D(w): Deletes a result (incl. cascading deletion of cohesive data) by id that the method gets from on onclick event; Overview
+    deleteResultById (resultId: number) {
+        Result.destroy({
             where: {
-                id: testsetresultId
+                id: resultId
             },
             force: true
         });
     }
 
-    // SCENARIORESULT
-    // C(w): Creates a scenarioresult; Running
-    createScenarioResult (name: String, startTimestamp: Timestamp<any>, duration: Time, scenarioId: number, testsetresultId: number) {
-        Scenarioresult.create({
-            name: name,
-            startTimestamp: startTimestamp,
-            duration: duration,
-            scenarioId: scenarioId,
-            testsetResultId: testsetresultId
-        }).catch(error => {
-            console.error('createScenarioResult: ', error);
-        });
-    }
-    // R(): Pulls all scenarioresults (only!) by testsetresult Id; Resultdetails
-    readAllScenarioResultsByTestsetResultId (testsetResultId: number) {
-        // let eventId = event.currentTarget;
-        return fromPromise(Scenarioresult.findAll({
-            // raw: true,
-            where: {
-                id: testsetResultId
-            }
-        }));
-    }
-
-    // RUNRESULT
-    // C(): Creates a runresult; Running
-    createRunResult (startTimestamp: Timestamp<any>, duration: Time, state: String, scenarioresultId: number) {
-        return fromPromise(Runresult.create({
+    // RUN
+    // C(w): Creates a run; Running
+    createRun (startTimestamp: number, duration: Time, state: number, scenarioId: number, resultId: number) {
+        return fromPromise(Run.create({
             startTimestamp: startTimestamp, // To add to database
             duration: duration,
-            state: state,
-            scenarioResultId: scenarioresultId
+            state: state, // state 1 = passed, 0 = failed
+            scenarioId: scenarioId,
+            resultId: resultId
         }).catch(error => {
-            console.error('createRunResult: ', error);
+            console.error('createRun: ', error);
         }));
     }
-    // R(): Pulls all runresults (only!) by scenarioresult Id; Resultdetails
-    readAllRunResultsByScenarioResultId (scenarioResultId: number) {
-        return fromPromise(Runresult.findAll({
+    // R(w): Pulls all run (only!) by result Id; Resultdetails
+    readAllRunsByResultId (resultId: number) {
+        return fromPromise(Run.findAll({
             // raw: true,
             where: {
-                id: scenarioResultId
+                id: resultId
             }
         }));
     }
 
-    // RUNRESULTDATA
-    // C(): Creates a runresultdata; Running
-    createRunDetail (relativeTime: Time, key: string, value: string, runResultId: number) {
+    // RUNDATA
+    // C(w): Creates a rundata; Running
+    createRunDetail (relativeTime: Time, key: string, value: string, runId: number) {
         return fromPromise(Rundetail.create({
             relativeTime: relativeTime,
             key: key,
             value: value,
-            runResultId: runResultId
+            runId: runId
         }).catch(error => {
             console.error('createRunDetail: ', error);
         }));
     }
-    // C(): Creates a bulk of runresultdata; Running
+    // C(w): Creates a bulk of runresultdata; Running
     createRunDetailBulk (runDetails: object[]) {
         return fromPromise(Rundetail.bulkCreate(runDetails).catch(error => {
             console.error('createRunDetailBulk: ', error);
         }));
     }
-    // R(): Pulls all runresultsdata(only!) by runresult Id; Resultdetails
-    readAllRunDetailsByRunResultId (runResultId: number) {
+    // R(w): Pulls all runresultsdata(only!) by runresult Id; Resultdetails
+    readAllRunDetailsByRunId (runId: number) {
         return fromPromise(Rundetail.findAll({
-            // raw: true,
             where: {
-                id: runResultId
+                id: runId
             }
         }));
     }
@@ -221,35 +190,25 @@ export class DataService {
     // Testmethods
     // C(): Creates results
     createDummyResultData () {
-        Testsetresult.create({
+        Result.create({
             name: 'TR',
-            Scenarioresult: {
-                name: 'SR',
+            Run: {
+                state: 1,
             }
         }, {
-            include: Scenarioresult
+            include: Run
         }).then(() => console.log('Worked'));
     }
-    readTestsetResultByIdObject (testsetResultId: object) {
-        return fromPromise(Testsetresult.findAll({
+    readResultByIdObject (resultId: object) {
+        return fromPromise(Result.findAll({
             attributes: ['id', 'name', 'startTimestamp', 'duration', 'testsetId'],
-            // raw: true,
-            where: { id: testsetResultId },
+            where: { id: resultId },
         }));
-        /*return fromPromise(Testsetresult.findOne({
-            attributes: ['id', 'name', 'startTimestamp', 'duration', 'testsetId'],
-            where: { id: testsetResultId },
-            raw: true,
-            include: [{
-                model: Scenarioresult
-            }]
-        }));*/
     }
 
     readTestsetByIdObject (testsetId: object) {
         return fromPromise(Testset.findAll({
             attributes: ['id', 'name'],
-            // raw: true,
             where: { id: testsetId },
             include: [{
             model: Scenario
@@ -257,29 +216,3 @@ export class DataService {
         }));
     }
 }
-
-
-/* createTableInSuite() {/!*
-   connection
-       .authenticate()
-       .then(() => {
-           console.log('Connection has been established successfully.');
-       })
-       .catch(err => {
-           console.error('Unable to connect to the database:', err);
-       });
-
-   const Olla = connection.define('ollams', {
-       su_Name: Sequelize.STRING,
-       su_Description: Sequelize.TEXT,
-       su_isFinal: Sequelize.BOOLEAN
-   });
-
-   connection.sync().then(function ({}) {
-       Olla.create({
-           su_Name: 'hello',
-           su_Description: 'ffdfd',
-           su_isFinal: 1
-       });
-   });*!/*
-   */

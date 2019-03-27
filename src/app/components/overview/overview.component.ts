@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
-import {Testsets} from '../../models/TestsetResult';
+import {Testsets} from '../../models/Result';
 import {Testset} from '../../models/Testset';
 import {MatDialog} from '@angular/material';
 import {SettingsDialogComponent} from '../settings-dialog/settings-dialog.component';

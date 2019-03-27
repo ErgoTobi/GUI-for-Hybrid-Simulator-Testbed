@@ -1,6 +1,5 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
-import {Timestamp} from 'rxjs';
 import {Time} from '@angular/common';
 
 const eshell = require('electron').shell;
@@ -110,42 +109,42 @@ export class HomeComponent implements OnInit {
         this.dataService.readSettingById(1).subscribe(
             data => { console.log('readSettingById 1: '); console.log(data);
             });
-        this.dataService.readAllRunDetailsByRunResultId(2).subscribe(
+        this.dataService.readAllRunDetailsByRunId(2).subscribe(
             data => { console.log('readRunDetailById 2: '); console.log(data);
             });
-        this.dataService.readAllRunResultsByScenarioResultId(1).subscribe(
-            data => { console.log('readRunResultById 1: '); console.log(data);
+        this.dataService.readAllRunsByResultId(1).subscribe(
+            data => { console.log('readRunById 1: '); console.log(data);
             });
-        this.dataService.readAllScenarioResultsByTestsetResultId(2).subscribe(
-            data => { console.log('readScenarioDetailById 2: '); console.log(data);
-            });
-        this.dataService.readAllTestsetResultsOnly().subscribe(
-            data => { console.log('readAllTestsetResultsOnly: '); console.log(data);
+        this.dataService.readAllResultsOnly().subscribe(
+            data => { console.log('readAllResultsOnly: '); console.log(data);
             });
     }
 
     test4() {
-        this.dataService.deleteTestsetResultById(2);
+        this.dataService.deleteResultById(2);
         this.dataService.deleteTestsetById(1);
     }
 
     auth() {
+        this.dataService.createSetting(9, true).subscribe(data => {
+                console.log('createSetting'); console.log(data);
+            }
+        );
         this.dataService.createTestset('WSTestset');
         this.dataService.createTestset('WSTestset2').subscribe(data => {
                 console.log('createTestset'); console.log(data);
             }
         );
-        this.dataService.createScenario('WSScenario', 'ACC', 'Munich', 4, true, 2).subscribe(data => {
+        this.dataService.createScenario('WSScenario', 'ACC', 'Munich', 4, 2).subscribe(data => {
                 console.log('createScenario'); console.log(data);
             }
         );
-        this.dataService.createTestsetResult('WSTestsetResult', Sequelize.fn('NOW'), Sequelize.fn('NOW'), 2).subscribe(data => {
-                console.log('createTestsetResult'); console.log(data);
+        this.dataService.createResult('WSTestsetResult', 987654, Sequelize.fn('NOW'), 2).subscribe(data => {
+                console.log('createResult'); console.log(data);
             }
         );
-        this.dataService.createScenarioResult('WSTestsetResult', Sequelize.fn('NOW'), Sequelize.fn('NOW'), 3, 2);
-        this.dataService.createRunResult(Sequelize.fn('NOW'), Sequelize.fn('NOW'), 'failed', 3).subscribe(data => {
-                console.log('createRunResult'); console.log(data);
+        this.dataService.createRun(34565, Sequelize.fn('NOW'), 1, 3, 3).subscribe(data => {
+                console.log('createRun'); console.log(data);
             }
         );
         this.dataService.createRunDetail (Sequelize.fn('NOW'), 'WSsavm/car/0/leadSpeed', '9.417906', 1).subscribe(data => {
@@ -153,16 +152,16 @@ export class HomeComponent implements OnInit {
             }
         );
         this.dataService.createRunDetail (Sequelize.fn('NOW'), 'WSsavm/car/0/ownSpeed', '7.142469', 1);
-        let runDetails: { relativeTime: Time, key: string, value: string, runResultId: number }[] = [
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/curGear', 'value': '1', 'runResultId': 1 },
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/steerLock', 'value': '0.785398', 'runResultId': 1 },
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/enginerpm', 'value': '206.593704', 'runResultId': 1 },
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/curGear', 'value': '1', 'runResultId': 1 },
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/steerLock', 'value': '0.785398', 'runResultId': 1 },
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/enginerpm', 'value': '206.593704', 'runResultId': 1 },
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/curGear', 'value': '1', 'runResultId': 1 },
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/steerLock', 'value': '0.785398', 'runResultId': 1 },
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/enginerpm', 'value': '206.593704', 'runResultId': 1 }
+        let runDetails: { relativeTime: Time, key: string, value: string, runId: number }[] = [
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/curGear', 'value': '1', 'runId': 1 },
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/steerLock', 'value': '0.785398', 'runId': 1 },
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/enginerpm', 'value': '206.593704', 'runId': 1 },
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/curGear', 'value': '1', 'runId': 1 },
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/steerLock', 'value': '0.785398', 'runId': 1 },
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/enginerpm', 'value': '206.593704', 'runId': 1 },
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/curGear', 'value': '1', 'runId': 1 },
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/steerLock', 'value': '0.785398', 'runId': 1 },
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/enginerpm', 'value': '206.593704', 'runId': 1 }
         ];
         this.dataService.createRunDetailBulk (runDetails).subscribe(data => {
                 console.log('createRunDetailBulk'); console.log(data);
