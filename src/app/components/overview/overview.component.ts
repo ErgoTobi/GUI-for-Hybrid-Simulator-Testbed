@@ -3,7 +3,6 @@ import {DataService} from '../../data.service';
 import {Testsets} from '../../models/TestsetResult';
 import {Testset} from '../../models/Testset';
 import {MatDialog} from '@angular/material';
-import {DeleteDialogComponent} from '../overview-detail/delete-dialog/delete-dialog.component';
 import {SettingsDialogComponent} from '../settings-dialog/settings-dialog.component';
 
 

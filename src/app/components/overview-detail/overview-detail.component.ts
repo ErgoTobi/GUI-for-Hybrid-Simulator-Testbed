@@ -1,10 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { DataService } from '../../data.service';
-import {FormControl} from '@angular/forms';
-import {MatSort, MatTableDataSource} from '@angular/material';
 import { Scenario } from '../../models/Scenario';
 import { Testset } from '../../models/Testset';
-import { ActivatedRoute } from '@angular/router';
 import {MatDialog} from '@angular/material';
 import {DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
 
@@ -14,17 +10,8 @@ import {DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
   styleUrls: ['./overview-detail.component.scss']
 })
 export class OverviewDetailComponent implements OnInit {
-    // user$: (string|number)[] = [];
-    // user$: Object;
     @Input() testset: Testset;
-    constructor(/*private route: ActivatedRoute, */public dialog: MatDialog) {
-        /*this.route.params.subscribe( params => {this.user$ = params.id;
-                console.log('logge paramsid');
-                console.log(params.id);
-                console.log('logge thisuser');
-                console.log(this.user$);
-            }
-        );*/
+    constructor(public dialog: MatDialog) {
     }
 
     ngOnInit() {

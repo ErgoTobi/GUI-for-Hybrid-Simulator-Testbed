@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {fromPromise} from 'rxjs/internal-compatibility';
 import {Time} from '@angular/common';
 import {from, Timestamp} from 'rxjs';
+import { Testset } from './models/Testset';
 
 
 const Sequelize = require('sequelize');
@@ -64,11 +65,11 @@ export class DataService {
     // TESTSET
     // C(w): Creates a testset; Create -> Overview
     createTestset (name: String) {
-        Testset.create({
+        return fromPromise(Testset.create({
             name: name
         }).catch(error => {
             console.error('createTestset:', error);
-        });
+        }));
     }
     // R(w): Pulls all testsets (incl. scenario data) where the Suite_id equals SpeedDreams; Overview
     readAllTestsets () {

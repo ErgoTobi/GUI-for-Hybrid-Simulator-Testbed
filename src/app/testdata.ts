@@ -1,4 +1,4 @@
-export class Testset {
+/* export class Testset {
     id: number;
     name: string;
     scenarios: Scenario[];
@@ -12,4 +12,4 @@ export class Scenario {
     runQuantity: number;
     isTextOnly: boolean;
     testsetId: number;
-}
+} */

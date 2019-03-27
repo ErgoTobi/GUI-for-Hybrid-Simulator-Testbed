@@ -1,3 +1,5 @@
+
+/*
 import { Testset } from './data';
 import { Scenario } from './data';
 
@@ -19,5 +21,5 @@ export const TESTSET: Testset[] = [
     { id: 2, name: 'TS Jonas', scenarios: SCENARIO2 },
     { id: 3, name: 'TS Carmen', scenarios: SCENARIO3 }
 ];
-
+*/
 

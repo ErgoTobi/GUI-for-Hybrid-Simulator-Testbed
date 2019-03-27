@@ -2,7 +2,7 @@ import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
 import {Timestamp} from 'rxjs';
 import {Time} from '@angular/common';
-
+import { Testset } from '../../models/Testset';
 
 const eshell = require('electron').shell;
 const shell = require('shelljs');
@@ -131,8 +131,14 @@ export class HomeComponent implements OnInit {
             data => { console.log(data);
             });
             */
+        this.dataService.createTestset('Testsesvc').subscribe(data => {
+                console.log('createTestset'); console.log(data);
+            }
+        );
+        /*
         this.dataService.deleteTestsetResultById(2);
         this.dataService.deleteTestsetById(1);
+        */
     }
 
     auth() {
