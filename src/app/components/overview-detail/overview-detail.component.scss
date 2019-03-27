@@ -73,7 +73,7 @@ h2 {
   height: 100%;
   position: absolute;
   border-left: 2px solid #979DA6;
-
+  margin-left: 0.8%;
 }
 .timeline mat-list mat-list-item {
   position: relative;
@@ -97,4 +97,8 @@ h2 {
   background: #979DA6;
   left: -35px;
   top: 20px;
+  margin-left: 1%;
+}
+.mode-info {
+  width: 10%;
 }

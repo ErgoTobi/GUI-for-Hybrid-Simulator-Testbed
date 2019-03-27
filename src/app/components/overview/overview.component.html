@@ -1,12 +1,12 @@
 <mat-toolbar color="">
   <mat-toolbar-row>
 <img id="logo" src="assets/logo.png" alt="logo" width="100px">
-    <span class="example-spacer"></span>
-    <span>
+    <span id="button-container">
         <button mat-button>Home</button>
         <button mat-button routerLink="resultOverview">Results</button>
         <button mat-button (click)="openSettingsDialog()">Settings</button>
     </span>
+    <span class="example-spacer"></span>
     <i id="radio-button" class="material-icons">radio_button_checked</i>
     <span class="mat-body">Backend Connected</span>
   </mat-toolbar-row>
