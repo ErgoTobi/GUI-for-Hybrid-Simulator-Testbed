@@ -53,8 +53,8 @@ export class DataService {
             where: { id: id },
         }));
     }
-    // U(): ECU update
-    updateSetting(ecuAmount: number) {
+    // C(): ECU update
+    createSetting(ecuAmount: number) {
         Setting.create({
             ecuAmount: ecuAmount
         }).catch(error => {
@@ -63,7 +63,7 @@ export class DataService {
     }
 
     // TESTSET
-    // C(w): Creates a testset; Create -> Overview
+    // C(w): Creates a testset and returns the model back via a promise; Create -> Overview
     createTestset (name: String) {
         return fromPromise(Testset.create({
             name: name
@@ -104,7 +104,7 @@ export class DataService {
     // SCENARIO
     // C(w): Creates a scenario; Create
     createScenario (name: String, mode: String, route: String, runQuantity: number, isTextOnly: Boolean, testsetId: number) {
-        Scenario.create({
+        return fromPromise(Scenario.create({
             name: name,
             mode: mode,
             route: route,
@@ -113,20 +113,20 @@ export class DataService {
             testsetId: testsetId
         }).catch(error => {
             console.error('createScenario:', error);
-        });
+        }));
     }
 
     // TESTSETRESULT
-    // C(w): Creates a testsetresult; Running -> Overview
+    // C(w): Creates a testsetresult and returns the model back via a promise; Running -> Overview
     createTestsetResult (name: String, startTimestamp: Timestamp<any>, duration: Time, testsetId: number) {
-        Testsetresult.create({
+        return fromPromise(Testsetresult.create({
             name: name,
             startTimestamp: startTimestamp,
             duration: duration,
             testsetId: testsetId
         }).catch(error => {
             console.error('createTestsetResult: ', error);
-        });
+        }));
     }
     // R(w): Pulls all testsetsresults (only!); Resultoverview
     readAllTestsetResultsOnly () {
@@ -171,14 +171,14 @@ export class DataService {
     // RUNRESULT
     // C(): Creates a runresult; Running
     createRunResult (startTimestamp: Timestamp<any>, duration: Time, state: String, scenarioresultId: number) {
-        Runresult.create({
+        return fromPromise(Runresult.create({
             startTimestamp: startTimestamp, // To add to database
             duration: duration,
             state: state,
             scenarioResultId: scenarioresultId
         }).catch(error => {
             console.error('createRunResult: ', error);
-        });
+        }));
     }
     // R(): Pulls all runresults (only!) by scenarioresult Id; Resultdetails
     readAllRunResultsByScenarioResultId (scenarioResultId: number) {
@@ -193,20 +193,20 @@ export class DataService {
     // RUNRESULTDATA
     // C(): Creates a runresultdata; Running
     createRunDetail (relativeTime: Time, key: string, value: string, runResultId: number) {
-        Rundetail.create({
+        return fromPromise(Rundetail.create({
             relativeTime: relativeTime,
             key: key,
             value: value,
             runResultId: runResultId
         }).catch(error => {
             console.error('createRunDetail: ', error);
-        });
+        }));
     }
     // C(): Creates a bulk of runresultdata; Running
     createRunDetailBulk (runDetails: object[]) {
-        Rundetail.bulkCreate(runDetails).catch(error => {
+        return fromPromise(Rundetail.bulkCreate(runDetails).catch(error => {
             console.error('createRunDetailBulk: ', error);
-        });
+        }));
     }
     // R(): Pulls all runresultsdata(only!) by runresult Id; Resultdetails
     readAllRunDetailsByRunResultId (runResultId: number) {
