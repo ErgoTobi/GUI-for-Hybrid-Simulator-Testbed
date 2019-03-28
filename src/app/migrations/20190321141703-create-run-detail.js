@@ -18,7 +18,11 @@ module.exports = {
         type: Sequelize.STRING
       },
       runResultId: {
-        type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+        references: {
+            model: 'runresults',
+            key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,

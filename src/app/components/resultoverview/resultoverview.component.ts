@@ -2,8 +2,7 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
 import {FormControl} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
-import {TestsetResult} from '../../models/TestsetResult';
-
+import {TestsetResult} from '../../models/Result';
 
 @Component({
     selector: 'app-resultoverview',
@@ -20,7 +19,7 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit  {
     }
 
     ngOnInit() {
-        this.dataService.readAllTestsetResultsOnly().subscribe(
+        this.dataService.readAllResultsOnly().subscribe(
             data => {
                 this.dataSource.data = data as TestsetResult[];
                 console.log(data);

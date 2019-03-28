@@ -1,8 +1,6 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
-import {Timestamp} from 'rxjs';
 import {Time} from '@angular/common';
-
 
 const eshell = require('electron').shell;
 const shell = require('shelljs');
@@ -47,8 +45,6 @@ export class HomeComponent implements OnInit {
                 let command4 = shell.exec('PROJECT=idp_savm make jenkins_run', {silent: false, async: true});
                 // command4.stdout.on('data', function (data1) {
                 //     if (data1.includes('connected to mosquitto server')) {
-                //         let command6 = shell.exec('mosquitto_sub -t "#" -v', {silent: false, async: true});
-                //         //data = data1;
                 //     }
                 // });
                 //  setTimeout(function () {
@@ -82,7 +78,6 @@ export class HomeComponent implements OnInit {
                     let command4 = shell.exec('PROJECT=idp_savm make jenkins_run', {silent: false, async: true});
                     command4.stdout.on('data', function (data1) {
                         if (data1.includes('connected to mosquitto server')) {
-                            let command6 = shell.exec('mosquitto_sub -t "#" -v', {silent: false, async: true});
                             //data = data1;
                         }
                     });
@@ -105,64 +100,76 @@ export class HomeComponent implements OnInit {
         this.dataService.readAllTestsets().subscribe(
             data => { console.log('readAllTestsets: '); console.log(data);
             });
-        this.dataService.readTestsetById(3).subscribe(
-            data => { console.log('readTestsetById 3: '); console.log(data);
+        this.dataService.readTestsetById(1).subscribe(
+            data => { console.log('readTestsetById 1: '); console.log(data);
             });
         this.dataService.readSettingById(1).subscribe(
             data => { console.log('readSettingById 1: '); console.log(data);
             });
-        this.dataService.readAllRunDetailsByRunResultId(2).subscribe(
+        this.dataService.readAllRunDetailsByRunId(2).subscribe(
             data => { console.log('readRunDetailById 2: '); console.log(data);
             });
-        this.dataService.readAllRunResultsByScenarioResultId(1).subscribe(
-            data => { console.log('readRunResultById 1: '); console.log(data);
+        this.dataService.readAllRunsByResultId(1).subscribe(
+            data => { console.log('readRunById 1: '); console.log(data);
             });
-        this.dataService.readAllScenarioResultsByTestsetResultId(2).subscribe(
-            data => { console.log('readScenarioDetailById 2: '); console.log(data);
-            });
-        this.dataService.readAllTestsetResultsOnly().subscribe(
-            data => { console.log('readAllTestsetResultsOnly: '); console.log(data);
+        this.dataService.readAllResultsOnly().subscribe(
+            data => { console.log('readAllResultsOnly: '); console.log(data);
             });
     }
 
     test4() {
-        /*
-        this.dataService.readTestsetById(1).subscribe(
-            data => { console.log(data);
-            });
-            */
-        this.dataService.deleteTestsetResultById(2);
+        this.dataService.deleteResultById(2);
         this.dataService.deleteTestsetById(1);
     }
 
     auth() {
+        this.dataService.createSetting(9, true).subscribe(data => {
+                console.log('createSetting'); console.log(data);
+            }
+        );
         this.dataService.createTestset('WSTestset');
-        this.dataService.createScenario('WSScenario', 'ACC', 'Munich', 4, true, 2);
-        this.dataService.createTestsetResult('WSTestsetResult', Sequelize.fn('NOW'), Sequelize.fn('NOW'), 2);
-        this.dataService.createScenarioResult('WSTestsetResult', Sequelize.fn('NOW'), Sequelize.fn('NOW'), 3, 2);
-        this.dataService.createRunResult(Sequelize.fn('NOW'), Sequelize.fn('NOW'), 'failed', 3);
-        this.dataService.createRunDetail (Sequelize.fn('NOW'), 'WSsavm/car/0/leadSpeed', '9.417906', 1);
+        this.dataService.createTestset('WSTestset2').subscribe(data => {
+                console.log('createTestset'); console.log(data);
+            }
+        );
+        this.dataService.createScenario('WSScenario', 'ACC', 'Munich', 4, 2).subscribe(data => {
+                console.log('createScenario'); console.log(data);
+            }
+        );
+        this.dataService.createResult('WSTestsetResult', 987654, Sequelize.fn('NOW'), 2).subscribe(data => {
+                console.log('createResult'); console.log(data);
+            }
+        );
+        this.dataService.createRun(34565, Sequelize.fn('NOW'), 1, 3, 3).subscribe(data => {
+                console.log('createRun'); console.log(data);
+            }
+        );
+        this.dataService.createRunDetail (Sequelize.fn('NOW'), 'WSsavm/car/0/leadSpeed', '9.417906', 1).subscribe(data => {
+                console.log('createRunDetail'); console.log(data);
+            }
+        );
         this.dataService.createRunDetail (Sequelize.fn('NOW'), 'WSsavm/car/0/ownSpeed', '7.142469', 1);
-        let runDetails: { relativeTime: Time, key: string, value: string, runResultId: number }[] = [
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/curGear', 'value': '1', 'runResultId': 1 },
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/steerLock', 'value': '0.785398', 'runResultId': 1 },
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/enginerpm', 'value': '206.593704', 'runResultId': 1 },
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/curGear', 'value': '1', 'runResultId': 1 },
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/steerLock', 'value': '0.785398', 'runResultId': 1 },
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/enginerpm', 'value': '206.593704', 'runResultId': 1 },
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/curGear', 'value': '1', 'runResultId': 1 },
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/steerLock', 'value': '0.785398', 'runResultId': 1 },
-            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/enginerpm', 'value': '206.593704', 'runResultId': 1 }
+        let runDetails: { relativeTime: Time, key: string, value: string, runId: number }[] = [
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/curGear', 'value': '1', 'runId': 1 },
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/steerLock', 'value': '0.785398', 'runId': 1 },
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/enginerpm', 'value': '206.593704', 'runId': 1 },
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/curGear', 'value': '1', 'runId': 1 },
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/steerLock', 'value': '0.785398', 'runId': 1 },
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/enginerpm', 'value': '206.593704', 'runId': 1 },
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/curGear', 'value': '1', 'runId': 1 },
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/steerLock', 'value': '0.785398', 'runId': 1 },
+            { 'relativeTime': Sequelize.fn('NOW'), 'key': 'WSsavm/car/0/enginerpm', 'value': '206.593704', 'runId': 1 }
         ];
-        this.dataService.createRunDetailBulk (runDetails);
+        this.dataService.createRunDetailBulk (runDetails).subscribe(data => {
+                console.log('createRunDetailBulk'); console.log(data);
+            }
+        );
     }
 
     test5() {
         const service = this.dataService;
         const values = [];
         localStorage.setItem('values', JSON.stringify(values));
-        //const convert = this.convertValues;
-
         const client = mqtt.connect([{host: 'localhost', port: 1883}]);
         client.on('connect', function () {
             client.subscribe('#', function (err) {
@@ -174,14 +181,18 @@ export class HomeComponent implements OnInit {
         client.on('message', function (topic, message) {
             console.log(message.toString());
             const storedNames = JSON.parse(localStorage.getItem('values'));
-            storedNames.push({time: new Date().getTime(), key: topic, val: message.toString()});
+            storedNames.push({relativeTime: 13, key: topic, value: message.toString(), runResultId: 1});
             localStorage.setItem('values', JSON.stringify(storedNames));
             if (storedNames.length === 200) {
-                //service.createRunDetail(storedNames);
+                const temp = [storedNames[0], storedNames[1]];
+                service.createRunDetailBulk(temp);
                 storedNames.length = 0;
                 localStorage.setItem('values', JSON.stringify(storedNames));
             }
         });
+    }
+    test6(){
+        let command = shell.exec('/home/user1/speed-dreams/build/games/speed-dreams-2 -s quickrace', {silent: false, async: true});
     }
 
    /* convertValues(messagePair) {

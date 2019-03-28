@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../data.service';
 import {FormControl} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
-import { TestsetResult } from '../../models/TestsetResult';
+import { TestsetResult } from '../../models/Result';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -27,7 +27,7 @@ export class ResultComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.dataService.readTestsetResultById(this.user$).subscribe(
+        this.dataService.readResultByIdObject(this.user$).subscribe(
         data => {
             this.user$ = data[0];
             console.log("logge data");

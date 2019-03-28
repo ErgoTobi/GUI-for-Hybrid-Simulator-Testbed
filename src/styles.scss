@@ -1,9 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 html, body {
   margin: 0;
   padding: 0;
-
+  overflow: hidden;
   height: 100%;
 }
 
@@ -71,16 +72,12 @@ a{
 .mat-tab-group{
   position:relative;
   bottom:40px;
-  width: 101.5%;
-  right: 7.8px;
 }
 /*END TAB BAR STYLING*/
 /*START TOOLBAR STYLING*/
 .mat-toolbar{
   background: #FFFFFF;
   position: relative;
-  top: 10px;
-  left: 10px;
 }
 .mat-toolbar-row{
   padding: 0 20px;
@@ -97,19 +94,21 @@ a{
 
 .mat-progress-bar-buffer {
   border-radius: 10px;
-  background-color:#979DA6;
+  background-color: #979DA6;
 }
 /*END PROGRESS BAR*/
 /*NAVIGATION LIST*/
 .mat-subheader{
   color:white !important;
 }
-.mat-list-item {
-  color:white !important;
-}
 
 .mat-list-base {
-  width:20% !important;
+  padding-top: 1.2px !important;
+  width: 20%;
+}
+
+.mat-list-item {
+  color: #F8F8F8 !important;
 }
 
 .active-list-item {

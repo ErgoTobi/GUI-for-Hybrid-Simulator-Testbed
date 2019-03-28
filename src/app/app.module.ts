@@ -4,7 +4,7 @@ import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatSortModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import {MatSortModule, MatFormFieldModule, MatInputModule, MatDialogModule} from '@angular/material';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
@@ -28,8 +28,13 @@ import { HomeComponent } from './components/home/home.component';
 import { CreateComponent } from './components/create/create.component';
 import { ResultoverviewComponent } from './components/resultoverview/resultoverview.component';
 import { ResultComponent } from './components/result/result.component';
+import { OverviewComponent } from './components/overview/overview.component';
+import { OverviewDetailComponent } from './components/overview-detail/overview-detail.component';
+import { DeleteDialogComponent } from './components/overview-detail/delete-dialog/delete-dialog.component';
+import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
+import {RunComponent} from './components/run/run.component';
 
-
+import { NgxLoadersCssModule } from 'ngx-loaders-css';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -42,7 +47,12 @@ export function HttpLoaderFactory(http: HttpClient) {
       WebviewDirective,
       CreateComponent,
       ResultoverviewComponent,
-      ResultComponent
+      ResultComponent,
+      OverviewComponent,
+      OverviewDetailComponent,
+      DeleteDialogComponent,
+      SettingsDialogComponent,
+      RunComponent
   ],
     imports: [
         BrowserModule,
@@ -61,13 +71,20 @@ export function HttpLoaderFactory(http: HttpClient) {
             }
         }),
         BrowserAnimationsModule,
-      MaterialModule
+        MaterialModule,
+        MatDialogModule,
+        NgxLoadersCssModule
   ],
     exports: [
         MatSortModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        DeleteDialogComponent
         ],
+    entryComponents: [
+        DeleteDialogComponent,
+        SettingsDialogComponent
+    ],
   providers: [ElectronService],
   bootstrap: [AppComponent]
 })
