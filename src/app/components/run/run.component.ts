@@ -73,9 +73,9 @@ export class RunComponent implements OnInit, AfterViewInit {
          this.dataService.readTestsetById(1).subscribe(
              data => {
                   const tabs =  this.tabs;
-                   data.forEach(function(element) {
+                   /*data.forEach(function(element) {
                        tabs.push(element.name);
-                   });
+                   });*/
                    this.runningScenarios = data;
                    this.activeScenarioCounter = 0;
 
