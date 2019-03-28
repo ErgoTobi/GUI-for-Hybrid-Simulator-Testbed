@@ -1,13 +1,13 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const TestsetResult = sequelize.define('testsetresult', {
+  const Result = sequelize.define('result', {
     name: DataTypes.STRING,
-    startTimestamp: DataTypes.DATE,
+    startTimestamp: DataTypes.INTEGER,
     duration: DataTypes.TIME,
     testsetId: DataTypes.INTEGER
   }, {});
-  TestsetResult.associate = function(models) {
+  Result.associate = function(models) {
     // associations can be defined here
   };
-  return TestsetResult;
+  return Result;
 };

@@ -1,29 +1,32 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('testsetresults', {
+    return queryInterface.createTable('runs', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING
-      },
       startTimestamp: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('NOW')
+        type: Sequelize.INTEGER,
+        // defaultValue: Sequelize.fn('NOW')
       },
       duration: {
         type: Sequelize.TIME
       },
-      testsetId: {
+      state: {
+        type: Sequelize.INTEGER
+      },
+      scenarioId: {
+          type: Sequelize.INTEGER
+      },
+      resultId: {
         type: Sequelize.INTEGER,
-        references: {
-            model: 'testsets',
-            key: 'id'
-        }
+          references: {
+              model: 'results',
+              key: 'id'
+          }
       },
       createdAt: {
         allowNull: false,
@@ -38,6 +41,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('testsetresults');
+    return queryInterface.dropTable('runs');
   }
 };

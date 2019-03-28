@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Settings</h2>
+<mat-dialog-content class="mat-typography">
+  <h3>ECU Amount</h3>
+  <form class="ecu-form">
+    <mat-form-field class="ecu-full-width">
+      <input matInput placeholder="" value="Sushi">
+    </mat-form-field>
+  </form>
+  <mat-toolbar-row></mat-toolbar-row>
+
+  <h3>SpeedDreams Race View-Mode</h3>
+  <mat-checkbox>Check for no visualization of the race</mat-checkbox>
+  <mat-toolbar-row></mat-toolbar-row>
+
+  <h3>Source Path</h3>
+  <ol>
+    <li>./src/config/ecuACCConfiguration</li>
+    <li>./src/config/ecuABSConfiguration</li>
+    <li>./src/config/ecuAutonomesParkenConfiguration</li>
+    <li>./src/config/ecuPerformanceConfiguration</li>
+  </ol>
+  <p>Achieve the maximum speed possible on the Web Platform today, and take it further, via Web
+    Workers and server-side rendering. Angular puts you in control over scalability. Meet huge
+    data requirements by building data models on RxJS, Immutable.js or another push-model.</p>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="onSaveClick()" cdkFocusInitial>Save</button>
+</mat-dialog-actions>

@@ -10,11 +10,11 @@ module.exports = {
       return queryInterface.createTable('users', { id: Sequelize.INTEGER });
     */
     return Promise.all([
-        queryInterface.addConstraint('rundetails', ['runResultId'], {
+        queryInterface.addConstraint('runs', ['resultId'], {
             type: 'foreign key',
-            name: 'fk_rundetails_user',
+            name: 'fk_runs_user',
             references: {
-                table: 'runresults',
+                table: 'results',
                 field: 'id'
             },
             onDelete: 'cascade',
@@ -31,6 +31,6 @@ module.exports = {
       Example:
       return queryInterface.dropTable('users');
     */
-    return queryInterface.removeConstraint('rundetails', 'fk_rundetails_user');
+      return queryInterface.removeConstraint('runs', 'fk_runs_user');
   }
 };

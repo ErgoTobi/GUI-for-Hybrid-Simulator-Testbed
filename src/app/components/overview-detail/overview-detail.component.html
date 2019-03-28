@@ -1,0 +1,25 @@
+<div *ngIf="testset">
+    <h4 class="header-row">
+        <span id="header-heading">{{testset.name}}</span>
+        <span id="header-buttons">
+            <button mat-raised-button (click)="openDeleteDialog(testset.name, testset.id)">Delete
+                <i id="delete-icon" class="material-icons">delete</i>
+            </button>
+            <button mat-raised-button class="start-button" >Start
+                <i id="back-icon" class="material-icons">keyboard_arrow_right</i>
+            </button>
+        </span>
+
+    </h4>
+</div>
+
+<div *ngIf="testset" class="timeline">
+    <mat-list>
+        <mat-list-item *ngFor="let scenario of testset.scenarios">
+            <h2 mat-line >{{scenario.name}}</h2>
+            <div mat-line class="list-details">
+                <span class="mode-info">{{scenario.mode}}</span> <span>{{scenario.route}}</span> <span>{{scenario.runQuantity}} x </span>
+            </div>
+        </mat-list-item>
+    </mat-list>
+</div>

@@ -4,6 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { CreateComponent } from './components/create/create.component';
 import {ResultoverviewComponent} from './components/resultoverview/resultoverview.component';
 import {ResultComponent} from './components/result/result.component';
+import {OverviewComponent} from './components/overview/overview.component';
+import {OverviewDetailComponent} from './components/overview-detail/overview-detail.component';
 import {RunComponent} from './components/run/run.component';
 
 const routes: Routes = [
@@ -12,7 +14,7 @@ const routes: Routes = [
         component: HomeComponent
     },
     {
-        path: 'create',
+        path: 'overview/create',
         component: CreateComponent
     },
     {
@@ -24,9 +26,13 @@ const routes: Routes = [
         component: ResultComponent
     },
     {
-        path: 'resultOverview',
+        path: 'overview/resultOverview',
         component: ResultoverviewComponent
     },
+    {
+        path: 'overview',
+        component: OverviewComponent
+    }
 ];
 
 @NgModule({

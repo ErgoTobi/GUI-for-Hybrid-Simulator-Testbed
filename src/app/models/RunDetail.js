@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     relativeTime: DataTypes.TIME,
     key: DataTypes.STRING,
     value: DataTypes.STRING,
-    runResultId: DataTypes.INTEGER
+    runId: DataTypes.INTEGER
   }, {});
   RunDetail.associate = function(models) {
     // associations can be defined here
