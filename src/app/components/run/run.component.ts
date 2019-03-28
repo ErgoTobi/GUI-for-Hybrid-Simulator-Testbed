@@ -53,7 +53,7 @@ export class RunComponent implements OnInit, AfterViewInit {
                 this.activeScenarioCounter = 0;
             });
 */
-        this.dataService.readAllRunResultsByScenarioResultId(1).subscribe(
+        this.dataService.readAllRunsByResultId(1).subscribe(
             data => {
                 this.dataSource1[0] = data;
                 this.dataSource1[0].push({status: 3, runId: 1, time: 'Currently Running..', description: ''});
@@ -70,7 +70,7 @@ export class RunComponent implements OnInit, AfterViewInit {
         // $('#mat-tab-label-0-3').keydown(this.addTab);
     }
      ngAfterViewInit() {
-         this.dataService.readAllScenarioResultsByTestsetResultId(1).subscribe(
+         this.dataService.readTestsetById(1).subscribe(
              data => {
                   const tabs =  this.tabs;
                    data.forEach(function(element) {

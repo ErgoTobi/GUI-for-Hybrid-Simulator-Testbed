@@ -20,8 +20,8 @@ module.exports = {
       runQuantity: {
         type: Sequelize.INTEGER
       },
-      isTextOnly: {
-          type: Sequelize.BOOLEAN
+      faultInjectionTime: {
+          type: Sequelize.TIME
       },
       createdAt: {
         allowNull: false,
