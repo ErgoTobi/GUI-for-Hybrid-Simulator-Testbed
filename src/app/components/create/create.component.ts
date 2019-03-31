@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ErrorStateMatcher} from '@angular/material/core';
-import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {FormArray, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -39,6 +39,12 @@ export class CreateComponent implements OnInit {
     numberOfRunsFormControl = new FormControl('', [
         Validators.required,
     ]);
+    formGroup = new FormGroup({
+        name: this.nameFormControl,
+        faultInjectionTime: this.faultInjectionTimeFormControl,
+        numberOfRuns: this.numberOfRunsFormControl
+        });
+    formGroupArray = new FormArray([this.formGroup]);
     matcher = new MyErrorStateMatcher();
 
   ngOnInit() {
@@ -60,6 +66,12 @@ export class CreateComponent implements OnInit {
     this.selectedRoute[this.scenarioCounter - 1] = this.routes[0];
       console.log(this.selectedRoute);
       console.log(this.routePositionPointer);
+      this.formGroupArray.push(new FormGroup({
+          name: new FormControl('', Validators.required),
+          faultInjectionTime: new FormControl('', Validators.required),
+          numberOfRuns: new FormControl('', Validators.required)
+      }));
+      console.log(this.formGroupArray);
     this.tabs.push('Scenario ' + this.scenarioCounter);
 
     if (selectAfterAdding) {
@@ -75,6 +87,7 @@ export class CreateComponent implements OnInit {
     this.selectedMode.splice(index, 1);
     this.routePositionPointer.splice(index, 1);
     this.selectedRoute.splice(index, 1);
+    this.formGroupArray.removeAt(index);
   }
 
     onLeftClick(index: number) {

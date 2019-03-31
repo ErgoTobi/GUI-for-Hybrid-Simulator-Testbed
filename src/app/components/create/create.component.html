@@ -57,7 +57,7 @@
 
 <mat-tab-group [selectedIndex]="selected.value"
                (selectedIndexChange)="selected.setValue($event)">
-  <mat-tab *ngFor="let tab of tabs; let index = index">
+  <mat-tab *ngFor="let tab of tabs; let index = index" >
     <ng-template mat-tab-label>
       {{tab}}
       <span class="example-spacer"></span>
@@ -76,7 +76,7 @@
             <mat-card-content>
               <form class="example-form">
                 <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Scenario Name" [formControl]="nameFormControl"
+                  <input matInput placeholder="Scenario Name" [formControl]="formGroupArray.controls[index].controls.name"
                          [errorStateMatcher]="matcher" > <!-- (change)="updateTabs($event)" -->
                   <mat-hint></mat-hint>
                   <mat-error *ngIf="!nameFormControl.hasError('required')">
@@ -93,9 +93,9 @@
           <mat-card class="mat-h3">
             <mat-card-content>
               <mat-form-field class="example-margin">
-                <input matInput type="number" placeholder="Fault Injection Time" [(ngModel)]="value"
-                       [max]="240" [min]="0" [formControl]="faultInjectionTimeFormControl" [errorStateMatcher]="matcher">
-                <mat-hint></mat-hint>
+                <input matInput type="number" placeholder="Fault Injection Time"
+                       [max]="240" [min]="0" [formControl]="formGroupArray.controls[index].controls.faultInjectionTime" [errorStateMatcher]="matcher">
+                <mat-hint></mat-hint><!-- [(ngModel)]="value" -->
                 <mat-error *ngIf="!faultInjectionTimeFormControl.hasError('required')">
                   Please enter a valid Fault Injection Time
                 </mat-error>
@@ -103,6 +103,8 @@
                   Fault Injection Time is <strong>required</strong>
                 </mat-error>
               </mat-form-field>
+              <span class="input-value-kind"> Seconds</span>
+              <!--
               <mat-slider
                       class="example-margin"
                       [disabled]="false"
@@ -114,7 +116,7 @@
                       [tickInterval]="60"
                       [(ngModel)]="value"
                       [vertical]="false">
-              </mat-slider>
+              </mat-slider>-->
             </mat-card-content>
           </mat-card>
 
@@ -122,7 +124,7 @@
             <mat-card-content>
               <mat-form-field class="example-margin">
                 <input matInput type="number" placeholder="Number of Runs" [max]="240" [min]="0"
-                       [formControl]="numberOfRunsFormControl" [errorStateMatcher]="matcher">
+                       [formControl]="formGroupArray.controls[index].controls.numberOfRuns" [errorStateMatcher]="matcher">
                 <mat-hint></mat-hint>
                 <mat-error *ngIf="!numberOfRunsFormControl.hasError('required')">
                   Please enter a valid Number
@@ -131,6 +133,7 @@
                   Number of Runs is <strong>required</strong>
                 </mat-error>
               </mat-form-field>
+              <span class="input-value-kind"> Times</span>
             </mat-card-content>
           </mat-card>
 

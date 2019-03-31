@@ -206,7 +206,7 @@
 #tab-left-area {
   /* FORM FIELD STANDARD */
   ::ng-deep .mat-form-field {
-    width: 80%;
+    width: 70%;
     .mat-input-element {
       color: #F8F8F8;
     }
@@ -247,10 +247,15 @@
   background-color: #232B35;
   margin: 3px 0 3px 0;
   top: 0.5%;
+  color: #FFFFFF;
 }
 
 .mat-slider{
-  width: 80%;
+  width: 70%;
+}
+
+.input-value-kind {
+  font-size: 10px;
 }
 
 
