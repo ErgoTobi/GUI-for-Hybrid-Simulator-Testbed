@@ -4,6 +4,8 @@ import {Testsets} from '../../models/Result';
 import {Testset} from '../../models/Testset';
 import {MatDialog} from '@angular/material';
 import {SettingsDialogComponent} from '../settings-dialog/settings-dialog.component';
+import {DeleteDialogComponent} from '../overview-detail/delete-dialog/delete-dialog.component';
+import {CreateTestsetDialogComponent} from './create-testset-dialog/create-testset-dialog.component';
 
 
 @Component({
@@ -42,6 +44,18 @@ export class OverviewComponent implements OnInit {
 
     openSettingsDialog() {
         const dialogRef = this.dialog.open(SettingsDialogComponent, {
+            data: {
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+            console.log(result);
+        });
+    }
+
+    openCreateDialog(): void {
+        const dialogRef = this.dialog.open(CreateTestsetDialogComponent, {
             data: {
             }
         });

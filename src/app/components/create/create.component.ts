@@ -1,5 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {ErrorStateMatcher} from '@angular/material/core';
+import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+    isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+        const isSubmitted = form && form.submitted;
+        return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    }
+}
 
 @Component({
   selector: 'app-create',
@@ -8,25 +17,85 @@ import {FormControl} from '@angular/forms';
 })
 
 export class CreateComponent implements OnInit {
-  displayedColumns = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
-  tabs = ['First', 'Second', 'Third'];
+
+  tabs = ['Scenario 1'];
+  scenarioCounter;
   selected = new FormControl(0);
+
+  // Saving the mode
+  modes: ModeElement[] = MODES;
+  selectedMode: ModeElement[] = new Array(1);
+  // Saving the route
+  routes: Route[] = ROUTES;
+  selectedRoute: Route[] = new Array(1);
+  routePositionPointer: number[] = new Array(1);
+    // Saving Details
+    nameFormControl = new FormControl('', [
+        Validators.required,
+    ]);
+    faultInjectionTimeFormControl = new FormControl('', [
+        Validators.required,
+    ]);
+    numberOfRunsFormControl = new FormControl('', [
+        Validators.required,
+    ]);
+    matcher = new MyErrorStateMatcher();
+
   ngOnInit() {
    // $('#mat-tab-label-0-3').keydown(this.addTab);
     console.log('test');
+    this.scenarioCounter = 1;
+    this.routePositionPointer[0] = 0;
+    this.selectedRoute[0] = this.routes[this.routePositionPointer[0]];
   }
-  addTab(selectAfterAdding: boolean) {
-    this.tabs.push('New');
+
+  onSelect(modeElement: ModeElement, index: number) {
+      this.selectedMode[index] = modeElement;
+      console.log(this.selectedMode);
+  }
+
+  addTab(selectAfterAdding: boolean, index: number) {
+    this.scenarioCounter++;
+    this.routePositionPointer[this.scenarioCounter - 1] = 0;
+    this.selectedRoute[this.scenarioCounter - 1] = this.routes[0];
+      console.log(this.selectedRoute);
+      console.log(this.routePositionPointer);
+    this.tabs.push('Scenario ' + this.scenarioCounter);
 
     if (selectAfterAdding) {
       this.selected.setValue(this.tabs.length - 1);
     }
   }
-
+    updateTabs(event) {
+      this.tabs[this.selected.value] = event.currentTarget.value;
+    }
   removeTab(index: number) {
     this.tabs.splice(index, 1);
+    this.scenarioCounter--;
+    this.selectedMode.splice(index, 1);
+    this.routePositionPointer.splice(index, 1);
+    this.selectedRoute.splice(index, 1);
   }
+
+    onLeftClick(index: number) {
+      this.routePositionPointer[index]--;
+      if (this.routePositionPointer[index] < 0) {
+          this.routePositionPointer[index] = this.routes.length - 1;
+      }
+        this.selectedRoute[index] = this.routes[this.routePositionPointer[index]];
+        console.log(this.selectedRoute);
+        console.log(this.routePositionPointer);
+    }
+
+    onRightClick(index: number) {
+        this.routePositionPointer[index]++;
+        if (this.routePositionPointer[index] >= this.routes.length) {
+            this.routePositionPointer[index] = 0;
+        }
+        this.selectedRoute[index] = this.routes[this.routePositionPointer[index]];
+        console.log(this.selectedRoute);
+        console.log(this.routePositionPointer);
+    }
 
   startTest() {
     console.log('test');
@@ -34,27 +103,67 @@ export class CreateComponent implements OnInit {
   /*navigateTo(item, event) {
     this.activeItem = item;
   }*/
+
 }
 
 
 /* LIST CODE */
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+export interface ModeElement {
+    shortName: string;
+    fullName: string;
+    description: string;
+    disbaled: Boolean;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+export interface Route {
+    name: string;
+    length: number;
+    width: number;
+    pits: number;
+}
+
+const MODES: ModeElement[] = [
+    {
+        shortName: 'ACC',
+        fullName: 'Adaptive Cruise Control',
+        description: 'is an available cruise control system for road vehicles that automatically adjusts the' +
+            ' vehicle speed to maintain a safe distance from vehicles ahead. Control is based on sensor information from on-board sensors.',
+        disbaled: false
+    },
+    {
+        shortName: 'ADC',
+        fullName: 'Autonomous Driving Car',
+        description: 'is a vehicle that is capable of sensing its environment and moving with little or no human ' +
+            'input. Autonomous cars combine a variety of sensors to perceive their surroundings',
+        disbaled: false
+    },
+    {
+        shortName: 'ADAS',
+        fullName: 'Advanced Driver-Assistance Systems',
+        description: 'are systems to help the driver in the driving process. When designed with a ' +
+            'safe human-machine interface, they should increase car safety and more generally road safety.',
+        disbaled: true
+    },
+];
+
+const ROUTES: Route[] = [
+    {
+        name: 'kia4sm',
+        length: 800,
+        width: 10,
+        pits: 10
+    },
+    {
+        name: 'Grand Prix Circuit',
+        length: 1400,
+        width: 14,
+        pits: 15
+    },
+    {
+        name: 'Speedways',
+        length: 600,
+        width: 12,
+        pits: 8
+    },
 ];

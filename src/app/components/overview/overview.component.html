@@ -1,6 +1,6 @@
 <mat-toolbar color="">
   <mat-toolbar-row>
-<img id="logo" src="assets/logo.png" alt="logo" width="100px">
+<img class="logo" src="assets/logo.png" alt="logo" width="100px">
     <span id="button-container">
         <button mat-button>Home</button>
         <button mat-button routerLink="resultOverview">Results</button>
@@ -39,7 +39,7 @@
           </mat-list-item>
       </mat-nav-list>
 
-      <button mat-mini-fab color="primary" routerLink="">+</button>
+      <button mat-mini-fab color="primary" (click)="openCreateDialog()">+</button>
   </div>
   <app-overview-detail id="detail" class="example-container" [testset]="selectedTestset"></app-overview-detail>
 </div>

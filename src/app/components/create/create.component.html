@@ -20,7 +20,7 @@
 
 <mat-toolbar color="">
   <mat-toolbar-row>
-    <img id="logo" src="assets/logo.png" alt="logo" width="140px">
+    <img class="logo" src="assets/logo.png" alt="logo" width="100px">
     <span class="example-spacer"></span>
     <i id="radio-button" class="material-icons">radio_button_checked</i>
     <span class="mat-body">Backend Connected</span>
@@ -31,142 +31,173 @@
       keyboard_arrow_left</i>
     <a routerLink="" class="mat-body">Back to Home</a>
     <span class="example-spacer"></span>
-    <!--<span class="mat-body">Third Line</span>-->
   </mat-toolbar-row>
 
   <mat-toolbar-row>
-    <div id ="left-area">
-    <span class="mat-h1">Testset 1: Scenario 1 currently running..</span>
-    <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+    <div id ="header-area">
+      <span class="mat-h1">TobisTest Testset23WS</span>
+      <span class="example-spacer"></span>
+      <span>
+
+      </span>
+
     </div>
     <span class="example-spacer"></span>
-    <!--<span class="mat-body">Estimate Finish: 14-3-2018 19:23</span>-->
   </mat-toolbar-row>
   <mat-toolbar-row>
     <span class="example-spacer"></span>
-    <!--<span class="mat-body">Estimate Finish: 14-3-2018 19:23</span>-->
-    <button mat-flat-button color="primary" id="start-button">Primary</button>
-    <button mat-flat-button disabled>Disabled</button>
+    <button mat-flat-button id="add-scenario-button" (click)="addTab(true, index)">
+      <mat-icon>add</mat-icon> Add Scenario
+    </button> <!--disabled-->
+    <button mat-flat-button color="primary" id="start-button">Save & Exit
+      <i id="save-icon" class="material-icons">save</i>
+    </button>
   </mat-toolbar-row>
 </mat-toolbar>
+
 <mat-tab-group [selectedIndex]="selected.value"
                (selectedIndexChange)="selected.setValue($event)">
-  <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab">
+  <mat-tab *ngFor="let tab of tabs; let index = index">
+    <ng-template mat-tab-label>
+      {{tab}}
+      <span class="example-spacer"></span>
+      <mat-icon id="cancel-icon" class="small" [class.invisible]="tabs.length === 1" (click)="removeTab(index)">cancel</mat-icon>
+    </ng-template>
+
     <div id="content">
-    Contents for {{tab}} tab
-    <button mat-raised-button
-            class="example-delete-tab-button"
-            [disabled]="tabs.length === 1"
-            (click)="removeTab(index)">
-      Delete Tab
-    </button>
+      <div id="tab-left-area">
+        <mat-toolbar-row class="mat-h3">
+          Details
+          <span class="example-spacer"></span>
+        </mat-toolbar-row>
+
+        <div id="tab-left-area-content">
+          <mat-card class="mat-h3">
+            <mat-card-content>
+              <form class="example-form">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Scenario Name" [formControl]="nameFormControl"
+                         [errorStateMatcher]="matcher" > <!-- (change)="updateTabs($event)" -->
+                  <mat-hint></mat-hint>
+                  <mat-error *ngIf="!nameFormControl.hasError('required')">
+                    Please enter a valid Scenario name
+                  </mat-error>
+                  <mat-error *ngIf="nameFormControl.hasError('required')">
+                    Scenario Name is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </form>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="mat-h3">
+            <mat-card-content>
+              <mat-form-field class="example-margin">
+                <input matInput type="number" placeholder="Fault Injection Time" [(ngModel)]="value"
+                       [max]="240" [min]="0" [formControl]="faultInjectionTimeFormControl" [errorStateMatcher]="matcher">
+                <mat-hint></mat-hint>
+                <mat-error *ngIf="!faultInjectionTimeFormControl.hasError('required')">
+                  Please enter a valid Fault Injection Time
+                </mat-error>
+                <mat-error *ngIf="faultInjectionTimeFormControl.hasError('required')">
+                  Fault Injection Time is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <mat-slider
+                      class="example-margin"
+                      [disabled]="false"
+                      [invert]="false"
+                      [max]="240"
+                      [min]="0"
+                      [step]="1"
+                      [thumbLabel]="false"
+                      [tickInterval]="60"
+                      [(ngModel)]="value"
+                      [vertical]="false">
+              </mat-slider>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="mat-h3">
+            <mat-card-content>
+              <mat-form-field class="example-margin">
+                <input matInput type="number" placeholder="Number of Runs" [max]="240" [min]="0"
+                       [formControl]="numberOfRunsFormControl" [errorStateMatcher]="matcher">
+                <mat-hint></mat-hint>
+                <mat-error *ngIf="!numberOfRunsFormControl.hasError('required')">
+                  Please enter a valid Number
+                </mat-error>
+                <mat-error *ngIf="numberOfRunsFormControl.hasError('required')">
+                  Number of Runs is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+
+        </div>
 
 
-      <div class="example-container mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource">
 
-          <!-- Position Column -->
-          <ng-container matColumnDef="position">
-            <th mat-header-cell *matHeaderCellDef> No. </th>
-            <td mat-cell *matCellDef="let element"><div id="list-status"></div></td><!--{{element.position}}-->
-          </ng-container>
+        <!--
+        <span class="example-spacer"></span>
+        <div id="dump-area">
+          Contents for {{tab}} tab
+          <button mat-raised-button
+                  class="example-delete-tab-button"
+                  [disabled]="tabs.length === 1"
+                  (click)="removeTab(index)">
+            Delete Tab
+          </button>
+        </div>-->
+      </div>
 
-          <!-- Name Column -->
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> Name </th>
-            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-          </ng-container>
+      <div id="tab-mid-area">
+        <mat-toolbar-row class="mat-h3">
+          Route
+          <span class="example-spacer"></span>
+        </mat-toolbar-row>
 
-          <!-- Weight Column -->
-          <ng-container matColumnDef="weight">
-            <th mat-header-cell *matHeaderCellDef> Weight </th>
-            <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-          </ng-container>
+        <div id="tab-mid-area-content">
+          <span class="route-icons">
+              <i id="left-icon" class="material-icons" (click)="onLeftClick(index)">
+              keyboard_arrow_left</i>
+          </span>
+          <h3 id="tab-mid-area-content-routes" class="mat-h3">
+              {{selectedRoute[index].name}}
+          </h3>
+          <span class="route-icons">
+              <i id="right-icon" class="material-icons" (click)="onRightClick(index)">
+              keyboard_arrow_right</i>
+          </span>
+        </div>
 
-          <!-- Symbol Column -->
-          <ng-container matColumnDef="symbol">
-            <th mat-header-cell *matHeaderCellDef> Symbol </th>
-            <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-          </ng-container>
+      </div>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-          <div id="spacer">
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </div>
-        </table>
-    </div>
-
-     <!-- <md-list ng-controller="NavCtrl" ng-cloak="" ng-app="MyApp">
-
-        <md-subheader class="md-no-sticky">Navigation</md-subheader>
-
-        <md-list-item ng-repeat="item in navItems" ng-click="navigateTo(item, $event)" ng-class="{ 'nav-active': item == activeItem }">
-          <md-icon md-font-set="material-icons">lens</md-icon>
-          <p>{{item.name}}</p>
-        </md-list-item>
-
-      </md-list>
-
-      <mat-nav-list>
-        <a mat-list-item routerLink="/home" routerLinkActive="active-list-item">
-          <h2 matLine>Home</h2>
-          <mat-icon matListIcon>home</mat-icon>
-        </a>
-        <a mat-list-item routerLink="/account" routerLinkActive="active-list-item">
-          <h2 matLine>Account</h2>
-          <mat-icon matListIcon>person</mat-icon>
-        </a>
-        <a mat-list-item routerLink="/settings" routerLinkActive="active-list-item">
-          <h2 matLine>Settings</h2>
-          <mat-icon matListIcon>settings</mat-icon>
-        </a>
-      </mat-nav-list>-->
+      <div id="tab-right-area">
+        <mat-toolbar-row class="mat-h3">
+          Mode
+          <span class="example-spacer"></span>
+        </mat-toolbar-row>
+        <mat-nav-list>
+          <mat-list-item *ngFor="let mode of modes"
+                         [class.selected]="mode === selectedMode[index]"
+                         (click)="onSelect(mode, index)">
+            <h1 mat-line class="mat-body-2">{{mode.shortName}}</h1>
+            <div mat-line class="mat-small">{{mode.fullName}}</div>
+            <div mat-line class="mat-small">{{mode.description}}</div>
+          </mat-list-item>
+        </mat-nav-list>
+      </div>
     </div>
   </mat-tab>
-<!--  <mat-tab (click)="addTab(selectAfterAdding.checked)" label="+ Add Item">
-
+  <!--
+  <mat-tab>
+    <ng-template mat-tab-label >
+      <mat-icon (click)="addTab(true)">add</mat-icon> Add Scenario
+    </ng-template>
   </mat-tab>-->
 </mat-tab-group>
-<!--<div>
-  <span class="example-input-label"> Selected tab index: </span>
-  <mat-form-field>
-    <input matInput type="number" [formControl]="selected">
-  </mat-form-field>
-</div>
+<!--
+<mat-tab-group (selectedTabChange)="addTab($event, true)">
 
-<div>
-  <button mat-raised-button
-          class="example-add-tab-button"
-          (click)="addTab(selectAfterAdding.checked)">
-    Add new tab
-  </button>
-  <mat-checkbox #selectAfterAdding> Select tab after adding </mat-checkbox>
-</div>-->
-
-
-<!--<div class="navigation-area">
-  <div class = "left-area">
-  <mat-tab-group>
-  <mat-tab label="Scenario1"> Content 1 </mat-tab>
-  <mat-tab label="Scenario2"> Content 2 </mat-tab>
-  <mat-tab label="+ Add Item"> Content 3 </mat-tab>
-</mat-tab-group>
-  </div>
-<div class="right-area">
-  <button mat-raised-button color="primary">Primary</button>
-  <button mat-flat-button disabled>Disabled</button>
-</div>
-</div>
-
-<mat-grid-list cols="4" rowHeight="80px">
-  <mat-grid-tile id ="mat-grid-tile" [colspan]="3">
-    <mat-tab-group>
-      <mat-tab label="Scenario1"> Content 1 </mat-tab>
-      <mat-tab label="Scenario2"> Content 2 </mat-tab>
-      <mat-tab label="+ Add Item"> Content 3 </mat-tab>
-    </mat-tab-group>
-  </mat-grid-tile>
-  <mat-grid-tile id="mat-grid-tile" [colspan]="1">
-    <button mat-raised-button color="primary" id="start-button">Primary</button>
-    <button mat-flat-button disabled>Disabled</button></mat-grid-tile>
-</mat-grid-list> -->
+</mat-tab-group>-->
