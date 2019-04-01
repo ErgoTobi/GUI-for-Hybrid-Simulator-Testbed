@@ -3,6 +3,7 @@ import { Scenario } from '../../models/Scenario';
 import { Testset } from '../../models/Testset';
 import {MatDialog} from '@angular/material';
 import {DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
+import {InterComponentService} from '../../inter-component.service';
 
 @Component({
   selector: 'app-overview-detail',
@@ -11,8 +12,7 @@ import {DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
 })
 export class OverviewDetailComponent implements OnInit {
     @Input() testset: Testset;
-    constructor(public dialog: MatDialog) {
-    }
+    constructor(public dialog: MatDialog, private interComponentService: InterComponentService) {}
 
     ngOnInit() {
     }
@@ -28,5 +28,9 @@ export class OverviewDetailComponent implements OnInit {
             console.log('The dialog was closed');
             console.log(result);
         });
+    }
+    onStartClick() {
+        this.interComponentService.setRunTestsetId(this.testset.id);
+        console.log('StartTestsetId: ' + this.interComponentService.getRunTestsetId());
     }
 }

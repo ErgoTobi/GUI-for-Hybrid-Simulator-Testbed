@@ -6,6 +6,7 @@ import {MatDialog} from '@angular/material';
 import {SettingsDialogComponent} from '../settings-dialog/settings-dialog.component';
 import {DeleteDialogComponent} from '../overview-detail/delete-dialog/delete-dialog.component';
 import {CreateTestsetDialogComponent} from './create-testset-dialog/create-testset-dialog.component';
+import {InterComponentService} from '../../inter-component.service';
 
 
 @Component({
@@ -17,8 +18,7 @@ export class OverviewComponent implements OnInit {
     testsets: Testset[];
     testsetsOnLoad: Testset[];
     selectedTestset: Testset;
-    constructor(private dataService: DataService, public dialog: MatDialog) {
-    }
+    constructor(private dataService: DataService, public dialog: MatDialog) {}
 
     ngOnInit() {
         this.dataService.readAllTestsets().subscribe(
@@ -41,7 +41,6 @@ export class OverviewComponent implements OnInit {
         if (value === '' || value.length === 1) { this.testsets = this.testsetsOnLoad; }
         this.testsets = this.testsets.filter(testset => testset.name.toLowerCase().indexOf(value.toLowerCase()) !== -1);
     }
-
     openSettingsDialog() {
         const dialogRef = this.dialog.open(SettingsDialogComponent, {
             data: {

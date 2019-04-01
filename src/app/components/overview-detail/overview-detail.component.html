@@ -5,7 +5,7 @@
             <button mat-raised-button (click)="openDeleteDialog(testset.name, testset.id)">Delete
                 <i id="delete-icon" class="material-icons">delete</i>
             </button>
-            <button mat-raised-button class="start-button" >Start
+            <button mat-raised-button class="start-button" (click)="onStartClick()" routerLink="run">Start
                 <i id="back-icon" class="material-icons">keyboard_arrow_right</i>
             </button>
         </span>

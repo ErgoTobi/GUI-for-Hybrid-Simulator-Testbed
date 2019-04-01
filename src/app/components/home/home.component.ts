@@ -1,6 +1,7 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
 import {Time} from '@angular/common';
+import {Scenario} from '../../models/Scenario';
 
 const eshell = require('electron').shell;
 const shell = require('shelljs');
@@ -166,6 +167,38 @@ export class HomeComponent implements OnInit {
         );
     }
 
+    testBulk() {
+        this.dataService.createRunDetail (Sequelize.fn('NOW'), 'WSsavm/car/0/ownSpeed', '7.142469', 1);
+        this.dataService.createTestset('WSTestsetSingle').subscribe(data => {
+            console.log('createTestsetBulk: '); console.log(data);
+        });
+        let scenarios: { name: string, mode: string, route: string, faultInjectionTime: number, runQuantity: number,
+            testsetId: number }[] = [
+            { 'name': 'WSBulkScenario1', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
+                'testsetId': 0},
+            { 'name': 'WSBulkScenario2', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
+                'testsetId': 0},
+            { 'name': 'WSBulkScenario3', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
+                'testsetId': 0},
+            { 'name': 'WSBulkScenario4', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
+                'testsetId': 0}
+        ];
+        let scenarios2: Scenario[] = [
+            { 'name': 'WSBulkScenario1', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
+                'testsetId': 0},
+            { 'name': 'WSBulkScenario2', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
+                'testsetId': 0},
+            { 'name': 'WSBulkScenario3', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
+                'testsetId': 0},
+            { 'name': 'WSBulkScenario4', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
+                'testsetId': 0}
+        ];
+        this.dataService.createScenarioBulk('hellk', scenarios2).subscribe(data => {
+                console.log('createTestsetScenariosBulk'); console.log(data);
+            }
+        );
+    }
+
     test5() {
         const service = this.dataService;
         const values = [];
@@ -191,6 +224,7 @@ export class HomeComponent implements OnInit {
             }
         });
     }
+
     test6(){
         let command = shell.exec('/home/user1/speed-dreams/build/games/speed-dreams-2 -s quickrace', {silent: false, async: true});
     }

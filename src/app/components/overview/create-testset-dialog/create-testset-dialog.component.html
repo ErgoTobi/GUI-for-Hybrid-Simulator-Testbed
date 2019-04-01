@@ -3,8 +3,8 @@
   <p>Do you really want to create the Testset?</p>
   <form class="example-form">
     <mat-form-field class="example-full-width">
-      <input matInput placeholder="Name" [formControl]="nameFormControl"
-             [errorStateMatcher]="matcher">
+      <input matInput id="create-dialog-name-input" placeholder="Name" [formControl]="nameFormControl"
+             [errorStateMatcher]="matcher" [(ngModel)]="inputName">
       <mat-hint></mat-hint>
       <mat-error *ngIf="!nameFormControl.hasError('required')">
         Please enter a valid name
@@ -17,5 +17,5 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button (click)="onCreateClick()" routerLink="" cdkFocusInitial>Create</button>
+  <button mat-button (click)="onCreateClick()" routerLink="create" cdkFocusInitial>Create</button>
 </div>

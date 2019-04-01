@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import {fromPromise} from 'rxjs/internal-compatibility';
 import {Time} from '@angular/common';
 import {from, Timestamp} from 'rxjs';
+import {forEach} from '@angular/router/src/utils/collection';
 const Rx = require('rx');
+import {Scenario} from './models/Scenario';
 
 const Sequelize = require('sequelize');
 const connection = new Sequelize('suite_simulator', 'root', 'password', {
@@ -110,6 +112,22 @@ export class DataService {
         }).catch(error => {
             console.error('createScenario:', error);
         }));
+    }
+    // C(w): Creates a bulk of scenarios; Create
+    createScenarioBulk (testsetName: string, scenarios: Scenario[]) {
+        let promise = Testset.create({
+            name: testsetName
+        }).then(function (data) {
+            let id = data.id;
+            console.log(data.dataValues.id);
+            scenarios.forEach(function (element) {
+                element.testsetId = id;
+            });
+            return fromPromise(Scenario.bulkCreate(scenarios).catch(error => {
+                console.error('createScenarioBulk: ', error);
+            }));
+        });
+        return fromPromise(promise);
     }
 
     // TESTSETRESULT

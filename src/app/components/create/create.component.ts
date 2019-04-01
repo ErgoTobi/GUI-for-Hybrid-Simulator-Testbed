@@ -1,6 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {FormArray, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {InterComponentService} from '../../inter-component.service';
+import {Scenario} from '../../models/Scenario';
+import {DataService} from '../../data.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -18,6 +21,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export class CreateComponent implements OnInit {
 
+    testsetName: string;
   tabs = ['Scenario 1'];
   scenarioCounter;
   selected = new FormControl(0);
@@ -47,13 +51,21 @@ export class CreateComponent implements OnInit {
     formGroupArray = new FormArray([this.formGroup]);
     matcher = new MyErrorStateMatcher();
 
+    constructor(private interComponentService: InterComponentService, private dataService: DataService) { }
   ngOnInit() {
    // $('#mat-tab-label-0-3').keydown(this.addTab);
     console.log('test');
     this.scenarioCounter = 1;
     this.routePositionPointer[0] = 0;
     this.selectedRoute[0] = this.routes[this.routePositionPointer[0]];
+    this.testsetName = this.interComponentService.getCreateTestsetName();
   }
+
+  /*
+  catchCreateTestsetName(emittedName: string) {
+      this.testsetName = emittedName;
+      console.log('Caught TestsetName: ' + this.testsetName);
+  }*/
 
   onSelect(modeElement: ModeElement, index: number) {
       this.selectedMode[index] = modeElement;
@@ -108,6 +120,54 @@ export class CreateComponent implements OnInit {
         this.selectedRoute[index] = this.routes[this.routePositionPointer[index]];
         console.log(this.selectedRoute);
         console.log(this.routePositionPointer);
+    }
+
+    onSaveExitClick() {
+        let scenarios2: Scenario[] = [
+            { 'name': 'WSBulkScenario1', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
+                'testsetId': 0},
+            { 'name': 'WSBulkScenario2', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
+                'testsetId': 0},
+            { 'name': 'WSBulkScenario3', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
+                'testsetId': 0},
+            { 'name': 'WSBulkScenario4', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
+                'testsetId': 0}
+        ];
+        /*
+        let scenarios: Scenario[] = new Array(this.selectedRoute.length);
+        let scenarios3: { name: string, mode, route, faultInjectionTime: number, runQuantity: number }[];
+        let i: number;
+        for (i = 0; i < this.selectedMode.length; i++) {
+            scenarios3.push(this.formGroupArray.controls[i].controls.name.value,
+                this.selectedMode[i].shortName,
+                this.selectedRoute[i].name,
+                this.formGroupArray.controls[i].controls.faultInjectionTime.value,
+                this.formGroupArray.controls[i].controls.numberOfRuns.value);
+        }*/
+            /*
+            scenarios[i].name = this.formGroupArray.controls[i].controls.name.value;
+            scenarios[i].mode = this.selectedMode[i];
+            scenarios[i].route = this.selectedRoute[i];
+            scenarios[i].faultInjectionTime = this.selectedMode.controls[i].controls.faultInjectionTime.value;
+            scenarios[i].runQuantity = this.selectedRoute.controls[i].controls.numberOfRuns.value;*/
+
+        /*let counter = 0;
+        scenarios.forEach(function (element) {
+            element.name = this.formGroupArray[counter].name;
+            element.mode = this.selectedMode[counter];
+            element.route = this.selectedRoute[counter];
+            element.faultInjectionTime = this.formGroupArray[counter].faultInjectionTime;
+            element.runQuantity = this.formGroupArray[counter].numberOfRuns;
+            counter++;
+        });*/
+        this.dataService.createScenarioBulk(this.testsetName, scenarios2).subscribe(data => {
+                console.log('createTestsetScenariosBulk'); console.log(data);
+            }
+        );
+        this.dataService.createScenarioBulk(this.testsetName, scenarios2).subscribe(data => {
+                console.log('createTestsetScenariosBulk'); console.log(data);
+            }
+        );
     }
 
   startTest() {

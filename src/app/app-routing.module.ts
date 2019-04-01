@@ -22,7 +22,7 @@ const routes: Routes = [
         component: RunComponent
     },
     {
-        path: 'result/:id',
+        path: 'result/:testset',
         component: ResultComponent
     },
     {
