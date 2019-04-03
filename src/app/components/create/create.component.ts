@@ -4,6 +4,8 @@ import {FormArray, FormControl, FormGroup, FormGroupDirective, NgForm, Validator
 import {InterComponentService} from '../../inter-component.service';
 import {Scenario} from '../../models/Scenario';
 import {DataService} from '../../data.service';
+import {Router} from '@angular/router';
+import {MatSnackBar} from '@angular/material';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -51,7 +53,8 @@ export class CreateComponent implements OnInit {
     formGroupArray = new FormArray([this.formGroup]);
     matcher = new MyErrorStateMatcher();
 
-    constructor(private interComponentService: InterComponentService, private dataService: DataService) { }
+    constructor(private interComponentService: InterComponentService, private dataService: DataService, public router: Router,
+                private snackBar: MatSnackBar) { }
   ngOnInit() {
    // $('#mat-tab-label-0-3').keydown(this.addTab);
     console.log('test');
@@ -123,6 +126,7 @@ export class CreateComponent implements OnInit {
     }
 
     onSaveExitClick() {
+      /*
         let scenarios2: Scenario[] = [
             { 'name': 'WSBulkScenario1', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
                 'testsetId': 0},
@@ -132,42 +136,52 @@ export class CreateComponent implements OnInit {
                 'testsetId': 0},
             { 'name': 'WSBulkScenario4', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
                 'testsetId': 0}
-        ];
-        /*
+        ];*/
+      // Check if one element is not filled
+        for (let j = 0; j < this.selectedMode.length; j++) {
+            if (!this.formGroupArray.at(j).get('name').valid ||
+                this.selectedMode[j].shortName == null || this.selectedMode[j].shortName === '' ||
+                this.selectedRoute[j].name == null || this.selectedRoute[j].name === '' ||
+                !this.formGroupArray.at(j).get('faultInjectionTime').valid ||
+                !this.formGroupArray.at(j).get('numberOfRuns').valid) {
+                    console.log('0.1: ' + !this.formGroupArray.valid);
+                    console.log('0.2: ' + !this.formGroupArray.at(j).valid);
+                    console.log('1: ' + !this.formGroupArray.at(j).get('name').valid);
+                    console.log('2: ' + this.selectedMode[j]);
+                    console.log('3: ' + this.selectedRoute[j]);
+                    console.log('4: ' + !this.formGroupArray.at(j).get('faultInjectionTime').valid);
+                    console.log('5: ' + !this.formGroupArray.at(j).get('numberOfRuns').valid);
+
+                    this.snackBar.open('Please fill in all values in Scenario:     ' + this.tabs[j], 'DISMISS', {
+                        duration: 10000,
+                        panelClass: ['customized-snackbar']
+                    });
+                    return ;
+            }
+        }
         let scenarios: Scenario[] = new Array(this.selectedRoute.length);
-        let scenarios3: { name: string, mode, route, faultInjectionTime: number, runQuantity: number }[];
         let i: number;
         for (i = 0; i < this.selectedMode.length; i++) {
-            scenarios3.push(this.formGroupArray.controls[i].controls.name.value,
-                this.selectedMode[i].shortName,
-                this.selectedRoute[i].name,
-                this.formGroupArray.controls[i].controls.faultInjectionTime.value,
-                this.formGroupArray.controls[i].controls.numberOfRuns.value);
-        }*/
-            /*
-            scenarios[i].name = this.formGroupArray.controls[i].controls.name.value;
-            scenarios[i].mode = this.selectedMode[i];
-            scenarios[i].route = this.selectedRoute[i];
-            scenarios[i].faultInjectionTime = this.selectedMode.controls[i].controls.faultInjectionTime.value;
-            scenarios[i].runQuantity = this.selectedRoute.controls[i].controls.numberOfRuns.value;*/
+            scenarios.splice(i, 1, {
+                'name': this.formGroupArray.at(i).get('name').value,
+                'mode': this.selectedMode[i].shortName,
+                'route': this.selectedRoute[i].name,
+                'faultInjectionTime': this.formGroupArray.at(i).get('faultInjectionTime').value,
+                'runQuantity': this.formGroupArray.at(i).get('numberOfRuns').value
+            });
+        }
+        console.log(scenarios);
+        this.dataService.createScenarioBulk(this.testsetName, scenarios).subscribe(data => {
+                console.log('createTestsetScenariosBulk'); console.log(data);
+            }
+        );
+        // Routing to overview
+        this.snackBar.open('Testset was created: ' + this.testsetName, 'DISMISS', {
+            duration: 5000,
+            panelClass: ['customized-snackbar']
+        });
+        this.router.navigate(['overview']);
 
-        /*let counter = 0;
-        scenarios.forEach(function (element) {
-            element.name = this.formGroupArray[counter].name;
-            element.mode = this.selectedMode[counter];
-            element.route = this.selectedRoute[counter];
-            element.faultInjectionTime = this.formGroupArray[counter].faultInjectionTime;
-            element.runQuantity = this.formGroupArray[counter].numberOfRuns;
-            counter++;
-        });*/
-        this.dataService.createScenarioBulk(this.testsetName, scenarios2).subscribe(data => {
-                console.log('createTestsetScenariosBulk'); console.log(data);
-            }
-        );
-        this.dataService.createScenarioBulk(this.testsetName, scenarios2).subscribe(data => {
-                console.log('createTestsetScenariosBulk'); console.log(data);
-            }
-        );
     }
 
   startTest() {

@@ -50,6 +50,10 @@ export class OverviewComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
             console.log(result);
+            // refresh after setting
+            if (result === 1) {
+                this.ngOnInit();
+            }
         });
     }
 

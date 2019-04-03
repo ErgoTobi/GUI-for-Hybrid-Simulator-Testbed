@@ -107,9 +107,10 @@ export class HomeComponent implements OnInit {
         this.dataService.readSettingById(1).subscribe(
             data => { console.log('readSettingById 1: '); console.log(data);
             });
+        /* Does not work
         this.dataService.readAllRunDetailsByRunId(2).subscribe(
             data => { console.log('readRunDetailById 2: '); console.log(data);
-            });
+            });*/
         this.dataService.readAllRunsByResultId(1).subscribe(
             data => { console.log('readRunById 1: '); console.log(data);
             });
@@ -124,6 +125,16 @@ export class HomeComponent implements OnInit {
     }
 
     auth() {
+        this.dataService.authenticateDatabase();
+    }
+
+    deleteAll() {
+        this.dataService.clearAllTestsetsInDatabase().subscribe(data => {
+            console.log('FlushDATABASE'); console.log(data);
+        });
+    }
+
+    testBulk() {
         this.dataService.createSetting(9, true).subscribe(data => {
                 console.log('createSetting'); console.log(data);
             }
@@ -165,9 +176,6 @@ export class HomeComponent implements OnInit {
                 console.log('createRunDetailBulk'); console.log(data);
             }
         );
-    }
-
-    testBulk() {
         this.dataService.createRunDetail (Sequelize.fn('NOW'), 'WSsavm/car/0/ownSpeed', '7.142469', 1);
         this.dataService.createTestset('WSTestsetSingle').subscribe(data => {
             console.log('createTestsetBulk: '); console.log(data);

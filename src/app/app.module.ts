@@ -4,7 +4,7 @@ import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatSortModule, MatFormFieldModule, MatInputModule, MatDialogModule} from '@angular/material';
+import {MatSortModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSnackBarModule} from '@angular/material';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
@@ -36,6 +36,7 @@ import {RunComponent} from './components/run/run.component';
 
 import { NgxLoadersCssModule } from 'ngx-loaders-css';
 import { CreateTestsetDialogComponent } from './components/overview/create-testset-dialog/create-testset-dialog.component';
+import { FileExplorerComponent } from './components/overview/file-explorer/file-explorer.component';
 
 // Snazzy Maps
 
@@ -58,7 +59,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       DeleteDialogComponent,
       SettingsDialogComponent,
       RunComponent,
-      CreateTestsetDialogComponent
+      CreateTestsetDialogComponent,
+      FileExplorerComponent
   ],
     imports: [
         BrowserModule,
@@ -80,7 +82,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         MaterialModule,
         MatDialogModule,
         NgxLoadersCssModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatSnackBarModule
   ],
     exports: [
         MatSortModule,

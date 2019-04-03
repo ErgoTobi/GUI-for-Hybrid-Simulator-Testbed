@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Create new Testset</h1>
-<div mat-dialog-content>
-  <p>Do you really want to create the Testset?</p>
+<mat-dialog-content>
+  <p>Please fill out all forms to create the Testset?</p>
   <form class="example-form">
     <mat-form-field class="example-full-width">
       <input matInput id="create-dialog-name-input" placeholder="Name" [formControl]="nameFormControl"
@@ -14,8 +14,11 @@
       </mat-error>
     </mat-form-field>
   </form>
-</div>
+
+</mat-dialog-content>
+
+
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button (click)="onCreateClick()" routerLink="create" cdkFocusInitial>Create</button>
+  <button mat-button (click)="onCreateClick()" cdkFocusInitial>Create</button>
 </div>

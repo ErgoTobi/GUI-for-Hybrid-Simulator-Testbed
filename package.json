@@ -51,10 +51,12 @@
     "mysql": "^2.16.0",
     "mysql2": "^1.6.5",
     "ngx-loaders-css": "^1.0.1",
+    "pg-hstore": "^2.3.2",
     "sequelize": "^4.43.0",
     "shelljs": "^0.8.2",
     "shelljs-plugin-open": "^0.2.0",
-    "snazzy-info-window": "^1.1.0"
+    "snazzy-info-window": "^1.1.0",
+    "tedious": "^6.1.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.6",

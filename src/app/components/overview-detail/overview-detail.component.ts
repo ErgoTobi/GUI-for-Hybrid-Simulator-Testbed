@@ -4,6 +4,8 @@ import { Testset } from '../../models/Testset';
 import {MatDialog} from '@angular/material';
 import {DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
 import {InterComponentService} from '../../inter-component.service';
+import {DataService} from '../../data.service';
+import {OverviewComponent} from '../overview/overview.component';
 
 @Component({
   selector: 'app-overview-detail',
@@ -12,7 +14,7 @@ import {InterComponentService} from '../../inter-component.service';
 })
 export class OverviewDetailComponent implements OnInit {
     @Input() testset: Testset;
-    constructor(public dialog: MatDialog, private interComponentService: InterComponentService) {}
+    constructor(public dialog: MatDialog, private interComponentService: InterComponentService, private overviewComp: OverviewComponent) {}
 
     ngOnInit() {
     }
@@ -27,6 +29,10 @@ export class OverviewDetailComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
             console.log(result);
+            // Refresh list in overview when deleted (1)
+            if (result === 1) {
+                this.overviewComp.ngOnInit();
+            }
         });
     }
     onStartClick() {

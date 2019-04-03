@@ -47,7 +47,7 @@ export class DataService {
     // SETTING
     // R(w): Pulls a setting where the Suite_id equals SpeedDreams; Overview
     readSettingById (id: number) {
-        return fromPromise(Testset.findOne({
+        return fromPromise(Setting.findOne({
             where: { id: id },
         }));
     }
@@ -58,6 +58,19 @@ export class DataService {
             isTextOnly: isTextOnly
         }).catch(error => {
             console.error('createSetting:', error);
+        }));
+    }
+    // C(w): ECU create
+    updateSetting(id: number, isTextOnly: Boolean) {
+        return fromPromise(Setting.update({
+            isTextOnly: isTextOnly
+        }, {
+            returning: true,
+            where: {
+                id: id
+            }
+        }).catch(error => {
+            console.error('updateSetting:', error);
         }));
     }
 
@@ -99,6 +112,12 @@ export class DataService {
             force: true
         });
     }
+    // D(w)Clear all Testsets incl. associated data
+    clearAllTestsetsInDatabase () {
+        return fromPromise(Testset.destroy({
+            truncate: { cascade: true }
+        }));
+    }
 
     // SCENARIO
     // C(w): Creates a scenario; Create
@@ -119,7 +138,7 @@ export class DataService {
             name: testsetName
         }).then(function (data) {
             let id = data.id;
-            console.log(data.dataValues.id);
+            // console.log(data.dataValues.id);
             scenarios.forEach(function (element) {
                 element.testsetId = id;
             });
@@ -155,6 +174,12 @@ export class DataService {
             },
             force: true
         });
+    }
+    // D(w)Clears all Results incl. associated data
+    clearAllResultstsInDatabase () {
+        return fromPromise(Result.destroy({
+            truncate: { cascade: true }
+        }));
     }
 
     // RUN
