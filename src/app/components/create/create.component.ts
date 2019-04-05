@@ -1,11 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {ErrorStateMatcher} from '@angular/material/core';
-import {FormArray, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {InterComponentService} from '../../inter-component.service';
 import {Scenario} from '../../models/Scenario';
 import {DataService} from '../../data.service';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
+import { FileInput } from 'ngx-material-file-input';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -53,8 +54,10 @@ export class CreateComponent implements OnInit {
     formGroupArray = new FormArray([this.formGroup]);
     matcher = new MyErrorStateMatcher();
 
+    form: FormGroup;
+
     constructor(private interComponentService: InterComponentService, private dataService: DataService, public router: Router,
-                private snackBar: MatSnackBar) { }
+                private snackBar: MatSnackBar, private fb: FormBuilder) { }
   ngOnInit() {
    // $('#mat-tab-label-0-3').keydown(this.addTab);
     console.log('test');
@@ -62,6 +65,9 @@ export class CreateComponent implements OnInit {
     this.routePositionPointer[0] = 0;
     this.selectedRoute[0] = this.routes[this.routePositionPointer[0]];
     this.testsetName = this.interComponentService.getCreateTestsetName();
+      this.form = this.fb.group({
+          file: []
+      });
   }
 
   /*

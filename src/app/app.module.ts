@@ -37,6 +37,7 @@ import {RunComponent} from './components/run/run.component';
 import { NgxLoadersCssModule } from 'ngx-loaders-css';
 import { CreateTestsetDialogComponent } from './components/overview/create-testset-dialog/create-testset-dialog.component';
 import { FileExplorerComponent } from './components/overview/file-explorer/file-explorer.component';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 
 // Snazzy Maps
 
@@ -83,7 +84,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         MatDialogModule,
         NgxLoadersCssModule,
         ReactiveFormsModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MaterialFileInputModule
   ],
     exports: [
         MatSortModule,

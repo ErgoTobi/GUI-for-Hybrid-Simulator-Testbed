@@ -51,6 +51,7 @@
     "mysql": "^2.16.0",
     "mysql2": "^1.6.5",
     "ngx-loaders-css": "^1.0.1",
+    "ngx-material-file-input": "^1.1.1",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.43.0",
     "shelljs": "^0.8.2",

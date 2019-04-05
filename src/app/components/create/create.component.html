@@ -118,21 +118,34 @@
           </mat-card>
 
           <mat-card class="mat-h3">
-            <mat-card-content>
-              <mat-form-field class="example-margin">
-                <input matInput type="number" placeholder="Number of Runs" [max]="240" [min]="0"
-                       [formControl]="formGroupArray.controls[index].controls.numberOfRuns" [errorStateMatcher]="matcher">
-                <mat-hint></mat-hint>
-                <mat-error *ngIf="!numberOfRunsFormControl.hasError('required')">
-                  Please enter a valid Number
-                </mat-error>
-                <mat-error *ngIf="numberOfRunsFormControl.hasError('required')">
-                  Number of Runs is <strong>required</strong>
-                </mat-error>
+          <mat-card-content>
+            <mat-form-field class="example-margin">
+              <input matInput type="number" placeholder="Number of Runs" [max]="240" [min]="0"
+                     [formControl]="formGroupArray.controls[index].controls.numberOfRuns" [errorStateMatcher]="matcher">
+              <mat-hint></mat-hint>
+              <mat-error *ngIf="!numberOfRunsFormControl.hasError('required')">
+                Please enter a valid Number
+              </mat-error>
+              <mat-error *ngIf="numberOfRunsFormControl.hasError('required')">
+                Number of Runs is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <span class="input-value-kind"> Times</span>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="mat-h3">
+          <mat-card-content>
+            <form [formGroup]="form" novalidate>
+
+              <mat-form-field>
+                <ngx-mat-file-input formControlName="file" placeholder="QEMU Config File">
+                </ngx-mat-file-input>
               </mat-form-field>
-              <span class="input-value-kind"> Times</span>
-            </mat-card-content>
-          </mat-card>
+
+            </form>
+          </mat-card-content>
+        </mat-card>
 
         </div>
 
