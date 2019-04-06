@@ -1,0 +1,14 @@
+<mat-toolbar color="">
+  <mat-toolbar-row>
+    <img class="logo" src="assets/logo.png" alt="logo" width="100px">
+    <span id="button-container">
+        <button mat-button routerLink="">Home</button>
+        <button mat-button routerLink="resultOverview">Results</button>
+        <button mat-button (click)="openSettingsDialog()">Settings</button>
+    </span>
+    <span class="example-spacer"></span>
+    <mat-icon *ngIf="databaseChecked" id="radio-button-checked" class="material-icons">radio_button_checked</mat-icon>
+    <mat-icon *ngIf="!databaseChecked" id="radio-button-unchecked" class="material-icons">radio_button_unchecked</mat-icon>
+    <span class="mat-body">Backend Connected</span>
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -86,6 +86,9 @@ export class DataService {
     // R(w): Pulls all testsets (incl. scenario data) where the Suite_id equals SpeedDreams; Overview
     readAllTestsets () {
         return fromPromise(Testset.findAll({
+            order: [
+              ['id', 'DESC']
+            ],
             include: [{
                 model: Scenario
             }]
