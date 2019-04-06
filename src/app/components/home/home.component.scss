@@ -8,10 +8,38 @@
   -webkit-background-size: cover; /* pour anciens Chrome et Safari */
   background-size: cover; /* version standardisée */
 
-  .title {
-    color: white;
-    margin:0;
-    padding:50px 20px;
-  }
-
 }
+
+#home {
+  background-color: lightgray;
+  height: 100%;
+}
+
+.title {
+  color: #979DA6;
+  margin-left: 1%;
+}
+
+.tp-card {
+  width:300px;
+  // display:flex;
+  // justify-content:center;
+  // align-items:center;
+  //float: left;
+  margin: 1%;
+}
+
+.mat-card-image {
+  width: 100%;
+  margin-top: 0!important;
+  margin-left: 5px;
+}
+
+.mat-card-image:hover {
+  cursor: pointer;
+}
+
+.mat-card-header {
+  margin-top: 10px!important;
+}
+

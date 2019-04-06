@@ -4,12 +4,12 @@ import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatSortModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSnackBarModule} from '@angular/material';
+import {MatSortModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSnackBarModule, MatCardModule} from '@angular/material';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
-// import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 // Angular Material
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -71,7 +71,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         MatSortModule,
         MatFormFieldModule,
         MatInputModule,
-//         FlexLayoutModule,
+        FlexLayoutModule,
         HttpClientModule,
         AppRoutingModule,
         TranslateModule.forRoot({
@@ -87,7 +87,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         NgxLoadersCssModule,
         ReactiveFormsModule,
         MatSnackBarModule,
-        MaterialFileInputModule
+        MaterialFileInputModule,
+        MatCardModule
   ],
     exports: [
         MatSortModule,

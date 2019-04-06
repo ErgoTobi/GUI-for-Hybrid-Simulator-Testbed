@@ -99,8 +99,9 @@
                 <mat-error *ngIf="faultInjectionTimeFormControl.hasError('required')">
                   Fault Injection Time is <strong>required</strong>
                 </mat-error>
+                <span matSuffix="" class="input-value-kind"> Seconds</span>
               </mat-form-field>
-              <span class="input-value-kind"> Seconds</span>
+
               <!--
               <mat-slider
                       class="example-margin"
@@ -129,8 +130,8 @@
               <mat-error *ngIf="numberOfRunsFormControl.hasError('required')">
                 Number of Runs is <strong>required</strong>
               </mat-error>
+              <span matSuffix="" class="input-value-kind"> Times</span>
             </mat-form-field>
-            <span class="input-value-kind"> Times</span>
           </mat-card-content>
         </mat-card>
 
@@ -141,6 +142,7 @@
               <mat-form-field>
                 <ngx-mat-file-input formControlName="file" placeholder="QEMU Config File">
                 </ngx-mat-file-input>
+                <mat-icon id="file-icon" class="material-icons" matSuffix="">attach_file</mat-icon>
               </mat-form-field>
 
             </form>
