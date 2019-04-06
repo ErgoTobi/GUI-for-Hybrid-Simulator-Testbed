@@ -53,12 +53,11 @@
 </mat-toolbar>
 
 <mat-tab-group [selectedIndex]="selected.value"
-               (selectedIndexChange)="selected.setValue($event)">
+               (selectedIndexChange)="selected.setValue($event)" animationDuration="0">
   <mat-tab *ngFor="let tab of tabs; let index = index" >
     <ng-template mat-tab-label>
-      {{tab}}
-      <span class="example-spacer"></span>
-      <mat-icon id="cancel-icon" class="small" [class.invisible]="tabs.length === 1" (click)="removeTab(index)">cancel</mat-icon>
+      <span class="tab-text">{{tab}}</span>
+      <mat-icon id="cancel-icon" class="small" [class.invisible]="tabs.length === 1" (click)="removeTab(index)" matSuffix="">cancel</mat-icon>
     </ng-template>
 
     <div id="content">
@@ -74,7 +73,7 @@
               <form class="example-form">
                 <mat-form-field class="example-full-width">
                   <input matInput placeholder="Scenario Name" [formControl]="formGroupArray.controls[index].controls.name"
-                         [errorStateMatcher]="matcher" > <!-- (change)="updateTabs($event)" -->
+                         [errorStateMatcher]="matcher" (change)="updateTabs($event)"> <!-- (change)="updateTabs($event)" -->
                   <mat-hint></mat-hint>
                   <mat-error *ngIf="!nameFormControl.hasError('required')">
                     Please enter a valid Scenario name

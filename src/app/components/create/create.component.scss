@@ -191,12 +191,6 @@
   visibility: hidden;
 }
 
-#cancel-icon {
-  margin-left: 15%;
-  margin-bottom: 10%;
-  font-size: 20px;
-}
-
 /deep/ .mat-tab-label {
   padding: 0 0 0 20px !important;
   width: 130px !important;
@@ -256,6 +250,20 @@
 
 .input-value-kind {
   font-size: 10px;
+}
+
+.tab-text {
+  width: 80%;
+  min-width: 87px;
+  max-width: 87px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis ;
+}
+
+#cancel-icon {
+  margin-bottom: 10%;
+  font-size: 20px;
 }
 
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {DataService} from '../../data.service';
-import {OverviewComponent} from '../overview/overview.component';
-import {SettingsDialogComponent} from '../settings-dialog/settings-dialog.component';
+import {DataService} from '../../../data.service';
+import {OverviewComponent} from '../../overview/overview.component';
+import {SettingsDialogComponent} from '../../settings-dialog/settings-dialog.component';
 
 @Component({
   selector: 'app-header',

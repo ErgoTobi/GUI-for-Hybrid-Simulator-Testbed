@@ -25,7 +25,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class CreateComponent implements OnInit {
 
     testsetName: string;
-  tabs = ['Scenario 1'];
+  tabs = ['Scenario'];
   scenarioCounter;
   selected = new FormControl(0);
 
@@ -93,7 +93,8 @@ export class CreateComponent implements OnInit {
           numberOfRuns: new FormControl('', Validators.required)
       }));
       console.log(this.formGroupArray);
-    this.tabs.push('Scenario ' + this.scenarioCounter);
+    // this.tabs.push('Scenario ' + this.scenarioCounter);
+      this.tabs.push('New Scenario');
 
     if (selectAfterAdding) {
       this.selected.setValue(this.tabs.length - 1);

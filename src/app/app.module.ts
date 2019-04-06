@@ -38,7 +38,7 @@ import { NgxLoadersCssModule } from 'ngx-loaders-css';
 import { CreateTestsetDialogComponent } from './components/overview/create-testset-dialog/create-testset-dialog.component';
 import { FileExplorerComponent } from './components/overview/file-explorer/file-explorer.component';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
-import { HeaderComponent } from './components/header/header.component';
+import { HeaderComponent } from './components/shared-module/header/header.component';
 
 // Snazzy Maps
 
