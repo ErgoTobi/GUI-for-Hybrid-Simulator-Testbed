@@ -71,9 +71,9 @@
           <mat-card class="mat-h3">
             <mat-card-content>
               <form class="example-form">
-                <mat-form-field class="example-full-width">
+                <mat-form-field class="example-full-width" >
                   <input matInput placeholder="Scenario Name" [formControl]="formGroupArray.controls[index].controls.name"
-                         [errorStateMatcher]="matcher" (change)="updateTabs($event)"> <!-- (change)="updateTabs($event)" -->
+                         [errorStateMatcher]="matcher" (change)="updateTabs($event)" required> <!-- (change)="updateTabs($event)" -->
                   <mat-hint></mat-hint>
                   <mat-error *ngIf="!nameFormControl.hasError('required')">
                     Please enter a valid Scenario name
@@ -90,7 +90,8 @@
             <mat-card-content>
               <mat-form-field class="example-margin">
                 <input matInput type="number" placeholder="Fault Injection Time"
-                       [max]="240" [min]="0" [formControl]="formGroupArray.controls[index].controls.faultInjectionTime" [errorStateMatcher]="matcher">
+                       [max]="240" [min]="0" [formControl]="formGroupArray.controls[index].controls.faultInjectionTime"
+                       [errorStateMatcher]="matcher" required>
                 <mat-hint></mat-hint><!-- [(ngModel)]="value" -->
                 <mat-error *ngIf="!faultInjectionTimeFormControl.hasError('required')">
                   Please enter a valid Fault Injection Time
@@ -121,7 +122,8 @@
           <mat-card-content>
             <mat-form-field class="example-margin">
               <input matInput type="number" placeholder="Number of Runs" [max]="240" [min]="0"
-                     [formControl]="formGroupArray.controls[index].controls.numberOfRuns" [errorStateMatcher]="matcher">
+                     [formControl]="formGroupArray.controls[index].controls.numberOfRuns" [errorStateMatcher]="matcher"
+                     required>
               <mat-hint></mat-hint>
               <mat-error *ngIf="!numberOfRunsFormControl.hasError('required')">
                 Please enter a valid Number
@@ -136,9 +138,9 @@
 
         <mat-card class="mat-h3">
           <mat-card-content>
-              <mat-form-field>
+              <mat-form-field >
                 <ngx-mat-file-input [formControl]="formGroupArray.controls[index].controls.file"
-                                    placeholder="QEMU Config File">
+                                    placeholder="QEMU Config File" required>
                 </ngx-mat-file-input>
                 <mat-hint></mat-hint>
                 <mat-error *ngIf="!fileFormControl.hasError('required')">
@@ -217,5 +219,4 @@
 </mat-tab-group>
 <!--
 <mat-tab-group (selectedTabChange)="addTab($event, true)">
-
 </mat-tab-group>-->

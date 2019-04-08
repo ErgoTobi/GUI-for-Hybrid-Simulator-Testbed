@@ -4,9 +4,12 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class InterComponentService {
+  private adminPassword: string;
   private createTestsetName: string;
   private runTestsetId: number;
-  constructor() { }
+  constructor() {
+    this.adminPassword = '';
+  }
 
   setCreateTestsetName(testsetName: string) {
     this.createTestsetName = testsetName;
@@ -20,5 +23,12 @@ export class InterComponentService {
   }
   getRunTestsetId() {
       return this.runTestsetId;
+  }
+
+  setAdminPassword(adminPassword: string) {
+      this.adminPassword = adminPassword;
+  }
+  getAdminPassword() {
+      return this.adminPassword;
   }
 }

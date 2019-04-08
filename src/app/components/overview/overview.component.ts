@@ -14,7 +14,7 @@ import {InterComponentService} from '../../inter-component.service';
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
-export class OverviewComponent implements OnInit, DoCheck, OnDestroy {
+export class OverviewComponent implements OnInit {
     testsets: Testset[];
     testsetsOnLoad: Testset[];
     selectedTestset: Testset;
@@ -33,21 +33,6 @@ export class OverviewComponent implements OnInit, DoCheck, OnDestroy {
         );
     }
 
-    ngDoCheck () {
-        this.dataService.readAllTestsets().subscribe(
-            data => {
-                this.testsets = data as Testset[];
-                this.testsetsOnLoad = data as Testset[];
-                console.log(data);
-                // Autoselects first item in list
-                this.selectedTestset = this.testsets[0];
-            }
-        );
-    }
-    ngOnDestroy () {
-        this.subscription.unsubscribe();
-    }
-
     onSelect(testset: Testset) {
         this.selectedTestset = testset;
         console.log(this.selectedTestset);
@@ -56,21 +41,6 @@ export class OverviewComponent implements OnInit, DoCheck, OnDestroy {
     doFilter = (value: string) => {
         if (value === '' || value.length === 1) { this.testsets = this.testsetsOnLoad; }
         this.testsets = this.testsets.filter(testset => testset.name.toLowerCase().indexOf(value.toLowerCase()) !== -1);
-    }
-    openSettingsDialog() {
-        const dialogRef = this.dialog.open(SettingsDialogComponent, {
-            data: {
-            }
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
-            console.log(result);
-            // refresh after setting
-            if (result === 1) {
-                this.ngOnInit();
-            }
-        });
     }
 
     openCreateDialog(): void {

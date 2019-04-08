@@ -38,6 +38,7 @@ import { NgxLoadersCssModule } from 'ngx-loaders-css';
 import { CreateTestsetDialogComponent } from './components/overview/create-testset-dialog/create-testset-dialog.component';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { HeaderComponent } from './components/shared-module/header/header.component';
+import { PasswordDialogComponent } from './components/overview-detail/password-dialog/password-dialog.component';
 
 // Snazzy Maps
 
@@ -61,7 +62,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       SettingsDialogComponent,
       RunComponent,
       CreateTestsetDialogComponent,
-      HeaderComponent
+      HeaderComponent,
+      PasswordDialogComponent
   ],
     imports: [
         BrowserModule,
@@ -97,7 +99,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     entryComponents: [
         DeleteDialogComponent,
         SettingsDialogComponent,
-        CreateTestsetDialogComponent
+        CreateTestsetDialogComponent,
+        PasswordDialogComponent
     ],
   providers: [ElectronService],
   bootstrap: [AppComponent]

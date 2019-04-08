@@ -1,7 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
+import {ErrorStateMatcher, MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
 import {DataService} from '../../data.service';
 import {Setting} from '../../models/Setting';
+import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {InterComponentService} from '../../inter-component.service';
+
 
 @Component({
   selector: 'app-settings-dialog',
@@ -14,8 +17,10 @@ export class SettingsDialogComponent implements OnInit {
     setting: Setting;
     isCheckedVisualization: boolean;
 
+    passwordFormControl = new FormControl('');
+
   constructor(public dialogRef: MatDialogRef<SettingsDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-              private dataService: DataService, private snackBar: MatSnackBar) { }
+              private dataService: DataService, private snackBar: MatSnackBar, private interComponentService: InterComponentService) { }
 
   ngOnInit() {
     this.isCheckedDatabase = false;
@@ -26,10 +31,12 @@ export class SettingsDialogComponent implements OnInit {
             this.isCheckedVisualization = this.setting.isTextOnly;
         }
     );
+    this.passwordFormControl.setValue(this.interComponentService.getAdminPassword());
 
   }
 
   onSaveClick() {
+    this.interComponentService.setAdminPassword(this.passwordFormControl.value);
     if (this.isCheckedDatabase || this.isCheckedResults) {
       if (this.isCheckedResults) {
         this.dataService.clearAllResultstsInDatabase();

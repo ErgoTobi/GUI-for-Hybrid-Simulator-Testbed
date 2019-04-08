@@ -9,10 +9,18 @@
   <div><mat-checkbox [(ngModel)]="isCheckedDatabase">Flush COMPLETE Database</mat-checkbox></div>
   <mat-toolbar-row></mat-toolbar-row>
 
+  <h3>Admin Password</h3>
+  <form class="example-form">
+    <mat-form-field class="example-full-width" >
+      <input type="password" matInput placeholder="Enter Password" [formControl]="passwordFormControl">
+      <mat-hint></mat-hint>
+    </mat-form-field>
+  </form>
+
+  <span class="example-spacer"></span>
+
   <h3>Additional Config Possibilities To Be implemented...</h3>
   <ol>
-    <li>./src/config/ecuACCConfiguration</li>
-    <li>./src/config/ecuPerformanceConfiguration</li>
     <li>Vllt. eine Standard Config hier hinterlegen?</li>
   </ol>
   <p></p>

@@ -6,6 +6,8 @@ import {DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
 import {InterComponentService} from '../../inter-component.service';
 import {DataService} from '../../data.service';
 import {OverviewComponent} from '../overview/overview.component';
+import {PasswordDialogComponent} from './password-dialog/password-dialog.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-overview-detail',
@@ -14,7 +16,8 @@ import {OverviewComponent} from '../overview/overview.component';
 })
 export class OverviewDetailComponent implements OnInit {
     @Input() testset: Testset;
-    constructor(public dialog: MatDialog, private interComponentService: InterComponentService, private overviewComp: OverviewComponent) {}
+    constructor(public dialog: MatDialog, private interComponentService: InterComponentService, private overviewComp: OverviewComponent,
+                public router: Router) {}
 
     ngOnInit() {
     }
@@ -35,8 +38,30 @@ export class OverviewDetailComponent implements OnInit {
             }
         });
     }
+
+    openPasswordDialog(): void {
+        const dialogRef = this.dialog.open(PasswordDialogComponent, {
+            data: {
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog password was closed');
+            console.log(result);
+            if (result === 1) {
+                console.log('navigated');
+                // this.router.navigate(['run']);
+            }
+        });
+    }
     onStartClick() {
         this.interComponentService.setRunTestsetId(this.testset.id);
-        console.log('StartTestsetId: ' + this.interComponentService.getRunTestsetId());
+        if (this.interComponentService.getAdminPassword() === '' || this.interComponentService.getAdminPassword() === null) {
+            console.log('Password Dialog');
+            this.openPasswordDialog();
+        } else {
+            console.log('StartTestsetId: ' + this.interComponentService.getRunTestsetId());
+        }
+
     }
 }
