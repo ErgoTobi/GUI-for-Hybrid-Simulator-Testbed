@@ -50,7 +50,7 @@ export class SettingsDialogComponent implements OnInit {
       });
     }
     if (this.isCheckedVisualization !== this.setting.isTextOnly) {
-      this.dataService.updateSetting(this.setting.id, this.isCheckedVisualization);
+      this.dataService.updateSettingDialog(this.setting.id, this.isCheckedVisualization);
     }
     this.dialogRef.close(1);
   }

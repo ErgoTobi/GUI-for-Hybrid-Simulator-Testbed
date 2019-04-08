@@ -51,17 +51,19 @@ export class DataService {
             where: { id: id },
         }));
     }
+    readAllSettings () {
+        return fromPromise(Setting.findAll({}));
+    }
     // C(w): ECU create
     createSetting(ecuAmount: number, isTextOnly: Boolean) {
         return fromPromise(Setting.create({
-            ecuAmount: ecuAmount,
             isTextOnly: isTextOnly
         }).catch(error => {
             console.error('createSetting:', error);
         }));
     }
-    // C(w): ECU create
-    updateSetting(id: number, isTextOnly: Boolean) {
+    // C(w): Setting update
+    updateSettingDialog(id: number, isTextOnly: Boolean) {
         return fromPromise(Setting.update({
             isTextOnly: isTextOnly
         }, {
@@ -70,7 +72,19 @@ export class DataService {
                 id: id
             }
         }).catch(error => {
-            console.error('updateSetting:', error);
+            console.error('updateSettingDialog:', error);
+        }));
+    }
+    updateSettingModule(id: number, selectedModule: Boolean) {
+        return fromPromise(Setting.update({
+            selectedModule: selectedModule
+        }, {
+            returning: true,
+            where: {
+                id: id
+            }
+        }).catch(error => {
+            console.error('updateSettingDialog:', error);
         }));
     }
 

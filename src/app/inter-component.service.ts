@@ -5,10 +5,12 @@ import { Injectable } from '@angular/core';
 })
 export class InterComponentService {
   private adminPassword: string;
+  private automaticNavigation: boolean;
   private createTestsetName: string;
   private runTestsetId: number;
   constructor() {
     this.adminPassword = '';
+    this.automaticNavigation = true;
   }
 
   setCreateTestsetName(testsetName: string) {
@@ -30,5 +32,13 @@ export class InterComponentService {
   }
   getAdminPassword() {
       return this.adminPassword;
+  }
+
+  getAutomaticNavigation(): boolean {
+      return this.automaticNavigation;
+  }
+
+  setAutomaticNavigation(value: boolean) {
+      this.automaticNavigation = value;
   }
 }

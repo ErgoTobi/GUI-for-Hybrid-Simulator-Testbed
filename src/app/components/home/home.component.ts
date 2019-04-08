@@ -1,7 +1,10 @@
-import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
+import {Component, OnInit, ElementRef, ViewChild, OnChanges} from '@angular/core';
 import {DataService} from '../../data.service';
 import {Time} from '@angular/common';
+import {Setting} from '../../models/Setting';
 import {Scenario} from '../../models/Scenario';
+import {Router} from '@angular/router';
+import {InterComponentService} from '../../inter-component.service';
 
 const eshell = require('electron').shell;
 const shell = require('shelljs');
@@ -17,14 +20,47 @@ const mqtt = require('mqtt');
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-   // public data = 'test';
-    @ViewChild('lastNameInput') nameInputRef: ElementRef;
-    //activeChunk: Array;
+    settings: Setting[];
 
-    constructor(private dataService: DataService) {
-    }
+    @ViewChild('lastNameInput') nameInputRef: ElementRef;
+
+    constructor(private dataService: DataService, private router: Router, private interComponentService: InterComponentService) {}
 
     ngOnInit() {
+        this.dataService.readAllSettings().subscribe(
+            data => {
+                this.settings = data as Setting[];
+                console.log(this.settings);
+
+                if (this.interComponentService.getAutomaticNavigation()) {
+                    // Direct navigation to previously selected module with flag === true
+                    for (const setting of this.settings) {
+                        if (setting.selectedModule === true) {
+                            if (setting.id === 1) {
+                                console.log('Navigation to overview component has happened!');
+                                this.interComponentService.setAutomaticNavigation(false);
+                                this.router.navigate(['overview']);
+                            }
+                        }
+                    }
+                }
+            }
+        );
+    }
+    clearSelectedModules () {
+        for (const setting of this.settings) {
+            this.dataService.updateSettingModule(setting.id, false);
+        }
+    }
+
+    selectModuleSpeeddreams() {
+        this.clearSelectedModules();
+        this.dataService.updateSettingModule(1, true);
+    }
+
+    selectModuleRobot() {
+        this.clearSelectedModules();
+        this.dataService.updateSettingModule(2, true);
     }
 
     test() {
@@ -225,6 +261,8 @@ export class HomeComponent implements OnInit {
     test6(){
         let command = shell.exec('/home/user1/speed-dreams/build/games/speed-dreams-2 -s quickrace', {silent: false, async: true});
     }
+
+
 
    /* convertValues(messagePair) {
         if (messagePair[0] === 'savm/car/0/isSpeedTracked' || messagePair[0] === 'savm/car/0/isPositionTracked') {

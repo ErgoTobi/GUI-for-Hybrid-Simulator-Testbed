@@ -7,7 +7,7 @@
 
   <mat-toolbar-row fxLayout="">
     <mat-card class = "tp-card">
-      <img mat-card-image src = "assets/logo.png" alt = "" routerLink="overview">
+      <img mat-card-image src = "assets/logo.png" alt = "" (click)="selectModuleSpeeddreams()" routerLink="overview">
       <mat-divider></mat-divider>
       <mat-card-header>
         <div mat-card-avatar class = "tp-header-image"></div>
@@ -27,7 +27,7 @@
     </mat-card>
 
     <mat-card class = "tp-card">
-      <img mat-card-image src = "assets/tbd-logo.jpg" alt = "">
+      <img mat-card-image src = "assets/tbd-logo.jpg" alt = "" (click)="selectModuleRobot()">
       <mat-divider></mat-divider>
       <mat-card-header>
         <div mat-card-avatar class = "tp-header-image"></div>
