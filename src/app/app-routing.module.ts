@@ -26,7 +26,7 @@ const routes: Routes = [
         component: ResultComponent
     },
     {
-        path: 'overview/resultOverview',
+        path: 'resultOverview',
         component: ResultoverviewComponent
     },
     {

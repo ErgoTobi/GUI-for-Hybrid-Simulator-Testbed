@@ -4,6 +4,7 @@ import {FormControl} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
 import { TestsetResult } from '../../models/Result';
 import { ActivatedRoute } from '@angular/router';
+import {InterComponentService} from '../../inter-component.service';
 
 @Component({
   selector: 'app-result',
@@ -15,7 +16,7 @@ export class ResultComponent implements OnInit {
     // user$: (string|number)[] = [];
     user$: Object;
 
-    constructor(private route: ActivatedRoute, private dataService: DataService) {
+    constructor(private route: ActivatedRoute, private dataService: DataService, private interComponentService: InterComponentService) {
         this.route.params.subscribe( params => {this.user$ = params.id;
         console.log('logge paramsid');
         console.log(params.id);
@@ -27,6 +28,7 @@ export class ResultComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.interComponentService.setButtonHeaderActive(false);
         this.dataService.readResultByIdObject(this.user$).subscribe(
         data => {
             this.user$ = data[0];
@@ -36,5 +38,7 @@ export class ResultComponent implements OnInit {
         }
         );
     }
+
+
 
 }

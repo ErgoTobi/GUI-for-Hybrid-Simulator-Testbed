@@ -60,9 +60,10 @@ export class CreateComponent implements OnInit {
     matcher = new MyErrorStateMatcher();
 
     constructor(private interComponentService: InterComponentService, private dataService: DataService, public router: Router,
-                private snackBar: MatSnackBar) { }
+                private snackBar: MatSnackBar/*, private overviewComp: OverviewComponent*/) { }
   ngOnInit() {
    // $('#mat-tab-label-0-3').keydown(this.addTab);
+    this.interComponentService.setButtonHeaderActive(false);
     console.log('test');
     this.scenarioCounter = 1;
     this.routePositionPointer[0] = 0;
@@ -187,6 +188,7 @@ export class CreateComponent implements OnInit {
             duration: 5000,
             panelClass: ['customized-snackbar']
         });
+        // this.overviewComp.ngOnInit();
         this.router.navigate(['overview']);
     }
 

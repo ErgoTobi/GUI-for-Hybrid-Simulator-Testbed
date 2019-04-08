@@ -1,26 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {DataService} from '../../../../../node_modules/mysql2/node_modules/iconv-lite/data.service';
-import {OverviewComponent} from '../../overview/overview.component';
-import {SettingsDialogComponent} from '../../settings-dialog/settings-dialog.component';
+import {DataService} from './data.service';
+import {OverviewComponent} from './components/overview/overview.component';
+import {SettingsDialogComponent} from './components/settings-dialog/settings-dialog.component';
 import {interval} from 'rxjs';
-import {InterComponentService} from '../../../inter-component.service';
+import {InterComponentService} from './inter-component.service';
 
 @Component({
   selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  templateUrl: './app-header.component.html',
+  styleUrls: ['./app-header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class AppHeaderComponent implements OnInit {
     // databaseChecked: boolean;
+    logo;
     buttonInHeader: boolean;
     check;
 
-    constructor(private dataService: DataService, public dialog: MatDialog, private overviewComp: OverviewComponent,
+    constructor(private dataService: DataService, public dialog: MatDialog,
                 private interComponentService: InterComponentService) { }
 
     ngOnInit() {
+        // Assignment of logo
+        this.logo = document.getElementById('header-logo') as HTMLImageElement;
+        this.logo.src = './assets/logo.png';
+        // Button navigation
         this.buttonInHeader = true;
+        // First Check
+        this.dataService.authenticateDatabase();
+        // Continuous check
         this.check = interval(10 * 1000).subscribe(x => {
             this.dataService.authenticateDatabase();
             // console.log(this.interComponentService.getDatabaseConnected());
@@ -43,7 +51,7 @@ export class HeaderComponent implements OnInit {
             console.log(result);
             // refresh after setting
             if (result === 1) {
-                this.overviewComp.ngOnInit();
+                // this.overviewComp.ngOnInit();
             }
         });
     }

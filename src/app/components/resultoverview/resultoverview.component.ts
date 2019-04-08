@@ -3,6 +3,7 @@ import {DataService} from '../../data.service';
 import {FormControl} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
 import {TestsetResult} from '../../models/Result';
+import {InterComponentService} from '../../inter-component.service';
 
 @Component({
     selector: 'app-resultoverview',
@@ -15,10 +16,11 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit  {
 
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private dataService: DataService) {
+    constructor(private dataService: DataService, private interComponentService: InterComponentService) {
     }
 
     ngOnInit() {
+        this.interComponentService.setButtonHeaderActive(false);
         this.dataService.readAllResultsOnly().subscribe(
             data => {
                 this.dataSource.data = data as TestsetResult[];

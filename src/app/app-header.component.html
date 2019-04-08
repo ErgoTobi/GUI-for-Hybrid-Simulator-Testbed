@@ -1,8 +1,8 @@
 <mat-toolbar color="">
   <mat-toolbar-row>
-    <img class="logo" src="assets/logo.png" alt="logo" width="100px">
-    <span id="button-container">
-        <button mat-button routerLink="">Home</button>
+    <img id="header-logo" src="" alt="logo" width="100px">
+    <span id="button-container" *ngIf="this.interComponentService.getButtonHeaderActive()">
+        <button mat-button routerLink="">Modules</button>
         <button mat-button routerLink="resultOverview">Results</button>
         <button mat-button (click)="openSettingsDialog()">Settings</button>
     </span>

@@ -19,9 +19,11 @@ export class OverviewComponent implements OnInit {
     testsetsOnLoad: Testset[];
     selectedTestset: Testset;
     subscription;
-    constructor(private dataService: DataService, public dialog: MatDialog) {}
+    constructor(private dataService: DataService, public dialog: MatDialog, private interComponentService: InterComponentService) {}
 
     ngOnInit() {
+        this.interComponentService.setButtonHeaderActive(true);
+        this.interComponentService.setAutomaticNavigation(false);
         this.subscription = this.dataService.readAllTestsets().subscribe(
             data => {
                 this.testsets = data as Testset[];
