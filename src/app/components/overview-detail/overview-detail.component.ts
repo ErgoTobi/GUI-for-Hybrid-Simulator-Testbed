@@ -4,7 +4,7 @@ import { Testset } from '../../models/Testset';
 import {MatDialog} from '@angular/material';
 import {DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
 import {InterComponentService} from '../../inter-component.service';
-import {DataService} from '../../data.service';
+import {DataService} from '../../../../node_modules/mysql2/node_modules/iconv-lite/data.service';
 import {OverviewComponent} from '../overview/overview.component';
 
 @Component({

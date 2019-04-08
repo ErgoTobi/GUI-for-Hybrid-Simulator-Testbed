@@ -47,6 +47,7 @@
     "angular": "^1.7.5",
     "angular-loaders": "^1.0.0",
     "express": "^4.16.4",
+    "iconv-lite": "^0.4.24",
     "loaders.css": "^0.1.2",
     "mqtt": "^2.18.8",
     "mysql": "^2.16.0",

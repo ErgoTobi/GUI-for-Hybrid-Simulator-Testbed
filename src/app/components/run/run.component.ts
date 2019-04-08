@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, NgZone, ViewChild, ElementRef} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {DataService} from '../../data.service';
+import {DataService} from '../../../../node_modules/mysql2/node_modules/iconv-lite/data.service';
 import {MatTableDataSource} from '@angular/material';
 import {RunDetail} from '../../models/RunDetail';
 import { ActivatedRoute } from '@angular/router';

@@ -23,6 +23,12 @@ module.exports = {
       faultInjectionTime: {
           type: Sequelize.TIME
       },
+      fileName: {
+          type: Sequelize.STRING
+      },
+      filePath: {
+          type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

@@ -3,10 +3,11 @@ import {ErrorStateMatcher} from '@angular/material/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {InterComponentService} from '../../inter-component.service';
 import {Scenario} from '../../models/Scenario';
-import {DataService} from '../../data.service';
+import {DataService} from '../../../../node_modules/mysql2/node_modules/iconv-lite/data.service';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import { FileInput } from 'ngx-material-file-input';
+import {OverviewComponent} from '../overview/overview.component';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -46,18 +47,20 @@ export class CreateComponent implements OnInit {
     numberOfRunsFormControl = new FormControl('', [
         Validators.required,
     ]);
+   fileFormControl = new FormControl('', [
+        Validators.required,
+    ]);
     formGroup = new FormGroup({
         name: this.nameFormControl,
         faultInjectionTime: this.faultInjectionTimeFormControl,
-        numberOfRuns: this.numberOfRunsFormControl
+        numberOfRuns: this.numberOfRunsFormControl,
+        file: this.fileFormControl
         });
     formGroupArray = new FormArray([this.formGroup]);
     matcher = new MyErrorStateMatcher();
 
-    form: FormGroup;
-
     constructor(private interComponentService: InterComponentService, private dataService: DataService, public router: Router,
-                private snackBar: MatSnackBar, private fb: FormBuilder) { }
+                private snackBar: MatSnackBar) { }
   ngOnInit() {
    // $('#mat-tab-label-0-3').keydown(this.addTab);
     console.log('test');
@@ -65,16 +68,7 @@ export class CreateComponent implements OnInit {
     this.routePositionPointer[0] = 0;
     this.selectedRoute[0] = this.routes[this.routePositionPointer[0]];
     this.testsetName = this.interComponentService.getCreateTestsetName();
-      this.form = this.fb.group({
-          file: []
-      });
   }
-
-  /*
-  catchCreateTestsetName(emittedName: string) {
-      this.testsetName = emittedName;
-      console.log('Caught TestsetName: ' + this.testsetName);
-  }*/
 
   onSelect(modeElement: ModeElement, index: number) {
       this.selectedMode[index] = modeElement;
@@ -82,6 +76,7 @@ export class CreateComponent implements OnInit {
   }
 
   addTab(selectAfterAdding: boolean, index: number) {
+
     this.scenarioCounter++;
     this.routePositionPointer[this.scenarioCounter - 1] = 0;
     this.selectedRoute[this.scenarioCounter - 1] = this.routes[0];
@@ -90,7 +85,8 @@ export class CreateComponent implements OnInit {
       this.formGroupArray.push(new FormGroup({
           name: new FormControl('', Validators.required),
           faultInjectionTime: new FormControl('', Validators.required),
-          numberOfRuns: new FormControl('', Validators.required)
+          numberOfRuns: new FormControl('', Validators.required),
+          file: new FormControl('', Validators.required)
       }));
       console.log(this.formGroupArray);
     // this.tabs.push('Scenario ' + this.scenarioCounter);
@@ -150,7 +146,8 @@ export class CreateComponent implements OnInit {
                 this.selectedMode[j].shortName == null || this.selectedMode[j].shortName === '' ||
                 this.selectedRoute[j].name == null || this.selectedRoute[j].name === '' ||
                 !this.formGroupArray.at(j).get('faultInjectionTime').valid ||
-                !this.formGroupArray.at(j).get('numberOfRuns').valid) {
+                !this.formGroupArray.at(j).get('numberOfRuns').valid ||
+                !this.formGroupArray.at(j).get('file').valid) {
                     console.log('0.1: ' + !this.formGroupArray.valid);
                     console.log('0.2: ' + !this.formGroupArray.at(j).valid);
                     console.log('1: ' + !this.formGroupArray.at(j).get('name').valid);
@@ -158,8 +155,9 @@ export class CreateComponent implements OnInit {
                     console.log('3: ' + this.selectedRoute[j]);
                     console.log('4: ' + !this.formGroupArray.at(j).get('faultInjectionTime').valid);
                     console.log('5: ' + !this.formGroupArray.at(j).get('numberOfRuns').valid);
+                    console.log('6: ' + !this.formGroupArray.at(j).get('file').valid);
 
-                    this.snackBar.open('Please fill in all values in Scenario:     ' + this.tabs[j], 'DISMISS', {
+                    this.snackBar.open('Please fill in all fields in Scenario Tab: ' + this.tabs[j], 'DISMISS', {
                         duration: 10000,
                         panelClass: ['customized-snackbar']
                     });
@@ -174,7 +172,9 @@ export class CreateComponent implements OnInit {
                 'mode': this.selectedMode[i].shortName,
                 'route': this.selectedRoute[i].name,
                 'faultInjectionTime': this.formGroupArray.at(i).get('faultInjectionTime').value,
-                'runQuantity': this.formGroupArray.at(i).get('numberOfRuns').value
+                'runQuantity': this.formGroupArray.at(i).get('numberOfRuns').value,
+                'fileName': this.formGroupArray.at(0).get('file').value._files[0].name,
+                'filePath': this.formGroupArray.at(0).get('file').value._files[0].path
             });
         }
         console.log(scenarios);
@@ -188,7 +188,6 @@ export class CreateComponent implements OnInit {
             panelClass: ['customized-snackbar']
         });
         this.router.navigate(['overview']);
-
     }
 
   startTest() {

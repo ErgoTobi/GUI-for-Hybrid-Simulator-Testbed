@@ -22,7 +22,8 @@
   },
   "include": [
     "main.ts",
-    "src/**/*"
+    "src/**/*",
+    "./node_modules/mysql2/node_modules/iconv-lite/data.service.ts"
   ],
   "exclude": [
     "node_modules"

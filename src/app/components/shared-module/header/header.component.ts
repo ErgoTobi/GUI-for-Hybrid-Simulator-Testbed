@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {DataService} from '../../../data.service';
+import {DataService} from '../../../../../node_modules/mysql2/node_modules/iconv-lite/data.service';
 import {OverviewComponent} from '../../overview/overview.component';
 import {SettingsDialogComponent} from '../../settings-dialog/settings-dialog.component';
 

@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {DataService} from '../../data.service';
+import {AfterViewInit, Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {DataService} from '../../../../node_modules/mysql2/node_modules/iconv-lite/data.service';
 import {Testsets} from '../../models/Result';
 import {Testset} from '../../models/Testset';
 import {MatDialog} from '@angular/material';
@@ -14,13 +14,26 @@ import {InterComponentService} from '../../inter-component.service';
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent implements OnInit, DoCheck, OnDestroy {
     testsets: Testset[];
     testsetsOnLoad: Testset[];
     selectedTestset: Testset;
+    subscription;
     constructor(private dataService: DataService, public dialog: MatDialog) {}
 
     ngOnInit() {
+        this.subscription = this.dataService.readAllTestsets().subscribe(
+            data => {
+                this.testsets = data as Testset[];
+                this.testsetsOnLoad = data as Testset[];
+                console.log(data);
+                // Autoselects first item in list
+                this.selectedTestset = this.testsets[0];
+            }
+        );
+    }
+
+    ngDoCheck () {
         this.dataService.readAllTestsets().subscribe(
             data => {
                 this.testsets = data as Testset[];
@@ -30,6 +43,9 @@ export class OverviewComponent implements OnInit {
                 this.selectedTestset = this.testsets[0];
             }
         );
+    }
+    ngOnDestroy () {
+        this.subscription.unsubscribe();
     }
 
     onSelect(testset: Testset) {

@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { DataService } from './data.service';
+import { DataService } from '../../node_modules/mysql2/node_modules/iconv-lite/data.service';
 
 describe('DataService', () => {
   beforeEach(() => {
