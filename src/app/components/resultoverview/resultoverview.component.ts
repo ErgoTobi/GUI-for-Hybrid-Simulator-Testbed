@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {DataService} from '../../../../node_modules/mysql2/node_modules/iconv-lite/data.service';
+import {DataService} from '../../data.service';
 import {FormControl} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
 import {TestsetResult} from '../../models/Result';

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
-import {DataService} from '../../../../../node_modules/mysql2/node_modules/iconv-lite/data.service';
+import {DataService} from '../../../data.service';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {InterComponentService} from '../../../inter-component.service';

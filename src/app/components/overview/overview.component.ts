@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {DataService} from '../../../../node_modules/mysql2/node_modules/iconv-lite/data.service';
+import {DataService} from '../../data.service';
 import {Testsets} from '../../models/Result';
 import {Testset} from '../../models/Testset';
 import {MatDialog} from '@angular/material';

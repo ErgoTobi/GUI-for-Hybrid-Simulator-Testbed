@@ -1,5 +1,5 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
-import {DataService} from '../../../../node_modules/mysql2/node_modules/iconv-lite/data.service';
+import {DataService} from '../../data.service';
 import {Time} from '@angular/common';
 import {Scenario} from '../../models/Scenario';
 

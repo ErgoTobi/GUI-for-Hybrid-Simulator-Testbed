@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {MAT_DIALOG_DATA} from '@angular/material';
-import {DataService} from '../../../../../node_modules/mysql2/node_modules/iconv-lite/data.service';
+import {DataService} from '../../../data.service';
 
 @Component({
   selector: 'app-delete-dialog',

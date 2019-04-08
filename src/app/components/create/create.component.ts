@@ -3,7 +3,7 @@ import {ErrorStateMatcher} from '@angular/material/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {InterComponentService} from '../../inter-component.service';
 import {Scenario} from '../../models/Scenario';
-import {DataService} from '../../../../node_modules/mysql2/node_modules/iconv-lite/data.service';
+import {DataService} from '../../data.service';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import { FileInput } from 'ngx-material-file-input';

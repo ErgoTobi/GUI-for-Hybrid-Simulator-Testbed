@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
-import {DataService} from '../../../../node_modules/mysql2/node_modules/iconv-lite/data.service';
+import {DataService} from '../../data.service';
 import {Setting} from '../../models/Setting';
 
 @Component({
