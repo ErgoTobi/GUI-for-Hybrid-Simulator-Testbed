@@ -7,8 +7,8 @@
         <button mat-button (click)="openSettingsDialog()">Settings</button>
     </span>
     <span class="example-spacer"></span>
-    <mat-icon *ngIf="databaseChecked" id="radio-button-checked" class="material-icons">radio_button_checked</mat-icon>
-    <mat-icon *ngIf="!databaseChecked" id="radio-button-unchecked" class="material-icons">radio_button_unchecked</mat-icon>
-    <span class="mat-body">Backend Connected</span>
+    <mat-icon *ngIf="this.interComponentService.getDatabaseConnected()" id="radio-button-checked" class="material-icons">radio_button_checked</mat-icon>
+    <mat-icon *ngIf="!this.interComponentService.getDatabaseConnected()" id="radio-button-unchecked" class="material-icons">radio_button_unchecked</mat-icon>
+    <span class="mat-body backend-connected">Backend Connected</span>
   </mat-toolbar-row>
 </mat-toolbar>

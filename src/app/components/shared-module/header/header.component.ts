@@ -3,6 +3,8 @@ import {MatDialog} from '@angular/material';
 import {DataService} from '../../../../../node_modules/mysql2/node_modules/iconv-lite/data.service';
 import {OverviewComponent} from '../../overview/overview.component';
 import {SettingsDialogComponent} from '../../settings-dialog/settings-dialog.component';
+import {interval} from 'rxjs';
+import {InterComponentService} from '../../../inter-component.service';
 
 @Component({
   selector: 'app-header',
@@ -10,22 +12,24 @@ import {SettingsDialogComponent} from '../../settings-dialog/settings-dialog.com
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-    databaseChecked = false;
+    // databaseChecked: boolean;
     buttonInHeader: boolean;
     check;
 
-    constructor(private dataService: DataService, public dialog: MatDialog, private overviewComp: OverviewComponent) { }
+    constructor(private dataService: DataService, public dialog: MatDialog, private overviewComp: OverviewComponent,
+                private interComponentService: InterComponentService) { }
 
     ngOnInit() {
         this.buttonInHeader = true;
-        /*
-        this.check = interval(5 * 1000).subscribe(x => {
-            this.checkDatabaseConnection();
-        });*/
+        this.check = interval(10 * 1000).subscribe(x => {
+            this.dataService.authenticateDatabase();
+            // console.log(this.interComponentService.getDatabaseConnected());
+            // this.databaseChecked = this.interComponentService.getDatabaseConnected();
+        });
     }
 
     ngOnDestroy(): void {
-        // this.check.unsubscribe();
+        this.check.unsubscribe();
     }
 
     openSettingsDialog() {
@@ -43,8 +47,4 @@ export class HeaderComponent implements OnInit {
             }
         });
     }
-    checkDatabaseConnection () {
-        this.dataService.authenticateDatabase();
-    }
-
 }

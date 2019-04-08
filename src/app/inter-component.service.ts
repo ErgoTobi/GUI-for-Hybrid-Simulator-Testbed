@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class InterComponentService {
   private adminPassword: string;
   private automaticNavigation: boolean;
+  private databaseConnected: boolean;
   private createTestsetName: string;
   private runTestsetId: number;
   constructor() {
@@ -40,5 +41,12 @@ export class InterComponentService {
 
   setAutomaticNavigation(value: boolean) {
       this.automaticNavigation = value;
+  }
+  getDatabaseConnected(): boolean {
+      return this.databaseConnected;
+  }
+
+  setDatabaseConnected(value: boolean) {
+      this.databaseConnected = value;
   }
 }

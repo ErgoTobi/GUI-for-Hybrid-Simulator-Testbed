@@ -5,6 +5,7 @@ import {from, Timestamp} from 'rxjs';
 import {forEach} from '@angular/router/src/utils/collection';
 const Rx = require('rx');
 import {Scenario} from './models/Scenario';
+import {InterComponentService} from './inter-component.service';
 
 const Sequelize = require('sequelize');
 const connection = new Sequelize('suite_simulator', 'root', 'password', {
@@ -32,15 +33,19 @@ Run.hasMany(Rundetail);
 })
 
 export class DataService {
+    constructor(private interComponentService: InterComponentService) {
+    }
 
     authenticateDatabase () {
         connection
             .authenticate()
             .then(() => {
                 console.log('Connection to Database has been established successfully.');
+                this.interComponentService.setDatabaseConnected(true);
             })
             .catch(err => {
-                console.error('Unable to connect to the database :', err);
+                console.error('Unable to connect to the database!');
+                this.interComponentService.setDatabaseConnected(false);
             });
     }
 
