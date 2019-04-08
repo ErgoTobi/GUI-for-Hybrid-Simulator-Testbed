@@ -1,11 +1,12 @@
 <div id="home">
-  <mat-toolbar-row class="container">
-    <h1 class="title">
-      Simulator Testing Suite
-    </h1>
-  </mat-toolbar-row>
+  <h1 class="title">
+    Simulator Testing Suite
+  </h1>
+  <span class="example-spacer"></span>
 
-  <mat-toolbar-row fxLayout="">
+
+  <span class="example-spacer"></span>
+  <div fxLayout="row" >
     <mat-card class = "tp-card">
       <img mat-card-image src = "assets/logo.png" alt = "" (click)="selectModuleSpeeddreams()" routerLink="overview">
       <mat-divider></mat-divider>
@@ -56,8 +57,8 @@
         </p>
       </mat-card-content>
     </mat-card>
+  </div>
 
-  </mat-toolbar-row>
 
   <mat-toolbar-row class="container">
     <button routerLink="/create" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">

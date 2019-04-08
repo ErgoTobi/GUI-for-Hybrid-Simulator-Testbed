@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
     constructor(private dataService: DataService, private router: Router, private interComponentService: InterComponentService) {}
 
     ngOnInit() {
+        this.interComponentService.setButtonHeaderActive(false);
         this.dataService.readAllSettings().subscribe(
             data => {
                 this.settings = data as Setting[];
