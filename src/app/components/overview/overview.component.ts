@@ -14,7 +14,7 @@ import {InterComponentService} from '../../inter-component.service';
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent implements OnInit, OnDestroy {
     testsets: Testset[];
     testsetsOnLoad: Testset[];
     selectedTestset: Testset;
@@ -33,6 +33,10 @@ export class OverviewComponent implements OnInit {
                 this.selectedTestset = this.testsets[0];
             }
         );
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 
     onSelect(testset: Testset) {
@@ -62,4 +66,6 @@ export class OverviewComponent implements OnInit {
         console.log('id of row');
         console.log(row.id);
     }
+
+
 }

@@ -174,7 +174,7 @@ export class DataService {
 
     // TESTSETRESULT
     // C(w): Creates a result and returns the model back via a promise; Running -> Overview
-    createResult (name: String, startTimestamp: number, duration: Time, testsetId: number) {
+    createResult (name: String, startTimestamp: number, duration: string, testsetId: number) {
         return fromPromise(Result.create({
             name: name,
             startTimestamp: startTimestamp,
@@ -207,11 +207,11 @@ export class DataService {
 
     // RUN
     // C(w): Creates a run; Running
-    createRun (startTimestamp: number, duration: Time, state: number, scenarioId: number, resultId: number) {
+    createRun (startTimestamp: number, duration: string, state: number, scenarioId: number, resultId: number) {
         return fromPromise(Run.create({
             startTimestamp: startTimestamp, // To add to database
             duration: duration,
-            state: state, // state 1 = passed, 0 = failed
+            state: state, // state 1 = passed, 0 = failed, 3 = pending
             scenarioId: scenarioId,
             resultId: resultId
         }).catch(error => {
@@ -227,10 +227,24 @@ export class DataService {
             }
         }));
     }
+    // U(w): Updates a run; Running
+    updateRunByResultId (runId: number, duration: string, state: number) {
+        return fromPromise(Run.update({
+            duration: duration,
+            state: state, // state 1 = passed, 0 = failed, 3 = pending
+        }, {
+            returning: true,
+            where: {
+                runId: runId
+            }
+        }).catch(error => {
+            console.error('updateRun: ', error);
+        }));
+    }
 
     // RUNDATA
     // C(w): Creates a rundata; Running
-    createRunDetail (relativeTime: Time, key: string, value: string, runId: number) {
+    createRunDetail (relativeTime: string, key: string, value: string, runId: number) {
         return fromPromise(Rundetail.create({
             relativeTime: relativeTime,
             key: key,

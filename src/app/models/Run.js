@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Run = sequelize.define('run', {
     startTimestamp: DataTypes.INTEGER,
-    duration: DataTypes.TIME,
+    duration: DataTypes.STRING,
     state: DataTypes.INTEGER,
     scenarioId: DataTypes.INTEGER,
     resultId: DataTypes.INTEGER

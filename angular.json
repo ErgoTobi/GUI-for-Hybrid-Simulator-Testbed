@@ -29,7 +29,7 @@
             ],
             "scripts": [
               "src/app/components/run/Stopwatch.js",
-              "../node_modules/crypto-js/crypto-js.js"
+              "node_modules/crypto-js/crypto-js.js"
             ]
           },
           "configurations": {

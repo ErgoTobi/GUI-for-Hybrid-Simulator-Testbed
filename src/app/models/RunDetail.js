@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const RunDetail = sequelize.define('rundetail', {
-    relativeTime: DataTypes.TIME,
+    relativeTime: DataTypes.STRING,
     key: DataTypes.STRING,
     value: DataTypes.STRING,
     runId: DataTypes.INTEGER

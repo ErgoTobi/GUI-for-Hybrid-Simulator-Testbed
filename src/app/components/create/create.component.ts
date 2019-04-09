@@ -144,7 +144,7 @@ export class CreateComponent implements OnInit {
       // Check if one element is not filled
         for (let j = 0; j < this.selectedMode.length; j++) {
             if (!this.formGroupArray.at(j).get('name').valid ||
-                this.selectedMode[j].shortName == null || this.selectedMode[j].shortName === '' ||
+                this.selectedMode[j] == null || this.selectedMode[j].shortName === '' ||
                 this.selectedRoute[j].name == null || this.selectedRoute[j].name === '' ||
                 !this.formGroupArray.at(j).get('faultInjectionTime').valid ||
                 !this.formGroupArray.at(j).get('numberOfRuns').valid ||

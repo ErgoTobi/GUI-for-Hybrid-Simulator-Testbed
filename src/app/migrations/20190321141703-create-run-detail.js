@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       relativeTime: {
-        type: Sequelize.TIME
+        type: Sequelize.STRING
       },
       key: {
         type: Sequelize.STRING

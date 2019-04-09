@@ -73,6 +73,8 @@ export class OverviewDetailComponent implements OnInit {
         } else {
             console.log('StartTestsetId: ' + this.interComponentService.getRunTestsetId());
             this.interComponentService.setRunTestsetId(this.testset.id);
+            // this.router.navigate(['run']);
+            console.log('StartTestsetId: ' + this.interComponentService.getRunTestsetId());
         }
     }
 }

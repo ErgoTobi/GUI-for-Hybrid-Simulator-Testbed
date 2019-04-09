@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     mode: DataTypes.STRING,
     route: DataTypes.STRING,
     runQuantity: DataTypes.INTEGER,
-    faultInjectionTime: DataTypes.INTEGER,
+    faultInjectionTime: DataTypes.STRING,
     fileName: DataTypes.STRING,
     filePath: DataTypes.STRING,
     testsetId: DataTypes.INTEGER

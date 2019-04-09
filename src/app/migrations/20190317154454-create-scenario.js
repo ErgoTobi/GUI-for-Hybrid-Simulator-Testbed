@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       faultInjectionTime: {
-          type: Sequelize.TIME
+          type: Sequelize.STRING
       },
       fileName: {
           type: Sequelize.STRING

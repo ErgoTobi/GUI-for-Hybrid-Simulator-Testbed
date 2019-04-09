@@ -16,7 +16,7 @@ module.exports = {
         // defaultValue: Sequelize.fn('NOW')
       },
       duration: {
-        type: Sequelize.TIME
+        type: Sequelize.STRING
       },
       testsetId: {
         type: Sequelize.INTEGER,
