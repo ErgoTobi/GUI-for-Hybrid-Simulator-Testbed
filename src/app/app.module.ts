@@ -34,6 +34,7 @@ import { DeleteDialogComponent } from './components/overview-detail/delete-dialo
 import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
 import {RunComponent} from './components/run/run.component';
 
+import { ResultDetailComponent } from './components/result-detail/result-detail.component';
 import { NgxLoadersCssModule } from 'ngx-loaders-css';
 import { CreateTestsetDialogComponent } from './components/overview/create-testset-dialog/create-testset-dialog.component';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
@@ -64,7 +65,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       RunComponent,
       CreateTestsetDialogComponent,
       AppHeaderComponent,
-      PasswordDialogComponent
+      PasswordDialogComponent,
+      ResultDetailComponent
   ],
     imports: [
         BrowserModule,
