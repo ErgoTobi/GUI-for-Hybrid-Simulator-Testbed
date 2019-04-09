@@ -102,11 +102,6 @@ a{
   color:white !important;
 }
 
-.mat-list-base {
-  padding-top: 1.2px !important;
-  width: 20%;
-}
-
 .mat-list-item {
   color: #F8F8F8 !important;
 }
@@ -115,18 +110,22 @@ a{
   background-color: white !important; /* Note: You could also use a custom theme */
 }
 
-.mat-list-item-content{
+/*.mat-list-item-content{
   border: solid 1px !important;
   border-color: #0E0F13 !important;
   border-bottom-width: 0 !important;
   border-left-width: 0 !important;
-}
+}*/
 
-.mat-list-item-ripple.mat-ripple:last-of-type{
+/*.mat-list-item-ripple.mat-ripple:last-of-type{
   border-bottom-width: 1px !important;
-}
+}*/
 
 .mat-list-item:active{
   background-color: #0E0F13 !important;
+}
+
+.mat-list-base {
+  padding-top: 1.2px !important;
 }
 /*END NAVIGATION LIST*/

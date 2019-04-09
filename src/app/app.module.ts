@@ -35,6 +35,7 @@ import { SettingsDialogComponent } from './components/settings-dialog/settings-d
 import {RunComponent} from './components/run/run.component';
 
 import { NgxLoadersCssModule } from 'ngx-loaders-css';
+import { ResultDetailComponent } from './components/result-detail/result-detail.component';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -52,7 +53,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       OverviewDetailComponent,
       DeleteDialogComponent,
       SettingsDialogComponent,
-      RunComponent
+      RunComponent,
+      ResultDetailComponent
   ],
     imports: [
         BrowserModule,

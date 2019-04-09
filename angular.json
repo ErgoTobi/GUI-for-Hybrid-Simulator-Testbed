@@ -28,7 +28,8 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "src/app/components/run/Stopwatch.js"
+              "src/app/components/run/Stopwatch.js",
+              "node_modules/jquery/dist/jquery.js"
             ]
           },
           "configurations": {

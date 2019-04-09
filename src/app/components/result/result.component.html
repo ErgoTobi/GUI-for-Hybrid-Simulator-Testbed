@@ -1,17 +1,83 @@
-<p>
-  result works!
-</p>
+<mat-toolbar color="">
+  <mat-toolbar-row>
+    <img id="logo" src="assets/logo.png" alt="logo" width="100px">
+    <span class="example-spacer"></span>
+    <i id="radio-button" class="material-icons">radio_button_checked</i>
+    <span class="mat-body">Backend Connected</span>
+  </mat-toolbar-row>
 
-<button routerLink="" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-  Home
-</button>
+  <mat-toolbar-row>
+    <i id="back-icon" class="material-icons">
+      keyboard_arrow_left</i>
+    <a routerLink="" class="mat-body">Back to Home</a>
+    <span class="example-spacer"></span>
+    <!--<span class="mat-body">Third Line</span>-->
+  </mat-toolbar-row>
 
-<h1>{{ user$.name }}</h1>
+  <mat-toolbar-row>
+    <div id ="left-area">
+      <span class="mat-h1">{{headerTitle}}</span>
+      <!-- <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>-->
+    </div>
+    <span class="example-spacer"></span>
+    <div id ="right-area">
+      <div>Created: 14-3-2018 19:23</div>
+      <div class="stopwatch"></div>
+    </div>
+    <!--<span class="mat-body">Estimate Finish: 14-3-2018 19:23</span>-->
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+    <span class="example-spacer"></span>
+    <button mat-flat-button color="primary" id="start-button" (click)="downloadFile()">Export All</button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-tab-group [selectedIndex]="selected.value"
+               (selectedIndexChange)="selected.setValue($event)" #tab>
+  <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab">
+
+    <div id="content">
+      <div id="master" class="example-container mat-elevation-z8">
+        <div id="inputfield">
+          <mat-form-field appearance="">
+            <mat-label>Results</mat-label>
+            <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search for Results">
+          </mat-form-field>
+        </div>
+
+        <mat-nav-list>
+          <mat-list-item class="result-menu" *ngFor="let run of runs[index], let i = index"
+                         [class.selected]="run === selectedRun"
+                         (click)="onSelect(run)">
+            <span mat-line><div class="list-status" [ngClass]="{'disabled-class': run.state > 0, 'running-class' : run.state > 2}"></div>
+            Run {{i+1}}</span>
+          </mat-list-item>
+        </mat-nav-list>
+
+
+      </div>
+     <app-result-detail id="detail" class="example-container" [run]="selectedRun">
+     </app-result-detail>
+    </div>
+  </mat-tab>
+  <!--  <mat-tab (click)="addTab(selectAfterAdding.checked)" label="+ Add Item">
+
+    </mat-tab>-->
+</mat-tab-group>
+<!--<p>-->
+  <!--result works!-->
+<!--</p>-->
+
+<!--<button routerLink="" class="mdl-button mdl-js-button mdl-button&#45;&#45;raised mdl-js-ripple-effect mdl-button&#45;&#45;accent">-->
+  <!--Home-->
+<!--</button>-->
+
+<!--<h1>{{ user$.name }}</h1>-->
 
 
 
-<ul class="collection">
-  <li class="collection-item"><strong>Id:</strong> {{ user$.id }}</li>
-  <li class="collection-item"><strong>duration:</strong> {{ user$.duration }}</li>
-</ul>
+<!--<ul class="collection">-->
+  <!--<li class="collection-item"><strong>Id:</strong> {{ user$.id }}</li>-->
+  <!--<li class="collection-item"><strong>duration:</strong> {{ user$.duration }}</li>-->
+<!--</ul>-->
 
