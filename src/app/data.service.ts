@@ -223,7 +223,7 @@ export class DataService {
         return fromPromise(Run.findAll({
             // raw: true,
             where: {
-                id: resultId
+                resultId: resultId
             }
         }));
     }
