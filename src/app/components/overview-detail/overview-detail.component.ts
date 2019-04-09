@@ -54,19 +54,25 @@ export class OverviewDetailComponent implements OnInit {
             if (result === 1) {
                 console.log('navigated');
                 // this.router.navigate(['run']);
+                console.log('StartTestsetId: ' + this.interComponentService.getRunTestsetId());
+                this.interComponentService.setRunTestsetId(this.testset.id);
             }
         });
     }
     onStartClick() {
-        this.decrypted = this.EncrDecr.get('123456$#@$^@1ERF', this.interComponentService.getAdminPassword());
-        if (this.interComponentService.getAdminPassword() === '' || this.interComponentService.getAdminPassword() === null ||
-            this.decrypted === '' || this.decrypted === null) {
+        console.log('1:' + this.interComponentService.getAdminPassword());
+        console.log('1:' + this.decrypted);
+        if (this.interComponentService.getAdminPassword() !== '' || this.interComponentService.getAdminPassword() !== null) {
+            this.decrypted = this.EncrDecr.get('123456$#@$^@1ERF', this.interComponentService.getAdminPassword());
+        }
+        console.log('2:' + this.interComponentService.getAdminPassword());
+        console.log('2:' + this.decrypted);
+        if (this.decrypted === '' || this.decrypted === null) {
             console.log('Password Dialog');
             this.openPasswordDialog();
         } else {
             console.log('StartTestsetId: ' + this.interComponentService.getRunTestsetId());
+            this.interComponentService.setRunTestsetId(this.testset.id);
         }
-        this.interComponentService.setRunTestsetId(this.testset.id);
-
     }
 }

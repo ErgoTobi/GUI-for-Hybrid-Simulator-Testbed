@@ -34,8 +34,10 @@ export class SettingsDialogComponent implements OnInit {
             this.setting = data as Setting;
             this.isCheckedVisualization = this.setting.isTextOnly;
             this.encrypted = this.setting.password;
-            this.decrypted = this.EncrDecr.get('123456$#@$^@1ERF', this.encrypted);
-            this.passwordFormControl.setValue(this.decrypted);
+            if (this.encrypted !== null && this.encrypted !== '') {
+                this.decrypted = this.EncrDecr.get('123456$#@$^@1ERF', this.encrypted);
+                this.passwordFormControl.setValue(this.decrypted);
+            }
             console.log(this.encrypted);
             console.log(this.decrypted);
             // this.passwordFormControl.setValue(this.interComponentService.getAdminPassword());

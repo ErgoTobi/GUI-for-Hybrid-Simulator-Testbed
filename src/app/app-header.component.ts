@@ -36,7 +36,12 @@ export class AppHeaderComponent implements OnInit {
             data => {
                 this.setting = data as Setting;
                 this.encrypted = this.setting.password;
-                this.interComponentService.setAdminPassword(this.encrypted);
+                if (this.encrypted !== null) {
+                    this.interComponentService.setAdminPassword(this.encrypted);
+                } else {
+                    this.interComponentService.setAdminPassword(this.EncrDecr.set('123456$#@$^@1ERF', ''));
+                }
+
             }
         );
         // First Check
