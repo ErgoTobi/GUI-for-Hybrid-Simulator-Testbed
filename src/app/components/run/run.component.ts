@@ -5,9 +5,9 @@ import {MatTableDataSource} from '@angular/material';
 import {RunDetail} from '../../models/RunDetail';
 import {ActivatedRoute, Router} from '@angular/router';
 import {isSuccess} from '@angular/http/src/http_utils';
-
+//
 import * as $ from 'jquery';
-import * as moment from 'moment';
+import moment from 'moment';
 
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
@@ -233,10 +233,10 @@ export class RunComponent implements OnInit, AfterViewInit {
 
 // Add cursor
             this.chart.cursor = new am4charts.RadarCursor();
-            const tooltip = $('g [aria-labelledby =\'id-67-title\']') as any;
+            /*const tooltip = $('g [aria-labelledby =\'id-67-title\']') as any;
             if (tooltip.length > 0) {
                 tooltip[0].style.visibility = 'hidden';
-            }
+            }*/
 
       //  } else {
         //    setTimeout(() => this.loadGauge(), 500);
