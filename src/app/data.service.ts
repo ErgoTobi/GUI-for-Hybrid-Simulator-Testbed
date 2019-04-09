@@ -68,9 +68,10 @@ export class DataService {
         }));
     }
     // C(w): Setting update
-    updateSettingDialog(id: number, isTextOnly: Boolean) {
+    updateSettingDialog(id: number, isTextOnly?: Boolean, password?: string) {
         return fromPromise(Setting.update({
-            isTextOnly: isTextOnly
+            isTextOnly: isTextOnly,
+            password: password
         }, {
             returning: true,
             where: {

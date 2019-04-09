@@ -4,6 +4,7 @@ import {DataService} from '../../data.service';
 import {Setting} from '../../models/Setting';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {InterComponentService} from '../../inter-component.service';
+import {EncrDecrService} from '../../encr-decr.service';
 
 
 @Component({
@@ -16,11 +17,14 @@ export class SettingsDialogComponent implements OnInit {
     isCheckedResults: boolean;
     setting: Setting;
     isCheckedVisualization: boolean;
+    encrypted: string;
+    decrypted: string;
 
     passwordFormControl = new FormControl('');
 
   constructor(public dialogRef: MatDialogRef<SettingsDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-              private dataService: DataService, private snackBar: MatSnackBar, private interComponentService: InterComponentService) { }
+              private dataService: DataService, private snackBar: MatSnackBar, private interComponentService: InterComponentService,
+              private EncrDecr: EncrDecrService) { }
 
   ngOnInit() {
     this.isCheckedDatabase = false;
@@ -29,14 +33,17 @@ export class SettingsDialogComponent implements OnInit {
         data => {
             this.setting = data as Setting;
             this.isCheckedVisualization = this.setting.isTextOnly;
+            this.encrypted = this.setting.password;
+            this.decrypted = this.EncrDecr.get('123456$#@$^@1ERF', this.encrypted);
+            this.passwordFormControl.setValue(this.decrypted);
+            console.log(this.encrypted);
+            console.log(this.decrypted);
+            // this.passwordFormControl.setValue(this.interComponentService.getAdminPassword());
         }
     );
-    this.passwordFormControl.setValue(this.interComponentService.getAdminPassword());
-
   }
 
   onSaveClick() {
-    this.interComponentService.setAdminPassword(this.passwordFormControl.value);
     if (this.isCheckedDatabase || this.isCheckedResults) {
       if (this.isCheckedResults) {
         this.dataService.clearAllResultstsInDatabase();
@@ -49,9 +56,11 @@ export class SettingsDialogComponent implements OnInit {
           panelClass: ['customized-snackbar']
       });
     }
-    if (this.isCheckedVisualization !== this.setting.isTextOnly) {
-      this.dataService.updateSettingDialog(this.setting.id, this.isCheckedVisualization);
-    }
+
+    // Encrypts the password for the database
+    this.encrypted = this.EncrDecr.set('123456$#@$^@1ERF', this.passwordFormControl.value);
+    this.dataService.updateSettingDialog(this.setting.id, this.isCheckedVisualization, this.encrypted);
+    this.interComponentService.setAdminPassword(this.encrypted);
     this.dialogRef.close(1);
   }
 

@@ -5,6 +5,8 @@ import {OverviewComponent} from './components/overview/overview.component';
 import {SettingsDialogComponent} from './components/settings-dialog/settings-dialog.component';
 import {interval} from 'rxjs';
 import {InterComponentService} from './inter-component.service';
+import {EncrDecrService} from './encr-decr.service';
+import {Setting} from './models/Setting';
 
 @Component({
   selector: 'app-header',
@@ -16,9 +18,12 @@ export class AppHeaderComponent implements OnInit {
     logo;
     buttonInHeader: boolean;
     check;
+    encrypted: string;
+    decrypted: string;
+    setting: Setting;
 
     constructor(private dataService: DataService, public dialog: MatDialog,
-                private interComponentService: InterComponentService) { }
+                private interComponentService: InterComponentService, private EncrDecr: EncrDecrService) { }
 
     ngOnInit() {
         // Assignment of logo
@@ -26,6 +31,14 @@ export class AppHeaderComponent implements OnInit {
         this.logo.src = './assets/logo.png';
         // Button navigation
         this.buttonInHeader = true;
+        // Sets AdminPassword in case database carries one
+        this.dataService.readSettingById(1).subscribe(
+            data => {
+                this.setting = data as Setting;
+                this.encrypted = this.setting.password;
+                this.interComponentService.setAdminPassword(this.encrypted);
+            }
+        );
         // First Check
         this.dataService.authenticateDatabase();
         // Continuous check

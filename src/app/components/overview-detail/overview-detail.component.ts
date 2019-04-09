@@ -1,13 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { Scenario } from '../../models/Scenario';
 import { Testset } from '../../models/Testset';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatSnackBar} from '@angular/material';
 import {DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
 import {InterComponentService} from '../../inter-component.service';
 import {DataService} from '../../data.service';
 import {OverviewComponent} from '../overview/overview.component';
 import {PasswordDialogComponent} from './password-dialog/password-dialog.component';
 import {Router} from '@angular/router';
+import {EncrDecrService} from '../../encr-decr.service';
 
 @Component({
   selector: 'app-overview-detail',
@@ -15,9 +16,11 @@ import {Router} from '@angular/router';
   styleUrls: ['./overview-detail.component.scss']
 })
 export class OverviewDetailComponent implements OnInit {
+    encrypted: string;
+    decrypted: string;
     @Input() testset: Testset;
     constructor(public dialog: MatDialog, private interComponentService: InterComponentService, private overviewComp: OverviewComponent,
-                public router: Router) {}
+                public router: Router, private EncrDecr: EncrDecrService) {}
 
     ngOnInit() {
     }
@@ -55,13 +58,15 @@ export class OverviewDetailComponent implements OnInit {
         });
     }
     onStartClick() {
-        this.interComponentService.setRunTestsetId(this.testset.id);
-        if (this.interComponentService.getAdminPassword() === '' || this.interComponentService.getAdminPassword() === null) {
+        this.decrypted = this.EncrDecr.get('123456$#@$^@1ERF', this.interComponentService.getAdminPassword());
+        if (this.interComponentService.getAdminPassword() === '' || this.interComponentService.getAdminPassword() === null ||
+            this.decrypted === '' || this.decrypted === null) {
             console.log('Password Dialog');
             this.openPasswordDialog();
         } else {
             console.log('StartTestsetId: ' + this.interComponentService.getRunTestsetId());
         }
+        this.interComponentService.setRunTestsetId(this.testset.id);
 
     }
 }

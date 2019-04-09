@@ -1,18 +1,10 @@
 /*CONTAINER STYLING*/
-#button-container {
-  margin-left: 2%;
-}
-
 #content{
   position: relative;
   margin-top: 1%;
   height: -webkit-fill-available;
   background: #232B35;
 }
-/*  background-color: #131920;
-    background-color: #232B35;
-    background-color: #2D343C;
-    color: #F8F8F8*/
 
 #master {
   position: absolute;
@@ -120,10 +112,6 @@
   background-color: #4ebfae;
 }
 
-#back-icon {
-  color: #4ebfae;
-}
-
 .mat-mini-fab {
   color: #131920;
   font-size: 30px;
@@ -133,7 +121,7 @@
 }
 /*END BUTTON STYLING*/
 
-#inputfield{
+#inputfield {
   min-width: 150px;
   width: 100%;
   margin-left: 4%;
@@ -142,6 +130,7 @@
 .input {
   width: 30%;
 }
+
 #master {
   /* FORM FIELD STANDARD */
   ::ng-deep .mat-form-field {

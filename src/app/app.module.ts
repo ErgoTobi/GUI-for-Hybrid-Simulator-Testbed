@@ -39,6 +39,7 @@ import { CreateTestsetDialogComponent } from './components/overview/create-tests
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { AppHeaderComponent } from './app-header.component';
 import { PasswordDialogComponent } from './components/overview-detail/password-dialog/password-dialog.component';
+import { EncrDecrService } from './encr-decr.service';
 
 // Snazzy Maps
 
@@ -102,7 +103,10 @@ export function HttpLoaderFactory(http: HttpClient) {
         CreateTestsetDialogComponent,
         PasswordDialogComponent
     ],
-  providers: [ElectronService],
+  providers: [
+      ElectronService,
+      EncrDecrService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
