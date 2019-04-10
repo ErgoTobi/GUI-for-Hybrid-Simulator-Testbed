@@ -235,7 +235,7 @@ export class DataService {
         }, {
             returning: true,
             where: {
-                runId: runId
+                id: runId
             }
         }).catch(error => {
             console.error('updateRun: ', error);

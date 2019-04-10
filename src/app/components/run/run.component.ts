@@ -58,6 +58,7 @@ export class RunComponent implements OnInit, AfterViewInit {
     activeSpeedDreams;
 
     chart;
+    chartValues = [{passed: 20, failed: 60}, {passed: 30, failed: 60}, {passed: 30, failed: 60}, {passed: 20, failed: 60}];
     valuePassed = 0;
     valueFailed = 0;
     activeRunTimestamp;
@@ -172,12 +173,12 @@ export class RunComponent implements OnInit, AfterViewInit {
 // Add data
             this.chart.data = [{
                 'category': 'Failed Runs',
-                'value': this.valueFailed,
+                'value': this.chartValues[index].failed,
                 'full': 100,
                 'fillColors': '#E45150'
             }, {
                 'category': 'Passed Runs',
-                'value': this.valuePassed,
+                'value': this.chartValues[index].passed,
                 'full': 100,
                 'fillColors': '#52D64D'
             }];
@@ -392,7 +393,7 @@ export class RunComponent implements OnInit, AfterViewInit {
 
     checkState() {
         const component = this;
-        this.dataService.readAllRunsByResultId(1).subscribe(
+        this.dataService.updateRunByResultId(this.activeRun.id, '', component.isTestPassed()).subscribe(
             data => {
                 this.killRun();
                 if (component.isTestsetEnded()) {
@@ -419,7 +420,7 @@ export class RunComponent implements OnInit, AfterViewInit {
         // service.createRunDetailBulk(storedNames);
         // storedNames.length = 0;
         // localStorage.setItem('values', JSON.stringify(storedNames));
-        service.createRun(98970, undefined, 0,
+        service.createRun(98970, undefined, 3,
             component.runningScenarios[component.activeScenarioCounter].id, component.runningTestsetResult.id).subscribe(
         runData => {
             component.activeRunTimestamp = undefined;
@@ -479,19 +480,23 @@ export class RunComponent implements OnInit, AfterViewInit {
             this.loadGauge(event.index);
     }
     updateGauge(data) {
-        let passedScenarios = 0;
-        let failedScenarios = 0;
-        data.forEach(element => {
-            if (element.state === 0) {
-                passedScenarios++;
-            }
-            if (element.state === 1) {
-                failedScenarios++;
-            }
-        });
-        this.chart.data[0]['value'] = failedScenarios / this.runningScenarios[this.activeScenarioCounter].dataValues.runQuantity * 100;
-        this.chart.data[1]['value'] = passedScenarios / this.runningScenarios[this.activeScenarioCounter].dataValues.runQuantity * 100;
-        this.chart.invalidateData();
+        //let passedScenarios = 0;
+        //let failedScenarios = 0;
+        for  (let i = 0; i < this.runningScenarios.length - 1; i++) {
+            data[i].forEach(element => {
+                if (element.state === 0) {
+                    this.chartValues[i].passed++;
+                }
+                if (element.state === 1) {
+                    this.chartValues[i].failed++;
+                }
+            });
+        }
+        if (this.tab.selectedIndex === this.activeScenarioCounter) {
+            this.chart.data[0]['value'] = this.chartValues[this.activeScenarioCounter].failed / this.runningScenarios[this.activeScenarioCounter].dataValues.runQuantity * 100;
+            this.chart.data[1]['value'] = this.chartValues[this.activeScenarioCounter].passed / this.runningScenarios[this.activeScenarioCounter].dataValues.runQuantity * 100;
+            this.chart.invalidateData();
+        }
     }
 
     isTestPassed() {

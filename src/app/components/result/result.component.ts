@@ -18,7 +18,8 @@ export class ResultComponent implements OnInit {
     testset;
     scenarios;
     activeResultId;
-    activeResult;
+    activeResultArray: TestsetResult[];
+    activeResult: TestsetResult;
     runs = [];
     tabs = [];
     headerTitle = 'Testset1';
@@ -28,7 +29,7 @@ export class ResultComponent implements OnInit {
     constructor(private route: ActivatedRoute, private dataService: DataService, private zone: NgZone,
         private interComponentService: InterComponentService) {
         this.route.params.subscribe(params => {
-                this.activeResultId = params.id;
+                this.activeResultId = params.testset;
                 console.log('logge paramsid');
                 console.log(params.id);
                 console.log('logge thisuser');
@@ -43,7 +44,10 @@ export class ResultComponent implements OnInit {
         const component = this;
         this.dataService.readResultByIdObject(this.activeResultId).subscribe(
             data => {
-                this.activeResult = data[0].dataValues;
+                this.activeResultArray = data as TestsetResult[];
+                this.activeResult = this.activeResultArray[0];
+                console.log(this.activeResultArray);
+                console.log(this.activeResult);
                 this.headerTitle = this.activeResult.name;
                 this.dataService.readTestsetById(this.activeResult.testsetId).subscribe(
                     data => {
