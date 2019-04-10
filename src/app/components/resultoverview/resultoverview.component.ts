@@ -12,7 +12,7 @@ import {InterComponentService} from '../../inter-component.service';
 })
 export class ResultoverviewComponent implements OnInit, AfterViewInit, OnDestroy  {
     subscription;
-    public displayedColumns = ['name', 'createdAt', 'duration', 'Testset_id'];
+    public displayedColumns = ['name', 'createdAt', 'duration', 'result'];
     dataSource = new MatTableDataSource<TestsetResult>();
 
     @ViewChild(MatSort) sort: MatSort;
