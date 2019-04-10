@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
 import {FormControl} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
@@ -10,8 +10,9 @@ import {InterComponentService} from '../../inter-component.service';
     templateUrl: './resultoverview.component.html',
     styleUrls: ['./resultoverview.component.scss']
 })
-export class ResultoverviewComponent implements OnInit, AfterViewInit  {
-    public displayedColumns = ['name', 'id', 'duration', 'Testset_id'];
+export class ResultoverviewComponent implements OnInit, AfterViewInit, OnDestroy  {
+    subscription;
+    public displayedColumns = ['name', 'createdAt', 'duration', 'Testset_id'];
     dataSource = new MatTableDataSource<TestsetResult>();
 
     @ViewChild(MatSort) sort: MatSort;
@@ -21,10 +22,11 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit  {
 
     ngOnInit() {
         this.interComponentService.setButtonHeaderActive(false);
-        this.dataService.readAllResultsOnly().subscribe(
+        this.subscription = this.dataService.readAllResultsOnly().subscribe(
             data => {
                 this.dataSource.data = data as TestsetResult[];
                 console.log(data);
+                console.log(this.dataSource.data);
             }
         );
     }
@@ -32,8 +34,18 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit  {
         this.dataSource.sort = this.sort;
     }
 
-    doFilter = (value: string) => {
-        this.dataSource.filter = value.trim().toLocaleLowerCase();
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
+
+    doFilter (value: string) {
+        console.log(this.dataSource);
+        console.log(value);
+        value = value.trim();
+        value = value.toLowerCase();
+        console.log(value);
+        this.dataSource.filter = value;
+        console.log(this.dataSource.filteredData);
     }
 
     onRowClicked(row) {
@@ -41,6 +53,7 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit  {
         console.log('id of row');
         console.log(row.id);
     }
+
 }
 
 /*    testCarmen1() {

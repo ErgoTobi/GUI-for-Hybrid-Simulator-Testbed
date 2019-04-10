@@ -29,7 +29,6 @@
   border-color: #131920;
 }
 
-
 .example-container::-webkit-scrollbar-track
 {
   background-color: #131920;
@@ -56,56 +55,57 @@
 table {
   width: 100%;
   height: 100%;
-  background-color:#131920;
+  background-color: #131920;
   overflow-x: auto;
   overflow-y: hidden;
   min-width: 500px;
 }
 
-td.mat-cell, td.mat-footer-cell{
-  border-bottom-width: 4px !important;
-  border-bottom-style: solid;
-  border-color: #131920;
+
+table {
+  /* FORM FIELD STANDARD */
+  ::ng-deep .mat-header-cell {
+
+
+  }
+
 }
 
-.mat-table tbody{
-  background-color:#131920;
-  cursor: pointer;
-}
-
+/* Works */
 tr.mat-header-row{
   background-color:#232B35;
 }
+
 tr.mat-row{
   background-color:#232B35;
   curser:pointer;
 }
-
 
 tr.mat-row:hover {
   background-color: #131920;
   curser:pointer;
 }
 
-
-
-.mat-elevation-z8{
-  box-shadow: none;
+.mat-header-cell{
+  vertical-align: bottom;
+  padding-bottom: 10px !important;
+  color: #4ebfae;
+  padding-left: 30px;
+  width: 25%;
+  font-weight: bolder;
+  font-size: 14px;
+}
+td.mat-cell, td.mat-footer-cell{
+  border-bottom-width: 2px !important;
+  border-bottom-style: solid;
+  border-color: #131920;
 }
 
 .mat-cell, .mat-footer-cell{
   position: relative;
-  left: 30px;
-  color: #FFFFFF;
-  height: 50px;
-}
-
-.mat-header-cell{
-  vertical-align: bottom;
-  padding-bottom: 10px !important;
-  color: #CECFD1;
   padding-left: 30px;
-  width: 20%;
+  color: #F8F8F8;
+  height: 50px;
 }
 
 .mat-table tbody, .mat-table tfoot, .mat-table thead, .mat-table-sticky, [mat-footer-row], [mat-header-row], [mat-row], mat-footer-row, mat-header-row, mat-row{
@@ -114,27 +114,16 @@ tr.mat-row:hover {
   border-color: #131920 !important;
 }
 
-td.mat-cell:first-of-type{
-  padding-left:0;
-}
-th.mat-header-cell:first-of-type{
-  padding-left:28px;
-}
-
-#list-status {
-  width: 10px;
-  height: 50px;
-  margin-right: 40px;
-  background-color: #52D64D;
-  position: relative;
-}
-
-
 .md-table tbody tr:hover, .md-table tbody tr:focus {
   cursor:pointer;
 }
-/*END LIST TABLE STYLING*/
+/* Works end */
 
+.mat-elevation-z8{
+  box-shadow: none;
+}
+
+/*END LIST TABLE STYLING*/
 
 
 
