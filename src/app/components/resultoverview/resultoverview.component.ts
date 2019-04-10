@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/c
 import {DataService} from '../../data.service';
 import {FormControl} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
-import {TestsetResult} from '../../models/Result';
+import {Result} from '../../models/Result';
 import {InterComponentService} from '../../inter-component.service';
 
 @Component({
@@ -13,7 +13,7 @@ import {InterComponentService} from '../../inter-component.service';
 export class ResultoverviewComponent implements OnInit, AfterViewInit, OnDestroy  {
     subscription;
     public displayedColumns = ['name', 'createdAt', 'duration', 'result'];
-    dataSource = new MatTableDataSource<TestsetResult>();
+    dataSource = new MatTableDataSource<Result>();
 
     @ViewChild(MatSort) sort: MatSort;
 
@@ -24,7 +24,7 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit, OnDestroy
         this.interComponentService.setButtonHeaderActive(false);
         this.subscription = this.dataService.readAllResultsOnly().subscribe(
             data => {
-                this.dataSource.data = data as TestsetResult[];
+                this.dataSource.data = data as Result[];
                 console.log(data);
                 console.log(this.dataSource.data);
             }
