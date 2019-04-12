@@ -7,7 +7,7 @@
 <mat-toolbar color="">
     <mat-toolbar-row>
         <div id ="left-area">
-            <span class="mat-h1">Testsetresults</span>
+            <span class="mat-h1">Results</span>
         </div>
         <span class="example-spacer"></span>
         <!--<span class="mat-body">Estimate Finish: 14-3-2018 19:23</span>-->
@@ -15,9 +15,8 @@
 
 </mat-toolbar>
 <div id="inputfield">
-
     <mat-form-field appearance="outline">
-        <mat-label>Search for Testsetresults</mat-label>
+        <mat-label>Search for Results</mat-label>
         <input matInput type="text" (keyup)="doFilter($event.target.value)" >
     </mat-form-field>
 </div>
@@ -30,18 +29,18 @@
                 <td mat-cell *matCellDef="let element"> {{element.name}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> id </th>
-                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            <ng-container matColumnDef="createdAt">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.createdAt | date: 'short' }} </td>
             </ng-container>
 
             <ng-container matColumnDef="duration">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> duration </th>
+                <th mat-header-cell *matHeaderCellDef > Duration </th>
                 <td mat-cell *matCellDef="let element"> {{element.duration}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="Testset_id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Testset_id </th>
+            <ng-container matColumnDef="result">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Result </th>
                 <td mat-cell *matCellDef="let element"> {{element.Testset_id}} </td>
 
             </ng-container>
