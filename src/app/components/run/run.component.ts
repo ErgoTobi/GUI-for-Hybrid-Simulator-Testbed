@@ -1,7 +1,9 @@
 import {AfterViewInit, Component, OnInit, NgZone, ViewChild, ElementRef} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {DataService} from '../../data.service';
-import {MatTableDataSource} from '@angular/material';
+import {InterComponentService} from '../../inter-component.service';
+import {EncrDecrService} from '../../encr-decr.service';
+import {MatDialog, MatTableDataSource} from '@angular/material';
 import {RunDetail} from '../../models/RunDetail';
 import {ActivatedRoute, Router} from '@angular/router';
 import {isSuccess} from '@angular/http/src/http_utils';
@@ -13,6 +15,8 @@ import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 import am4themes_dark from '@amcharts/amcharts4/themes/dark';
+import {PasswordDialogComponent} from '../overview-detail/password-dialog/password-dialog.component';
+import {StopDialogComponent} from './stop-dialog/stop-dialog.component';
 
 /* Chart code */
 // Themes begin
@@ -32,11 +36,14 @@ declare const Stopwatch: any;
 })
 export class RunComponent implements OnInit, AfterViewInit {
 
-    constructor(private dataService: DataService, private ngZone: NgZone, private route: ActivatedRoute, private router: Router) {
+    constructor(private dataService: DataService, private ngZone: NgZone, private route: ActivatedRoute, private router: Router,
+                private interComponentService: InterComponentService, private EncrDecr: EncrDecrService, public dialog: MatDialog) {
         // this.route.params.subscribe( params => {
         //     this.clickedTestsetId = params.id;
         //     }
         // );
+        this.clickedTestsetId = this.interComponentService.getRunTestsetId();
+        this.password = this.EncrDecr.get('123456$#@$^@1ERF', this.interComponentService.getAdminPassword());
     }
 
     @ViewChild('tab') tab;
@@ -55,35 +62,21 @@ export class RunComponent implements OnInit, AfterViewInit {
     activeRun;
     activeScenarioCounter;
     clickedTestsetId;
+    password;
+    estimateFinish;
     activeSpeedDreams;
+    activeECU;
 
+    storedNames = [];
     chart;
-    chartValues = [{passed: 20, failed: 60}, {passed: 30, failed: 60}, {passed: 30, failed: 60}, {passed: 20, failed: 60}];
-    valuePassed = 0;
-    valueFailed = 0;
+    chartValues = [];
     activeRunTimestamp;
 
     ngOnInit() {
-
-        const m = moment();
-        console.log(moment().diff(moment(), 'seconds'));
-        // this.dataSource1[0] = FINISHED_RUNS;
-        // this.dataSource1[0].push({status: 3, runId: 1, time: 'Currently Running..', description: ''});
-        /* locationsSubscription = locations.subscribe({
-             next(position) { console.log('Current Position: ' position); },
-             error(msg) { console.log('Error Getting letLocation: ', msg); }
-         });*/
-        this.dataService.createResult('name', 23432, null, this.clickedTestsetId).subscribe(
+        this.dataService.readTestsetById(this.clickedTestsetId).subscribe(
             data => {
-                const castedData = (data as any);
-                this.runningTestsetResult = castedData.dataValues;
-                console.log(data);
-                this.doneFlag === 1 ? this.subscribeToMqtt() : this.doneFlag = 1;
-                this.subscribe();
-            }
-        );
-        this.dataService.readTestsetById(1).subscribe(
-            data => {
+                const m = moment();
+                let secondsForTest = 0;
                 const tabs = this.tabs;
                 const castedData = (data as any);
                 castedData.scenarios.forEach(function (element) {
@@ -95,9 +88,20 @@ export class RunComponent implements OnInit, AfterViewInit {
                 this.headerTitle = this.runningScenarios[this.activeScenarioCounter].name;
                 for (let s = 0; s < this.runningScenarios.length; s++) {
                     this.dataSource[s] = new MatTableDataSource<RunDetail>();
-                    this.dataSource1[s] = [];
+                    secondsForTest += this.runningScenarios[s].dataValues.runQuantity * 240;
+                    // this.chartValues[s] = {passed: 0, failed: 0};
+                    // NOT SURE TEST IT this.dataSource1[s] = [];
                 }
+                this.estimateFinish = m.add(secondsForTest, 'seconds').format('llll');
                 this.doneFlag === 1 ? this.subscribeToMqtt() : this.doneFlag = 1;
+                this.dataService.createResult(this.runningTestset.name, 1924124, undefined, this.clickedTestsetId).subscribe(
+                    resultData => {
+                        const castedData2 = (resultData as any);
+                        this.runningTestsetResult = castedData2.dataValues;
+                        this.doneFlag === 1 ? this.subscribeToMqtt() : this.doneFlag = 1;
+                        this.subscribe();
+                    }
+                );
             });
         // $('#mat-tab-label-0-3').keydown(this.addTab);
     }
@@ -143,42 +147,52 @@ export class RunComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        //     this.dataService.readTestsetById(1).subscribe(
-        //         data => {
-        //              // const tabs =  this.tabs;
-        //              //  data.forEach(function(element) {
-        //              //      tabs.push(element.name);
-        //              //  });
-        //               this.runningScenarios = data;
-        //               this.activeScenarioCounter = 0;
-        //
-        //         });
         this.stopwatch = new Stopwatch(
             document.querySelector('.stopwatch'));
         this.stopwatch.start();
-        //this.loadGauge();
+        // this.loadGauge();
         /*$('scrolled').on('scroll', function(){
             this.scrolled = true;
         });*/
         // this.subscribeToMqtt();
     }
 
+    openStopDialog(): void {
+        const dialogRef = this.dialog.open(StopDialogComponent, {
+            data: {
+                name: this.runningTestset.name
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog password was closed');
+            console.log(result);
+            if (result === 1) {
+                console.log('Top closed navigated');
+                this.killRun();
+                this.router.navigate(['overview']);
+            }
+        });
+    }
+
     loadGauge(index) {
-    //    if (document.getElementById('gaugechart')) {
+    //    if (document.getElementById('gaugechart')) {failed
             // Create chart instance
-        //check if am4chart is already created TODO
+        // check if am4chart is already created TODO
+        if (!this.chartValues[index]) {
+            this.chartValues[index] = {failed: 0, passed: 0};
+        }
 
-            this.chart = am4core.create('gaugechart' + index, am4charts.RadarChart);
-
+            this.chart = am4core.create( 'gaugechart' + index, am4charts.RadarChart);
 // Add data
             this.chart.data = [{
                 'category': 'Failed Runs',
-                'value': this.chartValues[index].failed,
+                'value': this.chartValues[index].failed / this.runningScenarios[index].dataValues.runQuantity * 100,
                 'full': 100,
                 'fillColors': '#E45150'
             }, {
                 'category': 'Passed Runs',
-                'value': this.chartValues[index].passed,
+                'value': this.chartValues[index].passed / this.runningScenarios[index].dataValues.runQuantity * 100,
                 'full': 100,
                 'fillColors': '#52D64D'
             }];
@@ -243,121 +257,6 @@ export class RunComponent implements OnInit, AfterViewInit {
         //    setTimeout(() => this.loadGauge(), 500);
      //   }
     }
-
-   /* subscribeToMqtt() {
-        const component = this;
-        const service = this.dataService;
-        const values = [];
-        localStorage.setItem('values', JSON.stringify(values));
-        // const convert = this.convertValues;
-
-        const client = mqtt.connect([{host: 'localhost', port: 1883}]);
-        client.on('connect', function () {
-            client.subscribe('#', function (err) {
-                if (err) {//
-                    //  client.publish('savm/car/0/isPositionTracked', 'Error: Missing Data');
-                }
-            });
-        });
-        client.on('message', function (topic, message) {
-            if (!component.activeRunTimestamp) {
-            component.activeRunTimestamp = moment().format();
-            }
-
-            // console.log(message.toString());
-            const storedNames = JSON.parse(localStorage.getItem('values'));
-            storedNames.push({relativeTime: undefined, key: topic, value: message.toString(), runId: component.runningTestsetResult.id}); // NEED RELATIVE TIME
-            localStorage.setItem('values', JSON.stringify(storedNames));
-
-            if (storedNames.length === 200) {
-                const temp = [storedNames[0], storedNames[1]];
-                service.createRunDetailBulk(temp);
-                storedNames.length = 0;
-                localStorage.setItem('values', JSON.stringify(storedNames));
-            }
-            if (Math.floor(moment.duration(moment().diff(component.activeRunTimestamp)).asSeconds())
-                === 17) {
-// kill retstart QEMU ECU ACC ONLY//component.runningScenarios[component.activeScenarioCounter].injectionTime
-
-            }
-            console.log(moment.duration(moment().diff(component.activeRunTimestamp)).asSeconds());
-            if (moment.duration(moment().diff(component.activeRunTimestamp)).asSeconds() >= 23) {
-                service.createRunDetailBulk(storedNames);
-                storedNames.length = 0;
-                localStorage.setItem('values', JSON.stringify(storedNames));
-                service.createRun(98970, undefined, component.isTestPassed(),
-                    component.runningScenarios[component.activeScenarioCounter].id, component.runningTestsetResult.id).subscribe(
-                        createData => {
-                            component.dataService.readAllRunsByResultId(component.runningTestsetResult.id).subscribe(
-                                data => {
-                                    const castedData = (data as any);
-                                    const refactoredData = [];
-                                    for (let i = 0; i < castedData.length; i++) {
-                                        castedData[i] = castedData[i].dataValues;
-                                        if (castedData[i].scenarioId === component.activeScenarioCounter + 1) {
-                                            refactoredData.push(castedData[i]);
-                                        }
-                                    }
-                                    component.dataSource1[component.activeScenarioCounter] = refactoredData;
-                                    component.updateGauge(refactoredData);
-                                    if (component.dataSource1[component.activeScenarioCounter].length
-                                        !== component.runningScenarios[component.activeScenarioCounter].dataValues.runQuantity) {
-                                        component.dataSource1[component.activeScenarioCounter].push
-                                        ({state: 3, resultId: 1, timeStamp: 'Currently Running..', id: null});
-                                    }
-                                });
-                        }
-                );// time +statew noch
-                component.activeRunTimestamp = undefined;
-              //  component.dataService.readAllRunsByResultId(component.runningTestsetResult.id).subscribe(
-                    data => {
-                        const castedData = (data as any);
-                        const refactoredData = [];
-                        for (let i = 0; i < castedData.length; i++) {
-                            castedData[i] = castedData[i].dataValues;
-                            if (castedData[i].scenarioId === component.activeScenarioCounter + 1) {
-                                refactoredData.push(castedData);
-                            }
-                        }
-                        component.dataSource1[component.activeScenarioCounter] = refactoredData;
-                        component.updateGauge(refactoredData);
-                        if (!component.isScenarioEnded()) {
-                            component.dataSource1[component.activeScenarioCounter].push
-                            ({state: 3, resultId: 1, startTimestamp: 'Currently Running..', id: null});
-                        }
-                    }); //ENDE HIER
-
-                if (component.isTestsetEnded()) {
-                    // stop fatal
-                    component.killRun();
-                    component.router.navigate([`../result/${component.runningTestsetResult.id}`], {relativeTo: component.route});
-                    // route to result screen
-                } else if (component.isScenarioEnded()) {
-                    // switch to new Scenario
-                    component.dataService.readAllRunsByResultId(component.runningTestsetResult.id).subscribe(
-                        data => {
-                            const castedData = (data as any);
-                            const refactoredData = [];
-                            for (let i = 0; i < castedData.length; i++) {
-                                castedData[i] = castedData[i].dataValues;
-                                if (castedData[i].scenarioId === component.activeScenarioCounter + 1) {
-                                    refactoredData.push(castedData);
-                                }
-                            }
-                            component.headerTitle = component.runningScenarios[component.activeScenarioCounter].name;
-                            component.dataSource1[component.activeScenarioCounter] = refactoredData;
-                        });
-                    component.dataSource[component.activeScenarioCounter].length = 0;
-                    component.activeScenarioCounter++;
-                    component.tab.selectedIndex = component.activeScenarioCounter;
-                    component.killRun();
-                    setTimeout(() => {
-                        component.startTestenvironment();
-                    }, 2000);
-                }
-            }
-        });
-    } */
     subscribeToMqtt() {
         const component = this;
         const service = this.dataService;
@@ -377,23 +276,27 @@ export class RunComponent implements OnInit, AfterViewInit {
             if (!component.activeRunTimestamp) {
                 component.activeRunTimestamp = moment().format();
                 setTimeout(() => component.checkState(), 10000);
+                // HIER FAULT INJECTION TRIGGERN TOBIAS this.runningScenarios[this.activeScenarioCounter].faultInjectionTime
             }
+            const currentDuration = moment.utc(moment().diff(component.activeRunTimestamp)).format('HH:mm:ss');
             // console.log(message.toString());
-            const storedNames = JSON.parse(localStorage.getItem('values'));
-            storedNames.push({relativeTime: undefined, key: topic, value: message.toString(), runId: component.runningTestsetResult.id});
-            localStorage.setItem('values', JSON.stringify(storedNames));
-            if (storedNames.length === 200) {
-                const temp = [storedNames[0], storedNames[1]];
+            // let storedNames: RunDetail[];
+            // storedNames = JSON.parse(localStorage.getItem('values'));
+            component.storedNames.push({relativeTime: currentDuration, key: topic, value: message.toString(), runId: component.activeRun.id});
+            // localStorage.setItem('values', JSON.stringify(storedNames));
+            if (component.storedNames.length === 200) {
+                const temp = [component.storedNames[0], component.storedNames[1]];
                 service.createRunDetailBulk(temp);
-                storedNames.length = 0;
-                localStorage.setItem('values', JSON.stringify(storedNames));
+                component.storedNames.length = 0;
+                // localStorage.setItem('values', JSON.stringify(storedNames));
             }
         });
     }
 
     checkState() {
         const component = this;
-        this.dataService.updateRunByResultId(this.activeRun.id, '', component.isTestPassed()).subscribe(
+        this.dataService.updateRunByResultId(this.activeRun.id, moment.utc(moment().diff(this.activeRunTimestamp)).format('HH:mm:ss'),
+            component.isTestPassed()).subscribe(
             data => {
                 this.killRun();
                 if (component.isTestsetEnded()) {
@@ -420,7 +323,7 @@ export class RunComponent implements OnInit, AfterViewInit {
         // service.createRunDetailBulk(storedNames);
         // storedNames.length = 0;
         // localStorage.setItem('values', JSON.stringify(storedNames));
-        service.createRun(98970, undefined, 3,
+        service.createRun(98970, 'currently running..', 3,
             component.runningScenarios[component.activeScenarioCounter].id, component.runningTestsetResult.id).subscribe(
         runData => {
             component.activeRunTimestamp = undefined;
@@ -444,7 +347,7 @@ export class RunComponent implements OnInit, AfterViewInit {
                         component.dataSource1[s] = refactoredData[s];
                     }
                     component.headerTitle = component.runningScenarios[component.activeScenarioCounter].name;
-                   // component.updateGauge(refactoredData);
+                    component.updateGauge(refactoredData);
                 });
         });
     }
@@ -453,6 +356,7 @@ export class RunComponent implements OnInit, AfterViewInit {
         const component = this;
         const nodePath = (shell.which('node').toString());
         shell.config.execPath = nodePath;
+        this.setTrackConfig();
         const command = shell.exec('/home/user1/speed-dreams/build/games/speed-dreams-2 -s quickrace', {silent: false, async: true});
         // command.stdout.on('data', (data) => {
         //  });
@@ -461,12 +365,15 @@ export class RunComponent implements OnInit, AfterViewInit {
         const command2 = shell.exec('echo administrator | sudo -S make vde', {silent: false, async: true});
         // let command23 = shell.exec('make vde', {silent: false, async: true});
 
-        const command3 = shell.exec('PROJECT=idp_acc make jenkins_run', {silent: false, async: true});
+        // const command3 = shell.exec('PROJECT=idp_acc make jenkins_run', {silent: false, async: true});
+        const command3 = shell.exec('qemu-system-arm -kernel /home/user1/operating-system/build/genode-focnados_pbxa9/var/run/idp_acc/image.elf -machine realview-pbx-a9 -m 1024 -nographic -smp 4 -net nic,macaddr=02:00:00:00:01:03 -net nic,model=e1000 -net vde,sock=/tmp/switch1', {silent: false, async: true});
+        component.activeECU = command3;
         command3.stdout.on('data', function (data) {
             if (data.includes('mosquitto server')) {
                 // if(flag === 0) {
                 // flag = 1;
-                const command4 = shell.exec('PROJECT=idp_savm make jenkins_run', {silent: false, async: true});
+                // const command4 = shell.exec('PROJECT=idp_savm make jenkins_run', {silent: false, async: true});
+                const command4 = shell.exec('qemu-system-arm -kernel /home/user1/operating-system/build/genode-focnados_pbxa9/var/run/idp_savm/image.elf -machine realview-pbx-a9 -m 1024 -nographic -smp 4 -net nic,macaddr=02:00:00:00:01:02 -net nic,model=e1000 -net vde,sock=/tmp/switch1', {silent: false, async: true});
                 // command4.stdout.on('data', function (data1) {
                 //     if (data1.includes('connected to mosquitto server')) {
                 //         component.stopwatch.start();
@@ -480,9 +387,10 @@ export class RunComponent implements OnInit, AfterViewInit {
             this.loadGauge(event.index);
     }
     updateGauge(data) {
-        //let passedScenarios = 0;
-        //let failedScenarios = 0;
-        for  (let i = 0; i < this.runningScenarios.length - 1; i++) {
+        // let passedScenarios = 0;
+        // let failedScenarios = 0;
+        for  (let i = 0; i < this.runningScenarios.length; i++) {
+            this.chartValues[i] = {failed: 0, passed: 0};
             data[i].forEach(element => {
                 if (element.state === 0) {
                     this.chartValues[i].passed++;
@@ -492,21 +400,27 @@ export class RunComponent implements OnInit, AfterViewInit {
                 }
             });
         }
-        if (this.tab.selectedIndex === this.activeScenarioCounter) {
+        if (this.tab.selectedIndex === this.activeScenarioCounter
+            && ( this.chart.data[0]['value'] !== this.chartValues[this.activeScenarioCounter].failed / this.runningScenarios[this.activeScenarioCounter].dataValues.runQuantity * 100
+            || this.chart.data[1]['value'] !== this.chartValues[this.activeScenarioCounter].passed / this.runningScenarios[this.activeScenarioCounter].dataValues.runQuantity * 100)) {
             this.chart.data[0]['value'] = this.chartValues[this.activeScenarioCounter].failed / this.runningScenarios[this.activeScenarioCounter].dataValues.runQuantity * 100;
             this.chart.data[1]['value'] = this.chartValues[this.activeScenarioCounter].passed / this.runningScenarios[this.activeScenarioCounter].dataValues.runQuantity * 100;
             this.chart.invalidateData();
         }
     }
-
+    setTrackConfig() {
+        const mode = this.runningScenarios[this.activeScenarioCounter].mode;
+        const track = this.runningScenarios[this.activeScenarioCounter].route;
+        const xmlName = mode + '_' + track + '.xml';
+        const command = shell.exec('cd .speed-dreams-2/config/raceman', {silent: false, async: true});
+        const command2 = shell.exec('cp quickrace/' + xmlName + ' quickrace.xml', {silent: false, async: true});
+    }
     isTestPassed() {
         return 0;
     }
 
     stopTest() {
-        this.chart.data[0]['value'] = 50;
-        this.chart.data[1]['value'] = 80;
-        this.chart.invalidateData();
+        this.openStopDialog();
     }
 
     killRun() {

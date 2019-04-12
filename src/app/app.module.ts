@@ -41,6 +41,7 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { AppHeaderComponent } from './app-header.component';
 import { PasswordDialogComponent } from './components/overview-detail/password-dialog/password-dialog.component';
 import { EncrDecrService } from './encr-decr.service';
+import { StopDialogComponent } from './components/run/stop-dialog/stop-dialog.component';
 
 // Snazzy Maps
 
@@ -66,7 +67,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       CreateTestsetDialogComponent,
       AppHeaderComponent,
       PasswordDialogComponent,
-      ResultDetailComponent
+      ResultDetailComponent,
+      StopDialogComponent
   ],
     imports: [
         BrowserModule,
@@ -103,7 +105,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         DeleteDialogComponent,
         SettingsDialogComponent,
         CreateTestsetDialogComponent,
-        PasswordDialogComponent
+        PasswordDialogComponent,
+        StopDialogComponent
     ],
   providers: [
       ElectronService,

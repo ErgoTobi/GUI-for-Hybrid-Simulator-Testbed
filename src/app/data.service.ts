@@ -5,6 +5,7 @@ import {from, Timestamp} from 'rxjs';
 import {forEach} from '@angular/router/src/utils/collection';
 const Rx = require('rx');
 import {Scenario} from './models/Scenario';
+import {RunDetail} from './models/RunDetail';
 import {InterComponentService} from './inter-component.service';
 
 const Sequelize = require('sequelize');
@@ -255,7 +256,7 @@ export class DataService {
         }));
     }
     // C(w): Creates a bulk of runresultdata; Running
-    createRunDetailBulk (runDetails: object[]) {
+    createRunDetailBulk (runDetails: RunDetail[]) {
         return fromPromise(Rundetail.bulkCreate(runDetails).catch(error => {
             console.error('createRunDetailBulk: ', error);
         }));
@@ -270,6 +271,14 @@ export class DataService {
             }));
         });
     }
+    readAllRunDetailsByRunIdKeyValue (runId: number) {
+        return fromPromise(Rundetail.findAll({
+            attributes: ['relativeTime', 'key', 'value'],
+            where: {
+                runId: runId
+            }
+        }));
+    }
     readLast100RunDetailsByRunResultId (runId: number) {
         return Rx.Observable.interval(10000).flatMap(() => {
             return fromPromise(Rundetail.findAll({
@@ -281,6 +290,7 @@ export class DataService {
             }));
         });
     }
+
 
     // Testmethods
     // C(): Creates results
