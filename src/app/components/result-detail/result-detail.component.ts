@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit, NgZone, ViewChild, ElementRef} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, NgZone, OnInit, ViewChild, OnChanges} from '@angular/core';
 import {RunDetail} from '../../models/RunDetail';
 import {DataService} from '../../data.service';
 
@@ -15,7 +15,7 @@ am4core.useTheme(am4themes_kelly);
     templateUrl: './result-detail.component.html',
     styleUrls: ['./result-detail.component.scss']
 })
-export class ResultDetailComponent implements OnInit, AfterViewInit {
+export class ResultDetailComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() run;
     @ViewChild('chartDiv') chartDiv: ElementRef;
     private chart: am4charts.XYChart;
@@ -29,8 +29,8 @@ export class ResultDetailComponent implements OnInit, AfterViewInit {
     ngOnInit() {
     }
 
-    ngAfterViewInit() {
-  this.loadData();
+    ngOnChanges() {
+        this.loadData();
     }
     loadData() {
         if (this.run) {
@@ -41,7 +41,7 @@ export class ResultDetailComponent implements OnInit, AfterViewInit {
                     const runData = [];
                     const distinctValues = [new Set(castedData.map(val => val.dataValues.relativeTime))];
                     distinctValues[0].forEach(element => {
-                      convertedData.push(castedData.filter(this.filterRunData, element));
+                        convertedData.push(castedData.filter(this.filterRunData, element));
                     });
                     for (let i = 0; i < convertedData.length; i++) {
                         if (convertedData[i][0] && convertedData[i][1]) {
@@ -56,6 +56,8 @@ export class ResultDetailComponent implements OnInit, AfterViewInit {
                     this.loadCharts();
                 });
         } else { setTimeout(() => this.loadData(), 1000); }
+    }
+    ngAfterViewInit() {
     }
 
     loadCharts() {
