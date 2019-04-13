@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     route: DataTypes.STRING,
     runQuantity: DataTypes.INTEGER,
     faultInjectionTime: DataTypes.STRING,
-    fileName: DataTypes.STRING,
+    file: DataTypes.TEXT,
     filePath: DataTypes.STRING,
     testsetId: DataTypes.INTEGER
   }, {});

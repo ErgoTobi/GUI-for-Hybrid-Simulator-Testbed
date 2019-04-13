@@ -23,8 +23,8 @@ module.exports = {
       faultInjectionTime: {
           type: Sequelize.STRING
       },
-      fileName: {
-          type: Sequelize.STRING
+      file: {
+          type: Sequelize.TEXT
       },
       filePath: {
           type: Sequelize.STRING

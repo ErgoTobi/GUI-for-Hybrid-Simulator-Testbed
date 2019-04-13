@@ -31,6 +31,21 @@ export class OverviewComponent implements OnInit, OnDestroy {
                 console.log(data);
                 // Autoselects first item in list
                 this.selectedTestset = this.testsets[0];
+                /*
+                for (let j = 0; j < this.testsets.length; j++) {
+                    if (this.testsets[j].scenarios) {
+                        for (let i = 0; i < this.testsets[j].scenarios.length; i++) {
+                            if (this.testsets[j].scenarios[i].file) {
+                                let ecus = JSON.parse(this.testsets[j].scenarios[i].file).length;
+                                console.log(this.testsets[j].scenarios);
+                                this.testsets[j].scenarios.map((obj) => {
+                                    obj['ecuCount'] = ecus;
+                                    return obj;
+                                });
+                            }
+                        }
+                    }
+                }*/
             }
         );
     }

@@ -66,28 +66,35 @@ export class HomeComponent implements OnInit {
     }
 
     readFile() {
-        const nodePath = (shell.which('node').toString());
-        shell.config.execPath = nodePath;
         // let savmCommand = shell.exec(, {silent: false, async: true});
         // const qemuInstances = JSON.stringify();
         let commands: Array<any> = [];
         // relativer Pfad zu exe File sollte ./ also auf der Ebene der .exe
-        let qemuInstances = require('./../../qemu_config_files/qemu_config_file.json');
-        for (let i = 0; i < qemuInstances.length; i++) {
-            console.log(qemuInstances[i].path);
-            let command = shell.exec(qemuInstances[i].qemu_args + qemuInstances[i].path, {silent: false, async: true});
-            commands.push(command);
-            console.log(commands);
-        }
-        for (let i = 0; i < qemuInstances.length; i++) {
-            // kill die ecu mit flag true
-            // if activeRun.Time === activeScenarioCounter.faultInjectionTime
-            if (qemuInstances[i].faultInjection) {
-                console.log(commands[i].kill);
-                // timeout einfügen
-                console.log(commands[i]);
-            }
-        }
+        // let qemuInstances = require('./../../qemu_config_files/qemu_config_file.json');
+        let scens;
+        let qemuInstances;
+        this.dataService.readTestsetById(11).subscribe(
+            data => {
+                scens =  data as Scenario;
+                qemuInstances = JSON.parse(scens.scenarios[0].file);
+                for (let i = 0; i < qemuInstances.length; i++) {
+                    console.log(qemuInstances[i].path);
+                    let command = shell.exec(qemuInstances[i].qemu_args + qemuInstances[i].path, {silent: false, async: true});
+                    commands.push(command);
+                    console.log(commands);
+                }
+                for (let i = 0; i < qemuInstances.length; i++) {
+                    // kill die ecu mit flag true
+                    // if activeRun.Time === activeScenarioCounter.faultInjectionTime
+                    if (qemuInstances[i].faultInjection) {
+                        console.log(commands[i].kill);
+                        // timeout einfügen
+                        console.log(commands[i]);
+                    }
+                }
+            });
+
+
     }
 
     test() {

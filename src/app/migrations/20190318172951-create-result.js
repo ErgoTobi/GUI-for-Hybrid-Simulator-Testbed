@@ -11,10 +11,6 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      startTimestamp: {
-        type: Sequelize.INTEGER,
-        // defaultValue: Sequelize.fn('NOW')
-      },
       duration: {
         type: Sequelize.STRING
       },

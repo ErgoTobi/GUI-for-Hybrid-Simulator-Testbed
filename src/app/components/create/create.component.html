@@ -35,7 +35,7 @@
 
   <mat-toolbar-row>
     <span class="example-spacer"></span>
-    <button mat-flat-button id="add-scenario-button" ><!--(click)="addTab(true, index)"-->
+    <button mat-flat-button id="add-scenario-button" (click)="addTab(true)" ><!--(click)="addTab(true, index)"-->
       <mat-icon>add</mat-icon> Add Scenario
     </button> <!--disabled-->
     <button mat-flat-button color="primary" id="start-button" (click)="onSaveExitClick()">Save & Exit
@@ -132,7 +132,7 @@
           <mat-card-content>
               <mat-form-field >
                 <ngx-mat-file-input [formControl]="formGroupArray.controls[index].controls.file"
-                                    placeholder="QEMU Config File" required>
+                                    placeholder="QEMU Config File" (change)="onFileConfigChange($event, index)" required>
                 </ngx-mat-file-input>
                 <mat-hint></mat-hint>
                 <mat-error *ngIf="!fileFormControl.hasError('required')">

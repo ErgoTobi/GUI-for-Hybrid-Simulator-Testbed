@@ -39,6 +39,7 @@ export class CreateComponent implements OnInit {
   selectedRoute: Route[] = new Array(1);
   routePositionPointer: number[] = new Array(1);
     // Saving Details
+    selectedJSONInput: string[] = new Array(1);
     nameFormControl = new FormControl('', [
         Validators.required,
     ]);
@@ -77,7 +78,7 @@ export class CreateComponent implements OnInit {
       console.log(this.selectedMode);
   }
 
-  addTab(selectAfterAdding: boolean, index: number) {
+  addTab(selectAfterAdding: boolean) {
 
     this.scenarioCounter++;
     this.routePositionPointer[this.scenarioCounter - 1] = 0;
@@ -107,6 +108,7 @@ export class CreateComponent implements OnInit {
     this.selectedMode.splice(index, 1);
     this.routePositionPointer.splice(index, 1);
     this.selectedRoute.splice(index, 1);
+    this.selectedJSONInput.splice(index,1);
     this.formGroupArray.removeAt(index);
   }
 
@@ -128,6 +130,19 @@ export class CreateComponent implements OnInit {
         this.selectedRoute[index] = this.routes[this.routePositionPointer[index]];
         console.log(this.selectedRoute);
         console.log(this.routePositionPointer);
+    }
+
+    onFileConfigChange(event, index: number) {
+        let reader = new FileReader();
+        if (event.target.files && event.target.files.length) {
+            const [file] = event.target.files;
+            reader.readAsText(file);
+
+        }
+        reader.onload = () => {
+            this.selectedJSONInput[index] = reader.result.toString();
+        };
+        console.log(this.selectedJSONInput);
     }
 
     onSaveExitClick() {
@@ -166,8 +181,6 @@ export class CreateComponent implements OnInit {
                     return ;
             }
         }
-        const component = this;
-        const nodePath = (shell.which('node').toString());
         let scenarios: Scenario[] = new Array(this.selectedRoute.length);
         let i: number;
         for (i = 0; i < this.selectedMode.length; i++) {
@@ -177,8 +190,8 @@ export class CreateComponent implements OnInit {
                 'route': this.selectedRoute[i].name,
                 'faultInjectionTime': this.formGroupArray.at(i).get('faultInjectionTime').value,
                 'runQuantity': this.formGroupArray.at(i).get('numberOfRuns').value,
-                'fileName': this.formGroupArray.at(0).get('file').value._files[0].name,
-                'filePath': this.formGroupArray.at(0).get('file').value._files[0].path
+                'file': this.selectedJSONInput[i],
+                'filePath': this.formGroupArray.at(i).get('file').value._files[0].path
             });
             const command = shell.exec('cp -a ' + this.formGroupArray.at(0).get('file').value._files[0].path + ' ',
                 {silent: false, async: true});

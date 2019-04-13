@@ -105,18 +105,6 @@ h2 {
   width: 10%;
 }
 
-.timeline .last-item::before {
-  content: attr(time);
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: 2px solid #979DA6;
-  position: absolute;
-  background: #979DA6;
-  left: 0px;
-  top: 0px;
-  margin-left: 2.2%;
-}
 
 
 
