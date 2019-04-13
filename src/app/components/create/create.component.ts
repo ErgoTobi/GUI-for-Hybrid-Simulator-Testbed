@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import { FileInput } from 'ngx-material-file-input';
 import {OverviewComponent} from '../overview/overview.component';
+const shell = require('shelljs');
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -165,6 +166,8 @@ export class CreateComponent implements OnInit {
                     return ;
             }
         }
+        const component = this;
+        const nodePath = (shell.which('node').toString());
         let scenarios: Scenario[] = new Array(this.selectedRoute.length);
         let i: number;
         for (i = 0; i < this.selectedMode.length; i++) {
@@ -177,6 +180,9 @@ export class CreateComponent implements OnInit {
                 'fileName': this.formGroupArray.at(0).get('file').value._files[0].name,
                 'filePath': this.formGroupArray.at(0).get('file').value._files[0].path
             });
+            const command = shell.exec('cp -a ' + this.formGroupArray.at(0).get('file').value._files[0].path + ' ',
+                {silent: false, async: true});
+            // angular.copy(this.formGroupArray.at(0).get('file').value._files[0].path, ['./../qemu_config_files/qemu_config_file.json']);
         }
         console.log(scenarios);
         this.dataService.createScenarioBulk(this.testsetName, scenarios).subscribe(data => {
@@ -208,7 +214,6 @@ export interface ModeElement {
     shortName: string;
     fullName: string;
     description: string;
-    disbaled: Boolean;
 }
 
 export interface Route {
@@ -216,6 +221,7 @@ export interface Route {
     length: number;
     width: number;
     pits: number;
+    disabled: boolean;
 }
 
 const MODES: ModeElement[] = [
@@ -224,41 +230,55 @@ const MODES: ModeElement[] = [
         fullName: 'Adaptive Cruise Control',
         description: 'is an available cruise control system for road vehicles that automatically adjusts the' +
             ' vehicle speed to maintain a safe distance from vehicles ahead. Control is based on sensor information from on-board sensors.',
-        disbaled: false
     },
     {
         shortName: 'ADC',
         fullName: 'Autonomous Driving Car',
         description: 'is a vehicle that is capable of sensing its environment and moving with little or no human ' +
             'input. Autonomous cars combine a variety of sensors to perceive their surroundings',
-        disbaled: false
     },
     {
         shortName: 'ADAS',
         fullName: 'Advanced Driver-Assistance Systems',
         description: 'are systems to help the driver in the driving process. When designed with a ' +
             'safe human-machine interface, they should increase car safety and more generally road safety.',
-        disbaled: true
     },
 ];
+const shortNameACC = 'ACC';
+const fullNameACC = 'Adaptive Cruise Control';
+const descriptionACC = 'is an available cruise control system for road vehicles that automatically adjusts the' +
+    ' vehicle speed to maintain a safe distance from vehicles ahead. Control is based on sensor information from on-board sensors.';
+
+const shortNameADC = 'ADC';
+const fullNameADC = 'Autonomous Driving Car';
+const descriptionADC = 'is a vehicle that is capable of sensing its environment and moving with little or no human ' +
+    'input. Autonomous cars combine a variety of sensors to perceive their surroundings';
+
+const shortNameADAS = 'ADAS';
+const fullNameADAS = 'Advanced Driver-Assistance Systems';
+const descriptionADAS = 'are systems to help the driver in the driving process. When designed with a ' +
+    'safe human-machine interface, they should increase car safety and more generally road safety.';
 
 const ROUTES: Route[] = [
     {
         name: 'kia4sm',
         length: 800,
         width: 10,
-        pits: 10
+        pits: 10,
+        disabled: false,
     },
     {
         name: 'Grand Prix Circuit',
         length: 1400,
         width: 14,
-        pits: 15
+        pits: 15,
+        disabled: true,
     },
     {
         name: 'Speedways',
         length: 600,
         width: 12,
-        pits: 8
+        pits: 8,
+        disabled: true,
     },
 ];

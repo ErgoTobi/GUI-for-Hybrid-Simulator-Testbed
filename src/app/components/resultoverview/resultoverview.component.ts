@@ -22,11 +22,24 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit, OnDestroy
 
     ngOnInit() {
         this.interComponentService.setButtonHeaderActive(false);
-        this.subscription = this.dataService.readAllResultsOnly().subscribe(
+        this.subscription = this.dataService.readAllResults().subscribe(
             data => {
                 this.dataSource.data = data as Result[];
                 console.log(data);
                 console.log(this.dataSource.data);
+                this.dataSource.data.map((obj) => {
+                    let count = 0;
+                    for (let i = 0; i < obj.runs.length; i++ ) {
+                        if (obj.runs[i].state) {
+                            if (obj.runs[i].state === 0 || obj.runs[i].state === 3) {
+                                count++;
+                            }
+                        }
+                    }
+                    obj['failedNumberResults'] = count;
+                    obj['totalNumberResults'] = obj.runs.length;
+                    return obj;
+                });
             }
         );
     }

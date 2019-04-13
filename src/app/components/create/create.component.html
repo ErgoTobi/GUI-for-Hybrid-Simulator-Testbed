@@ -35,7 +35,7 @@
 
   <mat-toolbar-row>
     <span class="example-spacer"></span>
-    <button mat-flat-button id="add-scenario-button" (click)="addTab(true, index)">
+    <button mat-flat-button id="add-scenario-button" ><!--(click)="addTab(true, index)"-->
       <mat-icon>add</mat-icon> Add Scenario
     </button> <!--disabled-->
     <button mat-flat-button color="primary" id="start-button" (click)="onSaveExitClick()">Save & Exit
@@ -182,7 +182,6 @@
               keyboard_arrow_right</i>
           </span>
         </div>
-
       </div>
 
       <div id="tab-right-area">

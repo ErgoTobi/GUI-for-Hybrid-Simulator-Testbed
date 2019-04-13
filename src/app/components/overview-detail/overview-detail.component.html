@@ -15,11 +15,12 @@
 
 <div *ngIf="testset" class="timeline">
     <mat-list>
-        <mat-list-item *ngFor="let scenario of testset.scenarios">
+        <mat-list-item *ngFor="let scenario of testset.scenarios" time="estimatedTime">
             <h2 mat-line >{{scenario.name}}</h2>
             <div mat-line class="list-details">
                 <span class="mode-info">{{scenario.mode}}</span> <span>{{scenario.route}}</span> <span>{{scenario.runQuantity}} x </span>
             </div>
         </mat-list-item>
     </mat-list>
+    <div class="last-item"></div>
 </div>

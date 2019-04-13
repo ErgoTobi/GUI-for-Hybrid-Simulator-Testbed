@@ -184,9 +184,15 @@ export class DataService {
             console.error('createResult: ', error);
         }));
     }
-    // R(w): Pulls all results (only!); Resultoverview
-    readAllResultsOnly () {
+    // R(w): Pulls all results; Resultoverview
+    readAllResults () {
         return fromPromise(Result.findAll({
+            order: [
+                ['createdAt', 'DESC']
+            ],
+            include: [{
+                model: Run
+            }]
         }));
     }
     // D(w): Deletes a result (incl. cascading deletion of cohesive data) by id that the method gets from on onclick event; Overview

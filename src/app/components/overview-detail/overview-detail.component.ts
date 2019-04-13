@@ -18,11 +18,13 @@ import {EncrDecrService} from '../../encr-decr.service';
 export class OverviewDetailComponent implements OnInit {
     encrypted: string;
     decrypted: string;
+    estimatedTime: string;
     @Input() testset: Testset;
     constructor(public dialog: MatDialog, private interComponentService: InterComponentService, private overviewComp: OverviewComponent,
                 public router: Router, private EncrDecr: EncrDecrService) {}
 
     ngOnInit() {
+        this.estimatedTime = '00:30:54';
     }
     openDeleteDialog(name: string, id: number): void {
         const dialogRef = this.dialog.open(DeleteDialogComponent, {

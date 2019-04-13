@@ -23,7 +23,7 @@ export class AppHeaderComponent implements OnInit {
     setting: Setting;
 
     constructor(private dataService: DataService, public dialog: MatDialog,
-                private interComponentService: InterComponentService, private EncrDecr: EncrDecrService) { }
+                public interComponentService: InterComponentService, private EncrDecr: EncrDecrService) { }
 
     ngOnInit() {
         // Assignment of logo
