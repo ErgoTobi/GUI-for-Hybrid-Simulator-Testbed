@@ -46,8 +46,6 @@ export class ResultComponent implements OnInit {
             data => {
                 this.activeResultArray = data as TestsetResult[];
                 this.activeResult = this.activeResultArray[0];
-                console.log(this.activeResultArray);
-                console.log(this.activeResult);
                 this.headerTitle = this.activeResult.name;
                 this.dataService.readTestsetById(this.activeResult.testsetId).subscribe(
                     data => {
@@ -71,6 +69,7 @@ export class ResultComponent implements OnInit {
                                         this.runs[index].push(castedData[i].dataValues);
                                     }
                                 }
+                                this.selectedRun = this.runs[0][0];
                                 //this.runs[0] = castedData;
                                 console.log('logge data');
                                 console.log(this.runs);

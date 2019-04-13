@@ -68,7 +68,7 @@
     "tedious": "^6.1.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.13.6",
+    "@angular-devkit/build-angular": "^0.13.8",
     "@angular/cli": "7.2.1",
     "@angular/common": "7.2.0",
     "@angular/compiler": "7.2.0",

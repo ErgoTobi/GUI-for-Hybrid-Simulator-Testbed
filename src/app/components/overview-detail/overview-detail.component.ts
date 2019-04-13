@@ -55,7 +55,7 @@ export class OverviewDetailComponent implements OnInit {
             console.log(result);
             if (result === 1) {
                 console.log('navigated');
-                // this.router.navigate(['run']);
+                this.router.navigate(['run']);
                 console.log('StartTestsetId: ' + this.interComponentService.getRunTestsetId());
                 this.interComponentService.setRunTestsetId(this.testset.id);
             }
@@ -75,7 +75,7 @@ export class OverviewDetailComponent implements OnInit {
         } else {
             console.log('StartTestsetId: ' + this.interComponentService.getRunTestsetId());
             this.interComponentService.setRunTestsetId(this.testset.id);
-            // this.router.navigate(['run']);
+            this.router.navigate(['run']);
             console.log('StartTestsetId: ' + this.interComponentService.getRunTestsetId());
         }
     }

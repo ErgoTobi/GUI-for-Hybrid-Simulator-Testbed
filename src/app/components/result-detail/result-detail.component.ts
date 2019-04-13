@@ -27,18 +27,35 @@ export class ResultDetailComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        this.dataService.readAllRunDetailsByRunId(1).subscribe(
-            data => {//
-                const castedData = (data as any);
-                for (let i = 0; i < castedData.length; i++) {
-                    castedData[i] = castedData[i].dataValues;
-                }
-                this.runData = castedData;
-                this.loadCharts();
-            });
     }
 
     ngAfterViewInit() {
+  this.loadData();
+    }
+    loadData() {
+        if (this.run) {
+            this.dataService.readAllRunDetailsByRunIdKeyValue(this.run.id).subscribe(
+                data => {//
+                    const castedData = (data as any);
+                    const convertedData = [];
+                    const runData = [];
+                    const distinctValues = [new Set(castedData.map(val => val.dataValues.relativeTime))];
+                    distinctValues[0].forEach(element => {
+                      convertedData.push(castedData.filter(this.filterRunData, element));
+                    });
+                    for (let i = 0; i < convertedData.length; i++) {
+                        if (convertedData[i][0] && convertedData[i][1]) {
+                            runData[i] = {
+                                'date': convertedData[i][0].relativeTime,
+                                'value': +convertedData[i][0].value,
+                                'value2': +convertedData[i][1].value
+                            };
+                        }
+                    }
+                    this.runData = runData;
+                    this.loadCharts();
+                });
+        } else { setTimeout(() => this.loadData(), 1000); }
     }
 
     loadCharts() {
@@ -47,41 +64,86 @@ export class ResultDetailComponent implements OnInit, AfterViewInit {
         // The container has been added to the DOM
         if (document.getElementById('chartdiv')) {
                 this.loadCounter = 0;
-                let chart = am4core.create('chartdiv', am4charts.XYChart);
+            const chart = am4core.create('chartdiv', am4charts.XYChart);
+            chart.data = this.runData;
 
-                chart.paddingRight = 20;
+// Set input format for the dates
+            chart.dateFormatter.inputDateFormat = "HH-mm-ss";
+// Create axes
+            let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+            let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
-                let data = [];
-                let visits = 10;
-                for (let i = 1; i < 366; i++) {
-                    visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-                    data.push({date: new Date(2018, 0, i), name: 'name' + i, value: visits});
-                }
+// Create series
+            const series = chart.series.push(new am4charts.LineSeries());
+            series.name = 'Speed';
+            series.dataFields.valueY = "value";
+            series.dataFields.dateX = "date";
+            series.tooltipText = "{value}";
+            series.strokeWidth = 2;
+            series.minBulletDistance = 15;
+            // Create seriesw
+            const series2 = chart.series.push(new am4charts.LineSeries());
+            series2.name = 'Break';
+            series2.dataFields.valueY = "value2";
+            series2.dataFields.dateX = "date";
+            series2.tooltipText = "{value}";
+            series2.strokeWidth = 2;
+            series2.minBulletDistance = 15;
 
-                chart.data = data;
+// Drop-shaped tooltips
+            series.tooltip.background.cornerRadius = 20;
+            series.tooltip.background.strokeOpacity = 0;
+            series.tooltip.pointerOrientation = "vertical";
+            series.tooltip.label.minWidth = 40;
+            series.tooltip.label.minHeight = 40;
+            series.tooltip.label.textAlign = "middle";
+            series.tooltip.label.textValign = "middle";
 
-                let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-                dateAxis.renderer.grid.template.location = 0;
+// Make bullets grow on hover
+            let bullet = series.bullets.push(new am4charts.CircleBullet());
+            bullet.circle.strokeWidth = 2;
+            bullet.circle.radius = 4;
+            bullet.circle.fill = am4core.color("white");
 
-                let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-                valueAxis.tooltip.disabled = true;
-                valueAxis.renderer.minWidth = 35;
+            let bullethover = bullet.states.create("hover");
+            bullethover.properties.scale = 1.3;
+            // Make bullets grow on hover
+            let bullet2 = series2.bullets.push(new am4charts.CircleBullet());
+            bullet2.circle.strokeWidth = 2;
+            bullet2.circle.radius = 4;
+            bullet2.circle.fill = am4core.color("white");
 
-                let series = chart.series.push(new am4charts.LineSeries());
-                series.dataFields.dateX = 'date';
-                series.dataFields.valueY = 'value';
+            let bullethover2 = bullet2.states.create("hover");
+            bullethover2.properties.scale = 1.3;
 
-                series.tooltipText = '{valueY.value}';
-                chart.cursor = new am4charts.XYCursor();
+// Make a panning cursor
+            chart.cursor = new am4charts.XYCursor();
+            chart.cursor.behavior = "panXY";
+            chart.cursor.xAxis = dateAxis;
+            chart.cursor.snapToSeries = series;
 
-                let scrollbarX = new am4charts.XYChartScrollbar();
-                scrollbarX.series.push(series);
-                chart.scrollbarX = scrollbarX;
+// Create vertical scrollbar and place it before the value axis
+            chart.scrollbarY = new am4core.Scrollbar();
+            chart.scrollbarY.parent = chart.leftAxesContainer;
+            chart.scrollbarY.toBack();
 
-                this.chart = chart;
+// Create a horizontal scrollbar with previe and place it underneath the date axis
+            chart.scrollbarX = new am4charts.XYChartScrollbar();
+            //chart.scrollbarX.series.push(series);
+            chart.scrollbarX.parent = chart.bottomAxesContainer;
+            // add legend
+            chart.legend = new am4charts.Legend();
+
+            chart.events.on('ready', function () {
+                dateAxis.zoom({start: 0.79, end: 1});
+            });
     } else {
             setTimeout(() => this.loadCharts(), 500);
 }
+}
+
+filterRunData(data) {
+        return data.relativeTime === this && (data.key === 'ecu/acc/steer' ||  data.key === 'ecu/acc/accel');
 }
 
 generateChartData() {

@@ -284,8 +284,11 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    test6(){
-        let command = shell.exec('/home/user1/speed-dreams/build/games/speed-dreams-2 -s quickrace', {silent: false, async: true});
+    test6() {
+        this.dataService.createRunDetailBulk ([{relativeTime: '00:32:21', key: 'test', value: '125', runId: 1},{relativeTime: '00:32:21', key: 'test', value: '125', runId: 1},{relativeTime: '00:32:21', key: 'test', value: '125', runId: 1}]).subscribe(data => {
+                console.log('createRunDetailBulk'); console.log(data);
+            }
+        );
     }
 
 
