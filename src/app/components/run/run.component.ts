@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, NgZone, ViewChild, ElementRef} from '@angular/core';
+import {AfterViewInit, Component, OnInit, NgZone, ViewChild, ElementRef, OnDestroy} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {DataService} from '../../data.service';
 import {InterComponentService} from '../../inter-component.service';
@@ -34,7 +34,7 @@ declare const Stopwatch: any;
     templateUrl: './run.component.html',
     styleUrls: ['./run.component.scss']
 })
-export class RunComponent implements OnInit, AfterViewInit {
+export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(private dataService: DataService, private ngZone: NgZone, private route: ActivatedRoute, private router: Router,
                 private interComponentService: InterComponentService, private EncrDecr: EncrDecrService, public dialog: MatDialog) {
@@ -174,11 +174,13 @@ export class RunComponent implements OnInit, AfterViewInit {
             }
         });
     }
-
+    ngOnDestroy() {
+    // TODO 
+    }
     loadGauge(index) {
     //    if (document.getElementById('gaugechart')) {failed
             // Create chart instance
-        // check if am4chart is already created TODO
+        // check if am4chart is already created
         if (!this.chartValues[index]) {
             this.chartValues[index] = {failed: 0, passed: 0};
         }
@@ -352,11 +354,13 @@ export class RunComponent implements OnInit, AfterViewInit {
         });
     }
 
+
+
     startTestenvironment() {
         const component = this;
         const nodePath = (shell.which('node').toString());
         shell.config.execPath = nodePath;
-        this.setTrackConfig();
+        //this.setTrackConfig();
         const command = shell.exec('/home/user1/speed-dreams/build/games/speed-dreams-2 -s quickrace', {silent: false, async: true});
         // command.stdout.on('data', (data) => {
         //  });
@@ -365,15 +369,23 @@ export class RunComponent implements OnInit, AfterViewInit {
         const command2 = shell.exec('echo administrator | sudo -S make vde', {silent: false, async: true});
         // let command23 = shell.exec('make vde', {silent: false, async: true});
 
-        // const command3 = shell.exec('PROJECT=idp_acc make jenkins_run', {silent: false, async: true});
-        const command3 = shell.exec('qemu-system-arm -kernel /home/user1/operating-system/build/genode-focnados_pbxa9/var/run/idp_acc/image.elf -machine realview-pbx-a9 -m 1024 -nographic -smp 4 -net nic,macaddr=02:00:00:00:01:03 -net nic,model=e1000 -net vde,sock=/tmp/switch1', {silent: false, async: true});
+         const command3 = shell.exec('PROJECT=idp_acc make jenkins_run', {silent: false, async: true});
+        // const command3 = shell.exec('qemu-system-arm -kernel /home/user1/operating-system/build/genode-focnados_pbxa9/var/run/idp_acc/image.elf -machine realview-pbx-a9 -m 1024 -nographic -smp 4 -net nic,macaddr=02:00:00:00:01:03 -net nic,model=e1000 -net vde,sock=/tmp/switch1', {silent: false, async: true});
+
+        // const qemuInstances = JSON.stringify();
+        /*$.getJSON( '../../../qemu_config_files/qemu_config_file.json', function( data ) {
+            console.log(data);
+        });*/
+
+        // const config = JSON.getFile(component.runningScenarios[component.activeScenarioCounter].path);
+
         component.activeECU = command3;
         command3.stdout.on('data', function (data) {
             if (data.includes('mosquitto server')) {
                 // if(flag === 0) {
                 // flag = 1;
-                // const command4 = shell.exec('PROJECT=idp_savm make jenkins_run', {silent: false, async: true});
-                const command4 = shell.exec('qemu-system-arm -kernel /home/user1/operating-system/build/genode-focnados_pbxa9/var/run/idp_savm/image.elf -machine realview-pbx-a9 -m 1024 -nographic -smp 4 -net nic,macaddr=02:00:00:00:01:02 -net nic,model=e1000 -net vde,sock=/tmp/switch1', {silent: false, async: true});
+                const command4 = shell.exec('PROJECT=idp_savm make jenkins_run', {silent: false, async: true});
+                // const command4 = shell.exec('qemu-system-arm -kernel /home/user1/operating-system/build/genode-focnados_pbxa9/var/run/idp_savm/image.elf -machine realview-pbx-a9 -m 1024 -nographic -smp 4 -net nic,macaddr=02:00:00:00:01:02 -net nic,model=e1000 -net vde,sock=/tmp/switch1', {silent: false, async: true});
                 // command4.stdout.on('data', function (data1) {
                 //     if (data1.includes('connected to mosquitto server')) {
                 //         component.stopwatch.start();

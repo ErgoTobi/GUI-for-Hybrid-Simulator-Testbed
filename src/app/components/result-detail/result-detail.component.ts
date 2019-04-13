@@ -37,10 +37,22 @@ export class ResultDetailComponent implements OnInit, AfterViewInit {
             this.dataService.readAllRunDetailsByRunIdKeyValue(this.run.id).subscribe(
                 data => {//
                     const castedData = (data as any);
-                    for (let i = 0; i < castedData.length; i++) {
-                        castedData[i] = castedData[i].dataValues;
+                    const convertedData = [];
+                    const runData = [];
+                    const distinctValues = [new Set(castedData.map(val => val.dataValues.relativeTime))];
+                    distinctValues[0].forEach(element => {
+                      convertedData.push(castedData.filter(this.filterRunData, element));
+                    });
+                    for (let i = 0; i < convertedData.length; i++) {
+                        if (convertedData[i][0] && convertedData[i][1]) {
+                            runData[i] = {
+                                'date': convertedData[i][0].relativeTime,
+                                'value': +convertedData[i][0].value,
+                                'value2': +convertedData[i][1].value
+                            };
+                        }
                     }
-                    this.runData = castedData;
+                    this.runData = runData;
                     this.loadCharts();
                 });
         } else { setTimeout(() => this.loadData(), 1000); }
@@ -53,51 +65,30 @@ export class ResultDetailComponent implements OnInit, AfterViewInit {
         if (document.getElementById('chartdiv')) {
                 this.loadCounter = 0;
             const chart = am4core.create('chartdiv', am4charts.XYChart);
-
-// Add data
-            chart.data = [{
-                "date": "00:19:12",
-                "value": 13
-            }, {
-                "date": "00:19:14",
-                "value": 11
-            }, {
-                "date": "00:19:16",
-                "value": 15
-            }, {
-                "date": "00:19:18",
-                "value": 16
-            }, {
-                "date": "00:19:19",
-                "value": 18
-            }, {
-                "date": "00:19:20",
-                "value": 13
-            }, {
-                "date": "00:19:21",
-                "value": 22
-            }, {
-                "date": "00:19:24",
-                "value": 23
-            }, {
-                "date": "00:19:25",
-                "value": 20
-            }];
+            chart.data = this.runData;
 
 // Set input format for the dates
             chart.dateFormatter.inputDateFormat = "HH-mm-ss";
-
 // Create axes
             let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
             let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
 // Create series
             const series = chart.series.push(new am4charts.LineSeries());
+            series.name = 'Speed';
             series.dataFields.valueY = "value";
             series.dataFields.dateX = "date";
             series.tooltipText = "{value}";
             series.strokeWidth = 2;
             series.minBulletDistance = 15;
+            // Create seriesw
+            const series2 = chart.series.push(new am4charts.LineSeries());
+            series2.name = 'Break';
+            series2.dataFields.valueY = "value2";
+            series2.dataFields.dateX = "date";
+            series2.tooltipText = "{value}";
+            series2.strokeWidth = 2;
+            series2.minBulletDistance = 15;
 
 // Drop-shaped tooltips
             series.tooltip.background.cornerRadius = 20;
@@ -116,6 +107,14 @@ export class ResultDetailComponent implements OnInit, AfterViewInit {
 
             let bullethover = bullet.states.create("hover");
             bullethover.properties.scale = 1.3;
+            // Make bullets grow on hover
+            let bullet2 = series2.bullets.push(new am4charts.CircleBullet());
+            bullet2.circle.strokeWidth = 2;
+            bullet2.circle.radius = 4;
+            bullet2.circle.fill = am4core.color("white");
+
+            let bullethover2 = bullet2.states.create("hover");
+            bullethover2.properties.scale = 1.3;
 
 // Make a panning cursor
             chart.cursor = new am4charts.XYCursor();
@@ -132,6 +131,8 @@ export class ResultDetailComponent implements OnInit, AfterViewInit {
             chart.scrollbarX = new am4charts.XYChartScrollbar();
             //chart.scrollbarX.series.push(series);
             chart.scrollbarX.parent = chart.bottomAxesContainer;
+            // add legend
+            chart.legend = new am4charts.Legend();
 
             chart.events.on('ready', function () {
                 dateAxis.zoom({start: 0.79, end: 1});
@@ -139,6 +140,10 @@ export class ResultDetailComponent implements OnInit, AfterViewInit {
     } else {
             setTimeout(() => this.loadCharts(), 500);
 }
+}
+
+filterRunData(data) {
+        return data.relativeTime === this && (data.key === 'ecu/acc/steer' ||  data.key === 'ecu/acc/accel');
 }
 
 generateChartData() {
