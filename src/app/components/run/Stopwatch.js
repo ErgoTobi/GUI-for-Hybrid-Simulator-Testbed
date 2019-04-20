@@ -62,7 +62,9 @@ class Stopwatch {
     print() {
         this.display.innerText = this.format(this.times);
     }
-
+    readTime() {
+       return this.format(this.times);
+    }
     format(times) {
         return `\
 ${pad0(times[0], 2)}:\

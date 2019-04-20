@@ -69,8 +69,6 @@ export class HomeComponent implements OnInit {
         // let savmCommand = shell.exec(, {silent: false, async: true});
         // const qemuInstances = JSON.stringify();
         let commands: Array<any> = [];
-        // relativer Pfad zu exe File sollte ./ also auf der Ebene der .exe
-        // let qemuInstances = require('./../../qemu_config_files/qemu_config_file.json');
         let scens;
         let qemuInstances;
         this.dataService.readTestsetById(11).subscribe(
@@ -218,7 +216,7 @@ export class HomeComponent implements OnInit {
                 console.log('createScenario'); console.log(data);
             }
         );
-        this.dataService.createResult('WSTestsetResult', 987654, Sequelize.fn('NOW'), 2).subscribe(data => {
+        this.dataService.createResult('WSTestsetResult',  Sequelize.fn('NOW'), 2).subscribe(data => {
                 console.log('createResult'); console.log(data);
             }
         );

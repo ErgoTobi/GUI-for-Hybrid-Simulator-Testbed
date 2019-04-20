@@ -10,6 +10,7 @@ import { FileInput } from 'ngx-material-file-input';
 import {OverviewComponent} from '../overview/overview.component';
 const shell = require('shelljs');
 
+
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -45,6 +46,7 @@ export class CreateComponent implements OnInit {
     ]);
     faultInjectionTimeFormControl = new FormControl('', [
         Validators.required,
+        Validators.max(30),
     ]);
     numberOfRunsFormControl = new FormControl('', [
         Validators.required,
@@ -160,7 +162,7 @@ export class CreateComponent implements OnInit {
       // Check if one element is not filled
         for (let j = 0; j < this.selectedMode.length; j++) {
             if (!this.formGroupArray.at(j).get('name').valid ||
-                this.selectedMode[j] == null || this.selectedMode[j].shortName === '' ||
+                this.selectedMode[j] == null || !this.selectedMode[j] ||
                 this.selectedRoute[j].name == null || this.selectedRoute[j].name === '' ||
                 !this.formGroupArray.at(j).get('faultInjectionTime').valid ||
                 !this.formGroupArray.at(j).get('numberOfRuns').valid ||
@@ -191,7 +193,8 @@ export class CreateComponent implements OnInit {
                 'faultInjectionTime': this.formGroupArray.at(i).get('faultInjectionTime').value,
                 'runQuantity': this.formGroupArray.at(i).get('numberOfRuns').value,
                 'file': this.selectedJSONInput[i],
-                'filePath': this.formGroupArray.at(i).get('file').value._files[0].path
+                'filePath': this.formGroupArray.at(i).get('file').value._files[0].path,
+                'ecuAmount': JSON.parse(this.selectedJSONInput[i]).length
             });
             const command = shell.exec('cp -a ' + this.formGroupArray.at(0).get('file').value._files[0].path + ' ',
                 {silent: false, async: true});
@@ -200,6 +203,7 @@ export class CreateComponent implements OnInit {
         console.log(scenarios);
         this.dataService.createScenarioBulk(this.testsetName, scenarios).subscribe(data => {
                 console.log('createTestsetScenariosBulk'); console.log(data);
+            this.router.navigate(['overview']);
             }
         );
         // Routing to overview
@@ -208,7 +212,6 @@ export class CreateComponent implements OnInit {
             panelClass: ['customized-snackbar']
         });
         // this.overviewComp.ngOnInit();
-        this.router.navigate(['overview']);
     }
 
   startTest() {
@@ -279,8 +282,8 @@ const ROUTES: Route[] = [
         width: 10,
         pits: 10,
         disabled: false,
-    },
-    {
+    }
+    /*{
         name: 'Grand Prix Circuit',
         length: 1400,
         width: 14,
@@ -293,5 +296,5 @@ const ROUTES: Route[] = [
         width: 12,
         pits: 8,
         disabled: true,
-    },
+    },*/
 ];

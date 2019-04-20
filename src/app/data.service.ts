@@ -175,14 +175,27 @@ export class DataService {
 
     // TESTSETRESULT
     // C(w): Creates a result and returns the model back via a promise; Running -> Overview
-    createResult (name: String, startTimestamp: number, duration: string, testsetId: number) {
+    createResult (name: String, duration: string, testsetId: number) {
         return fromPromise(Result.create({
             name: name,
-            startTimestamp: startTimestamp,
             duration: duration,
             testsetId: testsetId
         }).catch(error => {
             console.error('createResult: ', error);
+        }));
+    }
+
+    // U(w): Updates a run; Running
+    updateResultByResultId (resultId: number, duration: string) {
+        return fromPromise(Result.update({
+            duration: duration, // state 1 = passed, 0 = failed, 3 = pending
+        }, {
+            returning: true,
+            where: {
+                id: resultId
+            }
+        }).catch(error => {
+            console.error('updateRun: ', error);
         }));
     }
     // R(w): Pulls all results; Resultoverview
@@ -269,13 +282,11 @@ export class DataService {
     }
     // R(w): Pulls all rundata(only!) by run Id; Resultdetails
     readAllRunDetailsByRunId (runId: number) {
-        return Rx.Observable.interval(10000).flatMap(() => {
             return fromPromise(Rundetail.findAll({
                 where: {
                     runId: runId
                 }
             }));
-        });
     }
     readAllRunDetailsByRunIdKeyValue (runId: number) {
         return fromPromise(Rundetail.findAll({
@@ -286,6 +297,15 @@ export class DataService {
         }));
     }
     readLast100RunDetailsByRunResultId (runId: number) {
+            return fromPromise(Rundetail.findAll({
+                limit: 100,
+                where: {
+                    runId: runId
+                },
+                order: [['id', 'DESC']]
+            }));
+    }
+    /*readLast100RunDetailsByRunResultId (runId: number) {
         return Rx.Observable.interval(10000).flatMap(() => {
             return fromPromise(Rundetail.findAll({
                 limit: 100,
@@ -296,8 +316,9 @@ export class DataService {
             }));
         });
     }
-
-
+    stopSubscription () {
+   return Rx.Observable;
+    }*/
     // Testmethods
     // C(): Creates results
     createDummyResultData () {
@@ -312,7 +333,7 @@ export class DataService {
     }
     readResultByIdObject (resultId: object) {
         return fromPromise(Result.findAll({
-            attributes: ['id', 'name', 'startTimestamp', 'duration', 'testsetId'],
+            attributes: ['id', 'name', 'duration', 'testsetId', 'createdAt'],
             where: { id: resultId },
         }));
     }

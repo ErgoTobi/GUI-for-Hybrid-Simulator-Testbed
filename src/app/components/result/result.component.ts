@@ -25,6 +25,8 @@ export class ResultComponent implements OnInit {
     headerTitle = 'Testset1';
     selectedRun;
     selected = new FormControl(0);
+    createdAt;
+    downloadData = [];
 
     constructor(private route: ActivatedRoute, private dataService: DataService, private zone: NgZone,
         private interComponentService: InterComponentService) {
@@ -47,6 +49,7 @@ export class ResultComponent implements OnInit {
                 this.activeResultArray = data as TestsetResult[];
                 this.activeResult = this.activeResultArray[0];
                 this.headerTitle = this.activeResult.name;
+                this.createdAt = this.activeResult.createdAt;
                 this.dataService.readTestsetById(this.activeResult.testsetId).subscribe(
                     data => {
                         const tabs = this.tabs;
@@ -84,23 +87,41 @@ export class ResultComponent implements OnInit {
         this.selectedRun = run;
         console.log(this.selectedRun);
     }
-
+//
     downloadFile() {
         this.dataService.readAllRunsByResultId(this.activeResultId).subscribe(
-            data => {
-                const castedData = (data as any);
-                for (let i = 0; i < castedData.length; i++) {
-                    castedData[i] = castedData[i].dataValues;
-                }
-                const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
-                const header = Object.keys(data[0]);
-                let csv = castedData.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
-                csv.unshift(header.join(','));
-                let csvArray = csv.join('\r\n');
+            runData => {
+                for (let s = 0; s < (runData as any).length; s++) {
+                    this.dataService.readAllRunDetailsByRunId(runData[s].dataValues.id).subscribe(
+                        data => {
+                            const castedData = (data as any);
+                            for (let i = 0; i < castedData.length; i++) {
+                                this.downloadData.push(castedData[i].dataValues);
+                            }
+                            if (s === (runData as any).length - 1) {
+                                const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
+                                const header = Object.keys(this.downloadData[0]);
+                                const csv = this.downloadData.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
+                                csv.unshift(header.join(','));
+                                const csvArray = csv.join('\r\n');
 
-                var blob = new Blob([csvArray], {type: 'text/csv'});
-                saveAs(blob, 'bestExport.csv');
-            });
+                                const blob = new Blob([csvArray], {type: 'text/csv'});
+                                saveAs(blob, 'Export.csv');
+                            }
+                        });
+                }
+            }
+        );
+    }
+    downloadSetup() {
+        const replacer2 = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
+        const header2 = Object.keys(this.scenarios[0].dataValues);
+        const csv2 = this.scenarios.map(row2 => header2.map(fieldName => JSON.stringify(row2[fieldName], replacer2)).join(','));
+        csv2.unshift(header2.join(','));
+        const csvArray2 = csv2.join('\r\n');
+
+        const blob2 = new Blob([csvArray2], {type: 'text/csv'});
+        saveAs(blob2, 'Set-up.csv');
     }
 
     // doFilter = (value: string) => {

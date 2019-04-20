@@ -7,11 +7,16 @@ import {ResultComponent} from './components/result/result.component';
 import {OverviewComponent} from './components/overview/overview.component';
 import {OverviewDetailComponent} from './components/overview-detail/overview-detail.component';
 import {RunComponent} from './components/run/run.component';
+import {LoadingScreenComponent} from './components/loading-screen/loading-screen.component';
 
 const routes: Routes = [
     {
         path: '',
         component: HomeComponent
+    },
+    {
+        path: 'load',
+        component: LoadingScreenComponent
     },
     {
         path: 'create',

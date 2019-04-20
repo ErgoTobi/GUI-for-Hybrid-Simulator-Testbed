@@ -1,7 +1,4 @@
-<a routerLink="/overview" class="mat-body" fxFlexAlign="center">
-    <i class="material-icons back-icon" >keyboard_arrow_left</i>
-    Back to Home
-</a>
+
 <span class="example-spacer"></span>
 
 <mat-toolbar color="">
@@ -14,7 +11,7 @@
         <span class="example-spacer"></span>
         <div id="right-area">
             <div>Estimate Finish: {{estimateFinish}}</div>
-            <div class="stopwatch"></div>
+            <div style="display:flex;">Total Duration:  <div class="stopwatch"></div></div>
         </div>
         <!--<span class="mat-body">Estimate Finish: 14-3-2018 19:23</span>-->
     </mat-toolbar-row>
@@ -101,7 +98,7 @@
                     <!-- Name Column -->
                     <ng-container matColumnDef="time">
                         <th mat-header-cell *matHeaderCellDef> Time</th>
-                        <td mat-cell *matCellDef="let element"> {{element.id}}</td>
+                        <td mat-cell *matCellDef="let element"> {{element.relativeTime}}</td>
                     </ng-container>
 
                     <!-- Weight Column -->

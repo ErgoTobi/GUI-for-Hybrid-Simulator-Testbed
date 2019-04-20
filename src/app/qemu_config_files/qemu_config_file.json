@@ -1,7 +1,0 @@
-[
-  {
-    "path": "-kernel /build/genode-focnados_pbxa9/var/run/idp_acc/image.elf",
-    "qemu_args": "qemu-system-arm -machine realview-pbx-a9 -m 1024 -nographic -smp 4 -net nic,macaddr=02:00:00:00:01:03 -net nic,model=e1000 -net vde,sock=/tmp/switch1",
-    "faultInjection": true
-  }
-]

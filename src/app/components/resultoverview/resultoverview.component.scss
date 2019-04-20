@@ -145,3 +145,26 @@ td.mat-cell, td.mat-footer-cell{
 .input {
   width: 30%;
 }
+
+#inputfield {
+::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: black;
+  }
+  mat-form-field {
+    .mat-hint, input, ::placeholder, .mat-form-field-label {
+      color: black;
+    }
+  }
+}
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  color: #4ebfae !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline-focused{
+  color: black !important;
+}
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #4ebfae !important;
+}
+}

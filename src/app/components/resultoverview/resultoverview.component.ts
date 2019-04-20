@@ -24,7 +24,11 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit, OnDestroy
         this.interComponentService.setButtonHeaderActive(false);
         this.subscription = this.dataService.readAllResults().subscribe(
             data => {
-                this.dataSource.data = data as Result[];
+                const castedData = data as any;
+                for (let i = 0; i < castedData.length; i++) {
+                    castedData[i] = castedData[i].dataValues;
+                }
+                this.dataSource.data = castedData;
                 console.log(data);
                 console.log(this.dataSource.data);
                 this.dataSource.data.map((obj) => {
@@ -50,15 +54,8 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit, OnDestroy
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
     }
-
-    doFilter (value: string) {
-        console.log(this.dataSource);
-        console.log(value);
-        value = value.trim();
-        value = value.toLowerCase();
-        console.log(value);
-        this.dataSource.filter = value;
-        console.log(this.dataSource.filteredData);
+    doFilter(value: string) {
+        this.dataSource.filter = value.trim().toLocaleLowerCase();
     }
 
     onRowClicked(row) {

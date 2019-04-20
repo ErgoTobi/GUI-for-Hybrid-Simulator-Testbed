@@ -117,11 +117,12 @@
   width: 40%;
   height: inherit;
   left: 30%;
-  background: url("../../../assets/track.png") no-repeat bottom center fixed;
+  background: url("../../../assets/snazzy-image.png") no-repeat bottom center fixed;
   -webkit-background-size: 41%;
   -moz-background-size: 41%;
   -o-background-size: 41%;
   background-size: 41%;
+  background-color: rgba(0,0,0,0.35);
 }
 #tab-right-area {
   position: absolute;
@@ -182,6 +183,8 @@
 
 #add-scenario-button {
   margin-right: 3%;
+  background-color: #979DA6;
+  color: #F8F8F8;
 }
 .invisible {
   visibility: hidden;
@@ -261,5 +264,15 @@
   margin-bottom: 10%;
   font-size: 20px;
 }
+// CHANGE SLIDER COLOR
+::ng-deep .mat-accent .mat-slider-thumb, ::ng-deep .mat-accent .mat-slider-track-fill {
+  background-color: #4ebfae;
+}
 
+.mat-input-element {
+  caret-color: #F8F8F8;
+}
 
+.mat-form-field-appearance-legacy .mat-hint {
+  color: #F8F8F8;
+}

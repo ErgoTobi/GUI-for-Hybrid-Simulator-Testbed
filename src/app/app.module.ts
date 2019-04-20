@@ -42,6 +42,7 @@ import { AppHeaderComponent } from './app-header.component';
 import { PasswordDialogComponent } from './components/overview-detail/password-dialog/password-dialog.component';
 import { EncrDecrService } from './encr-decr.service';
 import { StopDialogComponent } from './components/run/stop-dialog/stop-dialog.component';
+import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 
 // Snazzy Maps
 
@@ -68,10 +69,12 @@ export function HttpLoaderFactory(http: HttpClient) {
       AppHeaderComponent,
       PasswordDialogComponent,
       ResultDetailComponent,
-      StopDialogComponent
+      StopDialogComponent,
+      LoadingScreenComponent,
   ],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         FormsModule,
         MatSortModule,
         MatFormFieldModule,
@@ -86,9 +89,8 @@ export function HttpLoaderFactory(http: HttpClient) {
                 deps: [HttpClient]
             }
         }),
-        BrowserAnimationsModule,
-        MaterialModule,
         MatDialogModule,
+        MaterialModule,
         NgxLoadersCssModule,
         ReactiveFormsModule,
         MatSnackBarModule,

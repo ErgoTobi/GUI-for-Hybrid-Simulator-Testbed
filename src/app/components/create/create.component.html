@@ -44,7 +44,7 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
-<mat-tab-group [selectedIndex]="selected.value"
+<mat-tab-group id="create-tab" [selectedIndex]="selected.value"
                (selectedIndexChange)="selected.setValue($event)" animationDuration="0">
   <mat-tab *ngFor="let tab of tabs; let index = index" >
     <ng-template mat-tab-label>
@@ -82,7 +82,7 @@
             <mat-card-content>
               <mat-form-field class="example-margin">
                 <input matInput type="number" placeholder="Fault Injection Time"
-                       [max]="240" [min]="0" [formControl]="formGroupArray.controls[index].controls.faultInjectionTime"
+                       [max]="30" [min]="0" [formControl]="formGroupArray.controls[index].controls.faultInjectionTime"
                        [errorStateMatcher]="matcher" required
                        [(ngModel)]="formGroupArray.controls[index].controls.faultInjectionTime.value">
                 <mat-hint></mat-hint><!-- [(ngModel)]="value" -->
@@ -99,7 +99,7 @@
                       class="example-margin"
                       [disabled]="false"
                       [invert]="false"
-                      [max]="240"
+                      [max]="30"
                       [min]="0"
                       [step]="1"
                       [thumbLabel]="false"
@@ -134,7 +134,7 @@
                 <ngx-mat-file-input [formControl]="formGroupArray.controls[index].controls.file"
                                     placeholder="QEMU Config File" (change)="onFileConfigChange($event, index)" required>
                 </ngx-mat-file-input>
-                <mat-hint></mat-hint>
+                <mat-hint>Config File defines the paths to the ECUs used for the test (select qemu-config.json for default)</mat-hint>
                 <mat-error *ngIf="!fileFormControl.hasError('required')">
                   Please select a valid File
                 </mat-error>

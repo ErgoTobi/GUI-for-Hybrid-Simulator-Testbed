@@ -29,6 +29,9 @@ module.exports = {
       filePath: {
           type: Sequelize.STRING
       },
+      ecuAmount: {
+          type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

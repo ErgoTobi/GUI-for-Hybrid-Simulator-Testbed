@@ -8,19 +8,20 @@
 
   <mat-toolbar-row>
     <div id ="left-area">
-      <span class="mat-h1">{{headerTitle}}</span>
+      <span class="mat-h1">Result: {{headerTitle}}</span>
       <!-- <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>-->
     </div>
     <span class="example-spacer"></span>
     <div id ="right-area">
-      <div>Created: 14-3-2018 19:23</div>
+      <div>Created: {{createdAt}}</div>
       <div class="stopwatch"></div>
     </div>
     <!--<span class="mat-body">Estimate Finish: 14-3-2018 19:23</span>-->
   </mat-toolbar-row>
   <mat-toolbar-row>
     <span class="example-spacer"></span>
-    <button mat-flat-button color="primary" id="start-button" (click)="downloadFile()">Export All</button>
+    <button mat-flat-button color="primary" id="start-button" (click)="downloadSetup()">Export Settings</button>
+    <button mat-flat-button color="primary" id="start-button" (click)="downloadFile()">Export Data</button>
   </mat-toolbar-row>
 </mat-toolbar>
 
@@ -30,7 +31,7 @@
 
     <div id="content">
       <div id="master" class="example-container mat-elevation-z8">
-        <div id="inputfield">
+        <div id="searchfield">
           <mat-form-field appearance="">
             <mat-label>Results</mat-label>
             <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search for Results">
