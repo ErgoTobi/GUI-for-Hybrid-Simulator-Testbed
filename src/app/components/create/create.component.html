@@ -134,7 +134,7 @@
                 <ngx-mat-file-input [formControl]="formGroupArray.controls[index].controls.file"
                                     placeholder="QEMU Config File" (change)="onFileConfigChange($event, index)" required>
                 </ngx-mat-file-input>
-                <mat-hint>Config File defines the paths to the ECUs used for the test (select qemu-config.json for default)</mat-hint>
+                <mat-hint>Config File defines the paths to the ECUs used for the test (select qemu_config_file for default)</mat-hint>
                 <mat-error *ngIf="!fileFormControl.hasError('required')">
                   Please select a valid File
                 </mat-error>

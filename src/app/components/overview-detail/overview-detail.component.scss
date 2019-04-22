@@ -20,6 +20,8 @@
 }
 
 #header-heading {
+  align-self: flex-end;
+  margin-left: 5%;
 }
 
 ::ng-deep .timeline-content::after {
@@ -62,8 +64,9 @@ h2 {
 }
 
 .timeline mat-list {
+  top:10%;
+  padding-bottom:15px;
   position: absolute;
-  overflow: hidden;
   left: 10%;
 }
 
@@ -99,6 +102,14 @@ h2 {
   left: -35px;
   top: 20px;
   margin-left: 2.2%;
+}
+#estimate-time {
+  margin-left: 5%;
+  font-size: 12pt;
+  margin-top: 10px;
+  font-weight: 700;
+  position: relative;
+  top: 15px;
 }
 
 .mode-info {

@@ -10,6 +10,10 @@
 #back-icon {
   color: #4ebfae;
 }
+.back-icon{
+  margin-left: 1%;
+  margin-right: -0.5%;
+}
 
 #radio-button {
   color: #4ebfae;
@@ -21,7 +25,7 @@
 /*LIST TABLE STYLING*/
 
 .example-container {
-  height: 600px;
+  max-height: 71vmin;
   overflow-y: auto;
   width: 100%;
   border-bottom-width: 1px !important;
@@ -32,7 +36,6 @@
 .example-container::-webkit-scrollbar-track
 {
   background-color: #131920;
-  margin-top: 13.5%;
 }
 
 .example-container::-webkit-scrollbar
@@ -139,7 +142,7 @@ td.mat-cell, td.mat-footer-cell{
   min-width: 150px;
   max-width: 500px;
   width: 100%;
-  margin-left: 4%;
+  margin-left: 1.5%;
 }
 
 .input {

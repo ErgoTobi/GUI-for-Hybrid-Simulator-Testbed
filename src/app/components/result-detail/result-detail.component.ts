@@ -47,15 +47,19 @@ export class ResultDetailComponent implements OnInit, AfterViewInit, OnChanges {
                         if (convertedData[i][0] && convertedData[i][1]) {
                             const dataEntry = convertedData[i].find(entry => entry.key === 'savm/car/0/ownSpeed');
                             const dataEntry2 = convertedData[i].find(entry => entry.key === 'ecu/acc/steer');
-                            runData[i] = {
+                            const dataEntry3 = convertedData[i].find(entry => entry.key === 'savm/car/0/leadSpeed' && entry.value < 100);
+                            runData.push({
                                 'date': convertedData[i][0].relativeTime,
-                                'value': dataEntry ? +dataEntry.value : 0,
-                                'value2': dataEntry2 ? +dataEntry2.value : 0
-                            };
+                                'value': dataEntry ? +dataEntry.value : undefined,
+                                'value2': dataEntry2 ? +dataEntry2.value : undefined,
+                                'value3': dataEntry3 ? +dataEntry3.value : undefined
+                            });
                         }
                     }
                     this.runData = runData;
-                    this.loadCharts();
+                    if (runData.length > 0) {
+                        this.loadCharts();
+                    }
                 });
         } else { setTimeout(() => this.loadData(), 1000); }
     }
@@ -75,16 +79,20 @@ export class ResultDetailComponent implements OnInit, AfterViewInit, OnChanges {
             chart.colors.step = 2;
 
 // Add data
-            chart.data = this.generateChartData();
+            chart.data = this.runData;
 
 // Create axes
             const dateAxis = chart.xAxes.push(new am4charts.DateAxis());
             dateAxis.renderer.minGridDistance = 50;
+            chart.dateFormatter.inputDateFormat = 'HH-mm-ss-SSS';
+            this.createAxisAndSeries(chart, 'value', 'Lead Car Speed', 'false', 'circle');
+            this.createAxisAndSeries(chart, 'value2', 'ECU Steer', true, 'triangle');
+            this.createAxisAndSeries(chart, 'value3', 'ACC Car Speed', true, 'rectangle');
 
-            this.createAxisAndSeries(chart, 'visits', 'Visits', 'false', 'circle');
-            this.createAxisAndSeries(chart, 'views', 'Views', true, 'triangle');
-            this.createAxisAndSeries(chart, 'hits', 'Hits', true, 'rectangle');
-
+            // Create vertical scrollbar and place it before the value axis
+            chart.scrollbarY = new am4core.Scrollbar();
+            chart.scrollbarY.parent = chart.leftAxesContainer;
+            chart.scrollbarY.toBack();
 // Add legend
             chart.legend = new am4charts.Legend();
 
@@ -107,6 +115,7 @@ createAxisAndSeries (chart, field, name, opposite, bullet) {
         series.name = name;
         series.tooltipText = '{name}: [bold]{valueY}[/]';
         series.tensionX = 0.8;
+        series.minBulletDistance = 15;
 
         let interfaceColors = new am4core.InterfaceColorSet();
 
@@ -131,6 +140,7 @@ createAxisAndSeries (chart, field, name, opposite, bullet) {
                 bulletsr.height = 10;
                 bulletsr.horizontalCenter = 'middle';
                 bulletsr.verticalCenter = 'middle';
+                bulletsr.minBulletDistance = 15;
 
                 let rectangle = bulletsr.createChild(am4core.Rectangle);
                 rectangle.stroke = interfaceColors.getFor('background');
@@ -139,9 +149,10 @@ createAxisAndSeries (chart, field, name, opposite, bullet) {
                 rectangle.height = 10;
                 break;
             default:
-                let bulletsd = series.bullet.push(new am4charts.CircleBullet());
+                let bulletsd = series.bullets.push(new am4charts.CircleBullet());
                 bulletsd.circle.stroke = interfaceColors.getFor('background');
                 bulletsd.circle.strokeWidth = 2;
+                bulletsd.minBulletDistance = 15;
                 break;
         }
 
@@ -154,39 +165,7 @@ createAxisAndSeries (chart, field, name, opposite, bullet) {
     }
 
 filterRunData(data) {
-        return data.relativeTime === this && (data.key === 'ecu/acc/steer' ||  data.key === 'savm/car/0/ownSpeed');
+        return data.relativeTime === this && (data.key === 'ecu/acc/steer' ||  data.key === 'savm/car/0/ownSpeed' ||  data.key === 'savm/car/0/leadSpeed');
 }
-
-
-generateChartData() {
-        let chartData = [];
-        let firstDate = new Date();
-        firstDate.setDate(firstDate.getDate() - 100);
-        firstDate.setHours(0, 0, 0, 0);
-
-        let visits = 1600;
-        let hits = 2900;
-        let views = 8700;
-
-        for (var i = 0; i < 15; i++) {
-            // we create date objects here. In your data, you can have date strings
-            // and then set format of your dates using chart.dataDateFormat property,
-            // however when possible, use date objects, as this will speed up chart rendering.
-            let newDate = new Date(firstDate);
-            newDate.setDate(newDate.getDate() + i);
-
-            visits += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
-            hits += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
-            views += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
-
-            chartData.push({
-                date: newDate,
-                visits: visits,
-                hits: hits,
-                views: views
-            });
-        }
-        return chartData;
-    }
 
 }

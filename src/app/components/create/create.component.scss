@@ -3,7 +3,6 @@
 #start-button{
   z-index:10;
   position: relative;
-  right: 15px;
   background-color: #4ebfae;
 }
 
@@ -98,6 +97,7 @@
 
 #content{
   height: -webkit-fill-available;
+  overflow: hidden;
   background: #232B35;
   position: relative;
   color: #F8F8F8;

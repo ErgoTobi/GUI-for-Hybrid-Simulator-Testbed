@@ -89,7 +89,7 @@ export class CreateComponent implements OnInit {
       console.log(this.routePositionPointer);
       this.formGroupArray.push(new FormGroup({
           name: new FormControl('', Validators.required),
-          faultInjectionTime: new FormControl('', Validators.required),
+          faultInjectionTime: new FormControl('', [Validators.required, Validators.max(30)]),
           numberOfRuns: new FormControl('', Validators.required),
           file: new FormControl('', Validators.required)
       }));

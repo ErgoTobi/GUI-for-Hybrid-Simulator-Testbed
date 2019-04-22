@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import { Scenario } from '../../models/Scenario';
-import { Testset } from '../../models/Testset';
+import {Component, Input, AfterContentChecked} from '@angular/core';
+import {Scenario} from '../../models/Scenario';
+import {Testset} from '../../models/Testset';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {DeleteDialogComponent} from './delete-dialog/delete-dialog.component';
 import {InterComponentService} from '../../inter-component.service';
@@ -9,23 +9,40 @@ import {OverviewComponent} from '../overview/overview.component';
 import {PasswordDialogComponent} from './password-dialog/password-dialog.component';
 import {Router} from '@angular/router';
 import {EncrDecrService} from '../../encr-decr.service';
+import moment from 'moment';
 
 @Component({
-  selector: 'app-overview-detail',
-  templateUrl: './overview-detail.component.html',
-  styleUrls: ['./overview-detail.component.scss']
+    selector: 'app-overview-detail',
+    templateUrl: './overview-detail.component.html',
+    styleUrls: ['./overview-detail.component.scss']
 })
-export class OverviewDetailComponent implements OnInit {
+export class OverviewDetailComponent implements AfterContentChecked {
     encrypted: string;
     decrypted: string;
-    estimatedTime: string;
+    estimatedTime;
     @Input() testset: Testset;
-    constructor(public dialog: MatDialog, private interComponentService: InterComponentService, private overviewComp: OverviewComponent,
-                public router: Router, private EncrDecr: EncrDecrService) {}
 
-    ngOnInit() {
-        this.estimatedTime = '00:30:54';
+    constructor(public dialog: MatDialog, private interComponentService: InterComponentService, private overviewComp: OverviewComponent,
+                public router: Router, private EncrDecr: EncrDecrService) {
     }
+
+    ngAfterContentChecked() {
+        this.calculateEstimate();
+    }
+
+    calculateEstimate() {
+        if (this.testset) {
+            let secondsToFinish = 0;
+            for (let s = 0; s < this.testset.scenarios.length; s++) {
+                secondsToFinish += this.testset.scenarios[s].runQuantity * 240;
+                this.estimatedTime = moment().add(this.testset.scenarios[s].runQuantity * 240, 'seconds').format('llll');
+
+            }
+        } else {
+            setTimeout(() => this.calculateEstimate(), 500);
+        }
+    }
+
     openDeleteDialog(name: string, id: number): void {
         const dialogRef = this.dialog.open(DeleteDialogComponent, {
             data: {
@@ -46,8 +63,7 @@ export class OverviewDetailComponent implements OnInit {
 
     openPasswordDialog(): void {
         const dialogRef = this.dialog.open(PasswordDialogComponent, {
-            data: {
-            }
+            data: {}
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -61,6 +77,7 @@ export class OverviewDetailComponent implements OnInit {
             }
         });
     }
+
     onStartClick() {
         console.log('1:' + this.interComponentService.getAdminPassword());
         console.log('1:' + this.decrypted);

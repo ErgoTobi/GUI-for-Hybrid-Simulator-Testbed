@@ -1,4 +1,3 @@
-
 <span class="example-spacer"></span>
 
 <mat-toolbar color="">
@@ -10,8 +9,9 @@
         </div>
         <span class="example-spacer"></span>
         <div id="right-area">
-            <div>Estimate Finish: {{estimateFinish}}</div>
-            <div style="display:flex;">Total Duration:  <div class="stopwatch"></div></div>
+            <div class="right-header-font">Estimate Finish: {{estimateFinish}}</div>
+            <div style="display:flex;font-size: 14pt;
+    color: #333333;">Total Duration:  <div class="stopwatch"></div></div>
         </div>
         <!--<span class="mat-body">Estimate Finish: 14-3-2018 19:23</span>-->
     </mat-toolbar-row>
@@ -26,24 +26,8 @@
     <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab">
 
         <div id="content">
-            <!--  <nav class="controls">
-             <a class="button" (click)="stopwatch.start();">Start</a>
-             <a class="button" (click)="stopwatch.lap();">Lap</a>
-             <a class="button" (click)="stopwatch.stop();">Stop</a>
-             <a class="button" (click)="stopwatch.restart();">Restart</a>
-             <a class="button" (click)="stopwatch.clear();">Clear Laps</a>
-           </nav>
-
-
-        <button mat-raised-button
-                   class="example-delete-tab-button"
-                   [disabled]="tabs.length === 1"
-                   (click)="removeTab(index)">
-             Delete Tab
-           </button>-->
             <div class="top-section">
                 <div class="info-container" id="info-container">
-                    <span class='mat-h2'>Info</span>
                     <table mat-table [dataSource]="dataSource1[index]">
 
                         <!-- Position Column -->

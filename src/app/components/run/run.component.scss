@@ -1,7 +1,6 @@
 #start-button{
   z-index:10;
   position: relative;
-  right: 15px;
   background-color: #E45150;
 }
 
@@ -14,7 +13,7 @@
   width: 60%;
   border-bottom-width: 1px !important;
   border-bottom-style: solid;
-  border-color: #131920;
+  border-color: #131920 !important;
 }
 
 .info-container::-webkit-scrollbar-track
@@ -52,14 +51,14 @@
   }
 
   .mat-table tbody {
-    background-color: #131920;
+    background-color: #131920 !important;
   }
 
   tr.mat-header-row {
     background-color: #232B35;
   }
   tr.mat-row {
-    background-color: #232B35;
+    background: #131920;
   }
 
   .mat-cell, .mat-footer-cell {
@@ -67,6 +66,7 @@
     left: 30px;
     color: #FFFFFF;
     height: 50px;
+    background-color: #232B35;
   }
 
   .mat-header-cell {
@@ -126,6 +126,7 @@
   border-bottom-width: 1px !important;
   border-bottom-style: solid;
   border-color: #131920;
+  min-height: 50vmin;
 
   table {
     width: 100%;
@@ -254,12 +255,13 @@ controls {
 
 #content{
   background: #232B35;
+  height: inherit;
 }
 .mat-tab-group {
     height: 100% !important
 }
-.mat-tab-body-wrapper{
-  height:100%;
+::ng-deep.mat-tab-body-wrapper {
+  height:inherit !important;
 }
 
 .gaugechart {

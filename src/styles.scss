@@ -61,6 +61,12 @@ a{
   font-weight: lighter;
 }
 
+.right-header-font{
+  font-size: 12pt;
+  color: #333333;
+}
+
+
 /*END FONT STYLES*/
 /*TAB BAR STYLING*/
 .mat-tab-label{
@@ -140,9 +146,6 @@ a{
   border-bottom-width: 1px !important;
 }*/
 
-.mat-list-item:active{
-  background-color: #0E0F13 !important;
-}
 
 .mat-list-base {
   padding-top: 1.2px !important;
