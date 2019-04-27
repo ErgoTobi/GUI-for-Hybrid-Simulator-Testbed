@@ -1,13 +1,11 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ErrorStateMatcher} from '@angular/material/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {FormArray, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {InterComponentService} from '../../inter-component.service';
 import {Scenario} from '../../models/Scenario';
 import {DataService} from '../../data.service';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
-import { FileInput } from 'ngx-material-file-input';
-import {OverviewComponent} from '../overview/overview.component';
 const shell = require('shelljs');
 
 
@@ -26,8 +24,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 
 export class CreateComponent implements OnInit {
-
-    testsetName: string;
+  testsetName: string;
   tabs = ['Scenario'];
   scenarioCounter;
   selected = new FormControl(0);
@@ -64,10 +61,9 @@ export class CreateComponent implements OnInit {
     matcher = new MyErrorStateMatcher();
 
     constructor(private interComponentService: InterComponentService, private dataService: DataService, public router: Router,
-                private snackBar: MatSnackBar/*, private overviewComp: OverviewComponent*/) { }
+                private snackBar: MatSnackBar) { }
   ngOnInit() {
     this.interComponentService.setButtonHeaderActive(false);
-    console.log('test');
     this.scenarioCounter = 1;
     this.routePositionPointer[0] = 0;
     this.selectedRoute[0] = this.routes[this.routePositionPointer[0]];
@@ -76,23 +72,18 @@ export class CreateComponent implements OnInit {
 
   onSelect(modeElement: ModeElement, index: number) {
       this.selectedMode[index] = modeElement;
-      console.log(this.selectedMode);
   }
 
   addTab(selectAfterAdding: boolean) {
-
     this.scenarioCounter++;
     this.routePositionPointer[this.scenarioCounter - 1] = 0;
     this.selectedRoute[this.scenarioCounter - 1] = this.routes[0];
-      console.log(this.selectedRoute);
-      console.log(this.routePositionPointer);
       this.formGroupArray.push(new FormGroup({
           name: new FormControl('', Validators.required),
           faultInjectionTime: new FormControl('', [Validators.required, Validators.max(30)]),
           numberOfRuns: new FormControl('', Validators.required),
           file: new FormControl('', Validators.required)
       }));
-      console.log(this.formGroupArray);
       this.tabs.push('New Scenario');
 
     if (selectAfterAdding) {
@@ -102,6 +93,7 @@ export class CreateComponent implements OnInit {
     updateTabs(event) {
       this.tabs[this.selected.value] = event.currentTarget.value;
     }
+  // Removes array indexes when Tab is removed
   removeTab(index: number) {
     this.tabs.splice(index, 1);
     this.scenarioCounter--;
@@ -111,25 +103,21 @@ export class CreateComponent implements OnInit {
     this.selectedJSONInput.splice(index,1);
     this.formGroupArray.removeAt(index);
   }
-
+    // Left arrow click for routes
     onLeftClick(index: number) {
       this.routePositionPointer[index]--;
       if (this.routePositionPointer[index] < 0) {
           this.routePositionPointer[index] = this.routes.length - 1;
       }
         this.selectedRoute[index] = this.routes[this.routePositionPointer[index]];
-        console.log(this.selectedRoute);
-        console.log(this.routePositionPointer);
     }
-
+    // Rigth arrow click for routes
     onRightClick(index: number) {
         this.routePositionPointer[index]++;
         if (this.routePositionPointer[index] >= this.routes.length) {
             this.routePositionPointer[index] = 0;
         }
         this.selectedRoute[index] = this.routes[this.routePositionPointer[index]];
-        console.log(this.selectedRoute);
-        console.log(this.routePositionPointer);
     }
 
     onFileConfigChange(event, index: number) {
@@ -142,7 +130,6 @@ export class CreateComponent implements OnInit {
         reader.onload = () => {
             this.selectedJSONInput[index] = reader.result.toString();
         };
-        console.log(this.selectedJSONInput);
     }
 
     onSaveExitClick() {
@@ -154,15 +141,6 @@ export class CreateComponent implements OnInit {
                 !this.formGroupArray.at(j).get('faultInjectionTime').valid ||
                 !this.formGroupArray.at(j).get('numberOfRuns').valid ||
                 !this.formGroupArray.at(j).get('file').valid) {
-                    console.log('0.1: ' + !this.formGroupArray.valid);
-                    console.log('0.2: ' + !this.formGroupArray.at(j).valid);
-                    console.log('1: ' + !this.formGroupArray.at(j).get('name').valid);
-                    console.log('2: ' + this.selectedMode[j]);
-                    console.log('3: ' + this.selectedRoute[j]);
-                    console.log('4: ' + !this.formGroupArray.at(j).get('faultInjectionTime').valid);
-                    console.log('5: ' + !this.formGroupArray.at(j).get('numberOfRuns').valid);
-                    console.log('6: ' + !this.formGroupArray.at(j).get('file').valid);
-
                     this.snackBar.open('Please fill in all fields in Scenario Tab: ' + this.tabs[j], 'DISMISS', {
                         duration: 10000,
                         panelClass: ['customized-snackbar']
@@ -185,11 +163,8 @@ export class CreateComponent implements OnInit {
             });
             const command = shell.exec('cp -a ' + this.formGroupArray.at(0).get('file').value._files[0].path + ' ',
                 {silent: false, async: true});
-            // angular.copy(this.formGroupArray.at(0).get('file').value._files[0].path, ['./../qemu_config_files/qemu_config_file.json']);
         }
-        console.log(scenarios);
         this.dataService.createScenarioBulk(this.testsetName, scenarios).subscribe(data => {
-                console.log('createTestsetScenariosBulk'); console.log(data);
             this.router.navigate(['overview']);
             }
         );
@@ -224,7 +199,7 @@ const MODES: ModeElement[] = [
         fullName: 'Adaptive Cruise Control',
         description: 'is an available cruise control system for road vehicles that automatically adjusts the' +
             ' vehicle speed to maintain a safe distance from vehicles ahead. Control is based on sensor information from on-board sensors.',
-    },
+    }/*,
     {
         shortName: 'ADC',
         fullName: 'Autonomous Driving Car',
@@ -236,25 +211,11 @@ const MODES: ModeElement[] = [
         fullName: 'Advanced Driver-Assistance Systems',
         description: 'are systems to help the driver in the driving process. When designed with a ' +
             'safe human-machine interface, they should increase car safety and more generally road safety.',
-    },
+    },*/
 ];
-const shortNameACC = 'ACC';
-const fullNameACC = 'Adaptive Cruise Control';
-const descriptionACC = 'is an available cruise control system for road vehicles that automatically adjusts the' +
-    ' vehicle speed to maintain a safe distance from vehicles ahead. Control is based on sensor information from on-board sensors.';
-
-const shortNameADC = 'ADC';
-const fullNameADC = 'Autonomous Driving Car';
-const descriptionADC = 'is a vehicle that is capable of sensing its environment and moving with little or no human ' +
-    'input. Autonomous cars combine a variety of sensors to perceive their surroundings';
-
-const shortNameADAS = 'ADAS';
-const fullNameADAS = 'Advanced Driver-Assistance Systems';
-const descriptionADAS = 'are systems to help the driver in the driving process. When designed with a ' +
-    'safe human-machine interface, they should increase car safety and more generally road safety.';
 
 const ROUTES: Route[] = [
-    {
+    /*{
         name: 'kia4sm',
         length: 800,
         width: 10,
@@ -267,7 +228,7 @@ const ROUTES: Route[] = [
         width: 14,
         pits: 15,
         disabled: true,
-    },
+    },*/
     {
         name: 'Speedways',
         length: 600,

@@ -1,10 +1,8 @@
-import {AfterViewInit, Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DataService} from '../../data.service';
 import {Testsets} from '../../models/Result';
 import {Testset} from '../../models/Testset';
 import {MatDialog} from '@angular/material';
-import {SettingsDialogComponent} from '../settings-dialog/settings-dialog.component';
-import {DeleteDialogComponent} from '../overview-detail/delete-dialog/delete-dialog.component';
 import {CreateTestsetDialogComponent} from './create-testset-dialog/create-testset-dialog.component';
 import {InterComponentService} from '../../inter-component.service';
 
@@ -41,7 +39,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
     onSelect(testset: Testset) {
         this.selectedTestset = testset;
-        console.log(this.selectedTestset);
     }
 
     doFilter = (value: string) => {
@@ -56,14 +53,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
-            console.log(result);
         });
     }
-    onRowClicked(row) {
-        console.log('Row clicked: ', row);
-        console.log('id of row');
-        console.log(row.id);
-    }
-
-
 }
