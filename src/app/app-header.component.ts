@@ -7,6 +7,7 @@ import {interval} from 'rxjs';
 import {InterComponentService} from './inter-component.service';
 import {EncrDecrService} from './encr-decr.service';
 import {Setting} from './models/Setting';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +24,7 @@ export class AppHeaderComponent implements OnInit {
     setting: Setting;
 
     constructor(private dataService: DataService, public dialog: MatDialog,
-                public interComponentService: InterComponentService, private EncrDecr: EncrDecrService) { }
+                public interComponentService: InterComponentService, private EncrDecr: EncrDecrService, private router: Router) { }
 
     ngOnInit() {
         // Assignment of logo
@@ -49,8 +50,6 @@ export class AppHeaderComponent implements OnInit {
         // Continuous check
         this.check = interval(10 * 1000).subscribe(x => {
             this.dataService.authenticateDatabase();
-            // console.log(this.interComponentService.getDatabaseConnected());
-            // this.databaseChecked = this.interComponentService.getDatabaseConnected();
         });
     }
 
@@ -69,7 +68,7 @@ export class AppHeaderComponent implements OnInit {
             console.log(result);
             // refresh after setting
             if (result === 1) {
-                // this.overviewComp.ngOnInit();
+                location.reload();
             }
         });
     }

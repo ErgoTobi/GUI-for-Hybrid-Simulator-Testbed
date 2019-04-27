@@ -31,21 +31,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
                 console.log(data);
                 // Autoselects first item in list
                 this.selectedTestset = this.testsets[0];
-                /*
-                for (let j = 0; j < this.testsets.length; j++) {
-                    if (this.testsets[j].scenarios) {
-                        for (let i = 0; i < this.testsets[j].scenarios.length; i++) {
-                            if (this.testsets[j].scenarios[i].file) {
-                                let ecus = JSON.parse(this.testsets[j].scenarios[i].file).length;
-                                console.log(this.testsets[j].scenarios);
-                                this.testsets[j].scenarios.map((obj) => {
-                                    obj['ecuCount'] = ecus;
-                                    return obj;
-                                });
-                            }
-                        }
-                    }
-                }*/
             }
         );
     }
@@ -63,7 +48,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
         if (value === '' || value.length === 1) { this.testsets = this.testsetsOnLoad; }
         this.testsets = this.testsets.filter(testset => testset.name.toLowerCase().indexOf(value.toLowerCase()) !== -1);
     }
-
     openCreateDialog(): void {
         const dialogRef = this.dialog.open(CreateTestsetDialogComponent, {
             data: {
@@ -75,7 +59,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
             console.log(result);
         });
     }
-
     onRowClicked(row) {
         console.log('Row clicked: ', row);
         console.log('id of row');

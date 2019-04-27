@@ -6,7 +6,7 @@ import {EncrDecrService} from '../../encr-decr.service';
 import {MatDialog, MatTableDataSource} from '@angular/material';
 import {RunDetail} from '../../models/RunDetail';
 import {ActivatedRoute, Router} from '@angular/router';
-import { Subscription } from 'rxjs';
+import {Subscription} from 'rxjs';
 import {isSuccess} from '@angular/http/src/http_utils';
 //
 import * as $ from 'jquery';
@@ -40,10 +40,6 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(private dataService: DataService, private ngZone: NgZone, private route: ActivatedRoute, private router: Router,
                 private interComponentService: InterComponentService, private EncrDecr: EncrDecrService, public dialog: MatDialog) {
-        // this.route.params.subscribe( params => {
-        //     this.clickedTestsetId = params.id;
-        //     }
-        // );
         this.clickedTestsetId = this.interComponentService.getRunTestsetId();
         this.password = this.EncrDecr.get('123456$#@$^@1ERF', this.interComponentService.getAdminPassword());
     }
@@ -111,37 +107,9 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
                     }
                 );
             });
-        // $('#mat-tab-label-0-3').keydown(this.addTab);
     }
 
     subscribe() {
-        /* this.dataService.readAllRunsByResultId(this.runningTestsetResult.id).subscribe(
-             data => {
-                 const castedData = (data as any);
-                 const refactoredData = [];
-                 for (let i = 0; i < castedData.length; i++) {
-                     castedData[i] = castedData[i].dataValues;
-                     if (castedData[i].scenarioId === this.activeScenarioCounter) {
-                         refactoredData.push(castedData);
-                     }
-                 }
-                // this.scenarios.findIndex( scenario => scenario.id === castedData[i].scenarioId)
-                 this.dataSource1[this.activeScenarioCounter] = refactoredData;
-                 this.updateGauge(refactoredData);
-                 if (!this.isScenarioEnded()) {
-                     this.dataSource1[this.activeScenarioCounter].push
-                     ({state: 3, resultId: 1, startTimestamp: 'Currently Running..', id: null});
-                 }
-             });*/
-        /*this.dataService.readAllRunsByResultId(this.runningTestsetResult.id).subscribe(
-            data => {
-                const castedData = (data as any);
-                for (let i = 0; i < castedData.length; i++) {
-                    castedData[i] = castedData[i].dataValues;
-                }
-                this.dataSource1[this.activeScenarioCounter] = castedData;
-                this.dataSource1[0].push({state: 3, resultId: 1, timeStamp: 'Currently Running..', id: null});
-            });*/ // GET IN
         this.startRun();
     }
 
@@ -149,11 +117,6 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
         this.stopwatch = new Stopwatch(
             document.querySelector('.stopwatch'));
         this.stopwatch.start();
-        // this.loadGauge();
-        /*$('scrolled').on('scroll', function(){
-            this.scrolled = true;
-        });*/
-        // this.subscribeToMqtt();
     }
 
     openStopDialog(): void {
@@ -191,7 +154,6 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     loadGauge(index) {
-        //    if (document.getElementById('gaugechart')) {failed
         // Create chart instance
         // check if am4chart is already created
         if (!this.chartValues[index]) {
@@ -260,8 +222,7 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
             // /return chart.colors.getIndex(target.dataItem.index);
             return (target.dataItem.index >= 0) ? am4core.color(target.dataItem._dataContext.fillColors) : fill;
         });
-
-// Add cursor
+        // Add cursor
         this.chart.cursor = new am4charts.RadarCursor();
         /*const tooltip = $('g [aria-labelledby =\'id-67-title\']') as any;
         if (tooltip.length > 0) {
@@ -278,40 +239,31 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
         const service = this.dataService;
         const values = [];
         localStorage.setItem('values', JSON.stringify(values));
-        // const convert = this.convertValues;
-
         const client = mqtt.connect([{host: 'localhost', port: 1883}]);
         client.on('connect', function () {
             client.subscribe('#', function (err) {
-                if (err) {//
-                    //  client.publish('savm/car/0/isPositionTracked', 'Error: Missing Data');
+                if (err) {
                 }
             });
         });
         client.on('message', function (topic, message) {
             if (!component.activeRunTimestamp) {
                 component.activeRunTimestamp = moment().format();
-                component.timeouts.push(setTimeout(() => component.checkState(), 40000));
+                component.timeouts.push(setTimeout(() => component.checkState(), 25000));
                 component.timeouts.push(setTimeout(() => component.faultInject(), component.runningScenarios[component.activeScenarioCounter].faultInjectionTime * 1000));
                 clearTimeout(component.testFailedFlag);
-                // HIER FAULT INJECTION TRIGGERN TOBIAS this.runningScenarios[this.activeScenarioCounter].faultInjectionTime
             }
             const currentDuration = moment.utc(moment().diff(component.activeRunTimestamp)).format('HH:mm:ss:S');
-            // console.log(message.toString());
-            // let storedNames: RunDetail[];
-            // storedNames = JSON.parse(localStorage.getItem('values'));
             component.storedNames.push({
                 relativeTime: currentDuration,
                 key: topic,
                 value: message.toString(),
                 runId: component.activeRun.id
             });
-            // localStorage.setItem('values', JSON.stringify(storedNames));
             if (component.storedNames.length === 200) {
                 const temp = [component.storedNames[0], component.storedNames[1]];
                 service.createRunDetailBulk(component.storedNames);
                 component.storedNames.length = 0;
-                // localStorage.setItem('values', JSON.stringify(storedNames));
             }
         });
     }
@@ -349,9 +301,6 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
     startRun() {
         const component = this;
         const service = this.dataService;
-        // service.createRunDetailBulk(storedNames);dataService
-        // storedNames.length = 0;
-        // localStorage.setItem('values', JSON.stringify(storedNames));
         service.createRun(98970, 'currently running..', 3,
             component.runningScenarios[component.activeScenarioCounter].id, component.runningTestsetResult.id).subscribe(
             runData => {
@@ -362,10 +311,12 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
                 if (component.interval) {
                     clearInterval(component.interval);
                 }
-                component.interval = setInterval(() => {service.readLast100RunDetailsByRunResultId(component.activeRunId).subscribe(
+                component.interval = setInterval(() => {
+                    service.readLast100RunDetailsByRunResultId(component.activeRunId).subscribe(
                         data => {//
                             component.dataSource[component.activeScenarioCounter].data = data as RunDetail[];
-                        }); }, 5000);
+                        });
+                }, 5000);
                 this.testFailedFlag = setTimeout(() => component.clearFailedTest(), 45000);
                 component.startTestenvironment();
                 component.dataService.readAllRunsByResultId(component.runningTestsetResult.id).subscribe(
@@ -397,15 +348,15 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
                 const component = this;
                 const nodePath = (shell.which('node').toString());
                 shell.config.execPath = nodePath;
+                const path = process.execPath;
                 let textOnly;
                 (data as any).isTextOnly ? textOnly = ' -x' : textOnly = '';
-                //this.setTrackConfig();
-                const command = shell.exec('/home/user1/speed-dreams/build/games/speed-dreams-2 -s quickrace' + textOnly, {
+                this.setTrackConfig();
+                //for textOnly add textOnly Attribute to command String
+                const command = shell.exec('/home/user1/speed-dreams/build/games/speed-dreams-2 -s quickrace', {
                     silent: false,
                     async: true
                 });
-                // command.stdout.on('data', (data) => {
-                //  });
                 component.activeSpeedDreams = command;
 
                 const commands: Array<any> = [];
@@ -426,36 +377,17 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
                         console.log(commands);
                     }
                     component.activeECUs = commands;
-                    // if(flag === 0) {
-                    // flag = 1;
                     console.log(qemuInstances.length - 1);
                     component.activeECUs[qemuInstances.length - 1].stdout.on('data', function (data) {
                         console.log('QEMU Instance: ', data);
                         if (data.includes('mosquitto server')) {
-                            // const command5 = shell.exec('PROJECT=idp_savm make jenkins_run', {silent: false, async: true});
                             component.activeSAVM = shell.exec('qemu-system-arm -kernel /home/user1/operating-system/build/genode-focnados_pbxa9/var/run/idp_savm/image.elf -machine realview-pbx-a9 -m 1024 -nographic -smp 4 -net nic,macaddr=02:00:00:00:01:02 -net nic,model=e1000 -net vde,sock=/tmp/switch1', {
                                 silent: false,
                                 async: true
                             });
-                            // command4.stdout.on('data', function (data1) {
-                            //     if (data1.includes('connected to mosquitto server')) {
-                            //         component.stopwatch.start();
-                            //     }
-                            // });
                         }
                     });
                 });
-                // let command23 = shell.exec('make vde', {silent: false, async: true});
-
-                // const command3 = shell.exec('PROJECT=idp_acc make jenkins_run', {silent: false, async: true});
-                // const command3 = shell.exec('qemu-system-arm -kernel /home/user1/operating-system/build/genode-focnados_pbxa9/var/run/idp_acc/image.elf -machine realview-pbx-a9 -m 1024 -nographic -smp 4 -net nic,macaddr=02:00:00:00:01:03 -net nic,model=e1000 -net vde,sock=/tmp/switch1', {silent: false, async: true});
-
-                //
-                // const qemuInstances = JSON.stringify();
-                /*$.getJSON( '../../../qemu_config_files/qemu_config_file.json', function( data ) {
-                    console.log(data);
-                });*/
-                // const config = JSON.getFile(component.runningScenarios[component.activeScenarioCounter].path);
             });
 
     }
@@ -466,8 +398,6 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     updateGauge(data) {
-        // let passedScenarios = 0;
-        // let failedScenarios = 0;
         for (let i = 0; i < this.runningScenarios.length; i++) {
             this.chartValues[i] = {failed: 0, passed: 0};
             data[i].forEach(element => {
@@ -493,7 +423,7 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
         const track = this.runningScenarios[this.activeScenarioCounter].route;
         const xmlName = mode + '_' + track + '.xml';
         const command = shell.exec('cd .speed-dreams-2/config/raceman', {silent: false, async: true});
-        const command2 = shell.exec('cp quickrace/' + xmlName + ' quickrace.xml', {silent: false, async: true});
+        const command2 = shell.exec('cp quickrace.xml quickrace/' + xmlName, {silent: false, async: true});
     }
 
     faultInject() {
@@ -501,25 +431,18 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
         const component = this;
         const qemuInstances = JSON.parse(component.runningScenarios[component.activeScenarioCounter].file);
         for (let i = 0; i < qemuInstances.length; i++) {
-            // kill die ecu mit flag true
-            // if activeRun.Time === activeScenarioCounter.faultInjectionTime
+            // kill ecu with flag true
             if (qemuInstances[i].faultInjection) {
                 this.activeECUs.forEach(ecu => {
                     if (ecu) {
                         const comm = shell.exec('kill -9 ' + (ecu.pid + 1), {silent: false, async: true});
                     }
                 });
-
-                setTimeout(function() {
-                    const commandConf = shell.exec(qemuInstances[i].qemu_args + ' ' + qemuInstances[i].path, {silent: false, async: true});
-                    commands.push(commandConf);
-                }, 500
+                setTimeout(function () {
+                        const commandConf = shell.exec(qemuInstances[i].qemu_args + ' ' + qemuInstances[i].path, {silent: false, async: true});
+                        commands.push(commandConf);
+                    }, 500
                 );
-
-               // this.activeECUs[i].kill('SIGKILL');
-               // const comm = shell.exec('kill -9 ' + this.activeECUs[i].pid, {silent: false, async: true});
-                // timeout einfügen
-
             }
         }
         component.activeECUs = commands;

@@ -40,7 +40,6 @@ export class SettingsDialogComponent implements OnInit {
             }
             console.log(this.encrypted);
             console.log(this.decrypted);
-            // this.passwordFormControl.setValue(this.interComponentService.getAdminPassword());
         }
     );
   }

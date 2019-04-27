@@ -14,7 +14,6 @@ import {saveAs} from 'file-saver';
 })
 export class ResultComponent implements OnInit {
 
-    // user$: (string|number)[] = [];
     testset;
     scenarios;
     activeResultId;
@@ -123,11 +122,6 @@ export class ResultComponent implements OnInit {
         const blob2 = new Blob([csvArray2], {type: 'text/csv'});
         saveAs(blob2, 'Set-up.csv');
     }
-
-    // doFilter = (value: string) => {
-    //     if (value === '' || value.length === 1) { this.testsets = this.testsetsOnLoad; }
-    //     this.testsets = this.testsets.filter(testset => testset.name.toLowerCase().indexOf(value.toLowerCase()) !== -1);
-    // }
 
 }
 

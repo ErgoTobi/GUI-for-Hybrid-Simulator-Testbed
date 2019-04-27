@@ -10,9 +10,6 @@ const eshell = require('electron').shell;
 const shell = require('shelljs');
 const Sequelize = require('sequelize');
 const mqtt = require('mqtt');
-// npmimport * as mqtt from 'mqtt';
-// require('shelljs-plugin-open');
-// let flag = 0;
 declare function require(url: string);
 
 @Component({
@@ -66,8 +63,7 @@ export class HomeComponent implements OnInit {
     }
 
     readFile() {
-        // let savmCommand = shell.exec(, {silent: false, async: true});
-        // const qemuInstances = JSON.stringify();
+
         let commands: Array<any> = [];
         let scens;
         let qemuInstances;
@@ -99,27 +95,14 @@ export class HomeComponent implements OnInit {
         const nodePath = (shell.which('node').toString());
         shell.config.execPath = nodePath;
         let command = shell.exec('/home/user1/speed-dreams/build/games/speed-dreams-2 -s quickrace', {silent: false, async: true});
-        // command.stdout.on('data', (data) => {
-        //  });
 
         shell.cd('/home/user1/operating-system/');
         let command2 = shell.exec('echo administrator | sudo -S make vde', {silent: false, async: true});
-        //let command23 = shell.exec('make vde', {silent: false, async: true});
 
         let command3 = shell.exec('PROJECT=idp_acc make jenkins_run', {silent: false, async: true});
         command3.stdout.on('data', function (data) {
             if (data.includes('mosquitto server')) {
-                //if(flag === 0) {
-                //flag = 1;
                 let command4 = shell.exec('PROJECT=idp_savm make jenkins_run', {silent: false, async: true});
-                // command4.stdout.on('data', function (data1) {
-                //     if (data1.includes('connected to mosquitto server')) {
-                //     }
-                // });
-                //  setTimeout(function () {
-                //    let command10 = shell.exec('pkill -P $$', {silent: false, async: true});
-                // command.kill();
-                //}, 19000);
             }
         });
     }
@@ -127,12 +110,6 @@ export class HomeComponent implements OnInit {
     test1() {
         shell.cd('/home/user1/operating-system/');
         let command2 = shell.exec('make vde', {silent: false, async: true});
-        //let command2 = shell.exec('make vde < pass.txt', {silent: false, async: true});
-        // let command8 = shell.exec('echo administrator', {silent: false, async: true});
-
-        /* setTimeout(function () {
-             let command5 = shell.pushd('hallo123');
-         }, 5000,);*/
     }
 
     test2() {
@@ -153,17 +130,9 @@ export class HomeComponent implements OnInit {
                 }, 4000);
             }
         });
-        //setTimeout(function(){
-        //   let command4 = shell.exec('PROJECT=idp_savm make jenkins_run', {silent: false, async: true});
-        //},35000);
     }
 
     test3() {
-        /*
-        console.log(this.nameInputRef);
-        // this.dataService.updateSuite('Tobi', 'Hi', true);
-        console.log(this.dataService.createRunResultData());
-        */
         this.dataService.authenticateDatabase();
         this.dataService.createDummyResultData();
         this.dataService.readAllTestsets().subscribe(
@@ -175,10 +144,6 @@ export class HomeComponent implements OnInit {
         this.dataService.readSettingById(1).subscribe(
             data => { console.log('readSettingById 1: '); console.log(data);
             });
-        /* Does not work
-        this.dataService.readAllRunDetailsByRunId(2).subscribe(
-            data => { console.log('readRunDetailById 2: '); console.log(data);
-            });*/
         this.dataService.readAllRunsByResultId(1).subscribe(
             data => { console.log('readRunById 1: '); console.log(data);
             });
@@ -271,7 +236,6 @@ export class HomeComponent implements OnInit {
         client.on('connect', function () {
             client.subscribe('#', function (err) {
                 if (err) {
-                  //  client.publish('savm/car/0/isPositionTracked', 'Error: Missing Data');
                 }
             });
         });
@@ -295,24 +259,4 @@ export class HomeComponent implements OnInit {
             }
         );
     }
-
-
-
-   /* convertValues(messagePair) {
-        if (messagePair[0] === 'savm/car/0/isSpeedTracked' || messagePair[0] === 'savm/car/0/isPositionTracked') {
-            return this.booleanize(messagePair[1]);
-        }
-        if (topic === 'savm/car/0/isSpeedTracked' || topic === 'savm/car/0/isSpeedTracked' || topic === 'savm/car/0/isSpeedTracked'
-            || topic === 'savm/car/0/isSpeedTracked' || topic === 'savm/car/0/isSpeedTracked' ||) {
-
-        }
-    }
-
-    booleanize(message) {
-        return message === 1;
-    }
-
-    splitCoordinates(coordinates) {
-        return coordinates.split(', ');
-    }*/
 }

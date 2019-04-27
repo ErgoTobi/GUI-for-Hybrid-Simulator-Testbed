@@ -10,7 +10,6 @@
             <span class="mat-h1">Results</span>
         </div>
         <span class="example-spacer"></span>
-        <!--<span class="mat-body">Estimate Finish: 14-3-2018 19:23</span>-->
     </mat-toolbar-row>
 
 </mat-toolbar>
@@ -50,21 +49,4 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/result/{{row.id}}" (click)="onRowClicked(row)" style="cursor: pointer;"></tr>
         </table>
     </div>
-
-
-
 </div>
-
-
-
-<!--
-<ul>
-  <li *ngFor="let user of users$">
-    <a routerLink="/details/{{user.id}}">{{ user.name }} <span>{{ user.email }}</span></a>
-
-    <ul>
-      <li>{{ user.email }}</li>
-      <li><a href="http://{{ user.website }}">{{ user.website }}</a></li>
-    </ul>
-  </li>
-</ul>-->

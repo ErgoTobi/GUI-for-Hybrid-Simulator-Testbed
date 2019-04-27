@@ -66,7 +66,6 @@ export class CreateComponent implements OnInit {
     constructor(private interComponentService: InterComponentService, private dataService: DataService, public router: Router,
                 private snackBar: MatSnackBar/*, private overviewComp: OverviewComponent*/) { }
   ngOnInit() {
-   // $('#mat-tab-label-0-3').keydown(this.addTab);
     this.interComponentService.setButtonHeaderActive(false);
     console.log('test');
     this.scenarioCounter = 1;
@@ -94,7 +93,6 @@ export class CreateComponent implements OnInit {
           file: new FormControl('', Validators.required)
       }));
       console.log(this.formGroupArray);
-    // this.tabs.push('Scenario ' + this.scenarioCounter);
       this.tabs.push('New Scenario');
 
     if (selectAfterAdding) {
@@ -148,19 +146,8 @@ export class CreateComponent implements OnInit {
     }
 
     onSaveExitClick() {
-      /*
-        let scenarios2: Scenario[] = [
-            { 'name': 'WSBulkScenario1', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
-                'testsetId': 0},
-            { 'name': 'WSBulkScenario2', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
-                'testsetId': 0},
-            { 'name': 'WSBulkScenario3', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
-                'testsetId': 0},
-            { 'name': 'WSBulkScenario4', 'mode': 'ACC', 'route': 'Speedways', 'faultInjectionTime': 45, 'runQuantity': 10,
-                'testsetId': 0}
-        ];*/
       // Check if one element is not filled
-        for (let j = 0; j < this.selectedMode.length; j++) {
+        for (let j = 0; j < this.scenarioCounter; j++) {
             if (!this.formGroupArray.at(j).get('name').valid ||
                 this.selectedMode[j] == null || !this.selectedMode[j] ||
                 this.selectedRoute[j].name == null || this.selectedRoute[j].name === '' ||
@@ -211,16 +198,7 @@ export class CreateComponent implements OnInit {
             duration: 5000,
             panelClass: ['customized-snackbar']
         });
-        // this.overviewComp.ngOnInit();
     }
-
-  startTest() {
-    console.log('test');
-  }
-  /*navigateTo(item, event) {
-    this.activeItem = item;
-  }*/
-
 }
 
 
@@ -282,8 +260,8 @@ const ROUTES: Route[] = [
         width: 10,
         pits: 10,
         disabled: false,
-    }
-    /*{
+    },
+    {
         name: 'Grand Prix Circuit',
         length: 1400,
         width: 14,
@@ -296,5 +274,5 @@ const ROUTES: Route[] = [
         width: 12,
         pits: 8,
         disabled: true,
-    },*/
+    }
 ];

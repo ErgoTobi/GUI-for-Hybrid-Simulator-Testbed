@@ -4,26 +4,27 @@
   background-color: #4ebfae;
   margin-left: 1.2%;
 }
+
+
 /*LIST TABLE STYLING*/
 .example-container {
-  height: 600px;
+  height: 71.5vh;
   border-bottom-width: 1px !important;
   border-bottom-style: solid;
   border-color: #131920;
 }
 
-.example-container::-webkit-scrollbar-track
+.mat-nav-list::-webkit-scrollbar-track
 {
   background-color: #131920;
-  margin-top: 13.5%;
 }
 
-.example-container::-webkit-scrollbar
+.mat-nav-list::-webkit-scrollbar
 {
   width: 6px;
 }
 
-.example-container::-webkit-scrollbar-thumb
+.mat-nav-list::-webkit-scrollbar-thumb
 {
   border-radius: 3px;
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
@@ -32,30 +33,26 @@
 }
 
 .mat-nav-list {
-  height: 89%;
+  width: 100%;
+  height: 100%;
   overflow-x: hidden;
-  overflow-y: auto;
-  //min-width: 100px;
+  overflow-y: scroll;
+  min-width: 100px;
   background-color:#131920;
 }
 .mat-list-item {
-  display: flex ;
   background-color:#232B35;
   border-width: 1.2px !important;
   border-style: solid;
   border-color: #131920 !important;
-  width: auto !important;
-  align-items: center ;
+  width: 99% !important;
 }
 
 .mat-list-item-content{
-  display: flex;
-  align-items: center;
   border: solid 1px !important;
   border-color: #0E0F13 !important;
   border-bottom-width: 0 !important;
   border-left-width: 0 !important;
-
 }
 
 .mat-list-item-ripple.mat-ripple:last-of-type{
@@ -98,35 +95,32 @@ span.mat-line{
 /*END LIST TABLE STYLING*/
 
 
+/*CONTAINER STYLING*/
 #content{
   position: relative;
-  overflow:hidden;
+  overflow: hidden;
   height: -webkit-fill-available;
   background: #232B35;
 }
-/*  background-color: #131920;
-    background-color: #232B35;
-    background-color: #2D343C;
-    color: #F8F8F8*/
 
 #master {
+  position: absolute;
   left: 0;
-  width: 30%;
+  width: 33%;
   color: #F8F8F8;
-  -webkit-box-shadow: 1px 0 2px rgba(0,0,0,0.6);
+  -webkit-box-shadow: 1px 0px 2px rgba(0,0,0,0.6);
   z-index: 10;
-  display:inline-block;
-  height:100%;
 }
 
 #detail {
   position: absolute;
   right: 0;
-  width: 70%;
-  color: #F8F8F8;
-  background-color: #2D343C;
   height: 100%;
+  width: 67%;
+  color: #F8F8F8;
+  background-color: #2D343C
 }
+/*END CONTAINER STYLING*/
 
 
 #searchfield {

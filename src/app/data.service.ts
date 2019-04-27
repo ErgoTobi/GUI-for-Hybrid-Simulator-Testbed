@@ -9,9 +9,11 @@ import {RunDetail} from './models/RunDetail';
 import {InterComponentService} from './inter-component.service';
 
 const Sequelize = require('sequelize');
+console.log(Sequelize);
 const connection = new Sequelize('suite_simulator', 'root', 'password', {
     dialect: 'mysql'
 });
+console.log(connection);
 const Testset = require('./models/Testset')(connection, Sequelize);
 const Scenario = require('./models/Scenario')(connection, Sequelize);
 const Result = require('./models/Result')(connection, Sequelize);
@@ -305,20 +307,6 @@ export class DataService {
                 order: [['id', 'DESC']]
             }));
     }
-    /*readLast100RunDetailsByRunResultId (runId: number) {
-        return Rx.Observable.interval(10000).flatMap(() => {
-            return fromPromise(Rundetail.findAll({
-                limit: 100,
-                where: {
-                    runId: runId
-                },
-                order: [['id', 'DESC']]
-            }));
-        });
-    }
-    stopSubscription () {
-   return Rx.Observable;
-    }*/
     // Testmethods
     // C(): Creates results
     createDummyResultData () {

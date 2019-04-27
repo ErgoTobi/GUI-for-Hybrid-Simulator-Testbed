@@ -117,7 +117,7 @@
   width: 40%;
   height: inherit;
   left: 30%;
-  background: url("../../../assets/snazzy-image.png") no-repeat bottom center fixed;
+  background: url("../../../assets/snazzy-image.jpg") no-repeat bottom center fixed;
   -webkit-background-size: 41%;
   -moz-background-size: 41%;
   -o-background-size: 41%;
@@ -149,6 +149,7 @@
   width: 50%;
   text-align: center;
   height: 5%;
+  font-weight:500;
 }
 
 .route-icons {
@@ -275,4 +276,17 @@
 
 .mat-form-field-appearance-legacy .mat-hint {
   color: #F8F8F8;
+}
+.mode-header{
+  font-weight: 700 !important;
+}
+.mode-body{
+  white-space: normal !important;
+  font-size:11pt !important;
+}
+#tab-right-area{
+  .mat-list-item{
+    height: auto;
+    padding: 10px;
+  }
 }
