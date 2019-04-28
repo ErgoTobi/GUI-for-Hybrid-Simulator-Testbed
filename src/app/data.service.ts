@@ -39,6 +39,28 @@ export class DataService {
     constructor(private interComponentService: InterComponentService) {
     }
 
+    initializeDatabase () {
+        const {exec} = require('child_process');
+
+        return new Promise((resolve, reject) => {
+            const migrate = exec(
+                'cd src/app && sequelize db:create && sequelize db:migrate && sequelize db:seed:all',
+                {env: process.env},
+                (err, stdout, stderr) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                }
+            );
+
+            // Forward stdout+stderr to this process
+            migrate.stdout.pipe(process.stdout);
+            migrate.stderr.pipe(process.stderr);
+        });
+    }
+
     authenticateDatabase () {
         connection
             .authenticate()

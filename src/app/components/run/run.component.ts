@@ -74,7 +74,7 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
     chart;
     chartValues = [];
     activeRunTimestamp;
-
+    // sets runtime attributes and triggers the initial startRun(this.subscribe)
     ngOnInit() {
         this.interComponentService.setButtonHeaderActive(false);
         this.dataService.readTestsetById(this.clickedTestsetId).subscribe(
@@ -108,11 +108,11 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
                 );
             });
     }
-
+    // triggers initial startRun
     subscribe() {
         this.startRun();
     }
-
+    // starts the stopwatch after View is initialized
     ngAfterViewInit() {
         this.stopwatch = new Stopwatch(
             document.querySelector('.stopwatch'));
@@ -150,9 +150,8 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        // TODO
     }
-
+    // Renders gauge chart
     loadGauge(index) {
         // Create chart instance
         // check if am4chart is already created
@@ -233,7 +232,7 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
         //    setTimeout(() => this.loadGauge(), 500);
         //   }
     }
-
+    // Creates a new MQTT Client and subscribes to all topics
     subscribeToMqtt() {
         const component = this;
         const service = this.dataService;
@@ -249,7 +248,7 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
         client.on('message', function (topic, message) {
             if (!component.activeRunTimestamp) {
                 component.activeRunTimestamp = moment().format();
-                component.timeouts.push(setTimeout(() => component.checkState(), 25000));
+                component.timeouts.push(setTimeout(() => component.checkState(), 60000));
                 component.timeouts.push(setTimeout(() => component.faultInject(), component.runningScenarios[component.activeScenarioCounter].faultInjectionTime * 1000));
                 clearTimeout(component.testFailedFlag);
             }
@@ -267,7 +266,7 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
             }
         });
     }
-
+    // Checks if run is passed after 1 minute, restarts a new run (startRun)
     checkState() {
         const component = this;
         this.dataService.updateRunByResultId(this.activeRun.id, moment.utc(moment().diff(this.activeRunTimestamp)).format('HH:mm:ss'),
@@ -297,7 +296,7 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
             }
         );
     }
-
+    // sets a Run element in database and triggers the Start-Process (startTestenvironment)
     startRun() {
         const component = this;
         const service = this.dataService;
@@ -341,7 +340,7 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
             });
     }
 
-
+    // Starts Speeddreams and QEMU instances
     startTestenvironment() {
         this.dataService.readSettingById(1).subscribe(
             data => {
@@ -425,7 +424,7 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
         const command = shell.exec('cd .speed-dreams-2/config/raceman', {silent: false, async: true});
         const command2 = shell.exec('cp quickrace.xml quickrace/' + xmlName, {silent: false, async: true});
     }
-
+    // Triggers faultInjection and restarts ECU
     faultInject() {
         const commands: Array<any> = [];
         const component = this;
@@ -447,7 +446,7 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         component.activeECUs = commands;
     }
-
+    // Validates if test is passed
     isTestPassed() {
         if (this.testFailCounter === 1) {
             this.testFailCounter = 0;
@@ -460,11 +459,11 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
         this.testFailCounter = 1;
         this.checkState();
     }
-
+    // Opens Dialog for stopping
     stopTest() {
         this.openStopDialog();
     }
-
+    // Kills all running instances
     killRun() {
         this.activeECUs.forEach(ecu => {
             if (ecu) {

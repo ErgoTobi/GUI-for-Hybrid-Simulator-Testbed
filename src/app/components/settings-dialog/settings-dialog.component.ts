@@ -19,7 +19,7 @@ export class SettingsDialogComponent implements OnInit {
     isCheckedVisualization: boolean;
     encrypted: string;
     decrypted: string;
-
+    fileFormControl = new FormControl('');
     passwordFormControl = new FormControl('');
 
   constructor(public dialogRef: MatDialogRef<SettingsDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
@@ -38,12 +38,12 @@ export class SettingsDialogComponent implements OnInit {
                 this.decrypted = this.EncrDecr.get('123456$#@$^@1ERF', this.encrypted);
                 this.passwordFormControl.setValue(this.decrypted);
             }
-            console.log(this.encrypted);
-            console.log(this.decrypted);
         }
     );
   }
-
+  onFileConfigChange (event, index) {
+     console.log('test');
+    }
   onSaveClick() {
     if (this.isCheckedDatabase || this.isCheckedResults) {
       if (this.isCheckedResults) {

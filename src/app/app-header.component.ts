@@ -32,7 +32,6 @@ export class AppHeaderComponent implements OnInit {
         this.logo.src = './assets/logo.png';
         // Button navigation
         this.buttonInHeader = true;
-        // Sets AdminPassword in case database carries one
         this.dataService.readSettingById(1).subscribe(
             data => {
                 this.setting = data as Setting;
@@ -65,7 +64,6 @@ export class AppHeaderComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
-            console.log(result);
             // refresh after setting
             if (result === 1) {
                 location.reload();

@@ -32,6 +32,7 @@ export class ResultDetailComponent implements OnInit, AfterViewInit, OnChanges {
     ngOnChanges() {
         this.loadData();
     }
+    // Loads graph when data is pulled
     loadData() {
         if (this.run) {
             this.dataService.readAllRunDetailsByRunIdKeyValue(this.run.id).subscribe(
@@ -72,16 +73,16 @@ export class ResultDetailComponent implements OnInit, AfterViewInit, OnChanges {
         // The container has been added to the DOM
         if (document.getElementById('chartdiv')) {
             am4core.useTheme(am4themes_animated);
-// Create chart instance
+        // Create chart instance
             let chart = am4core.create('chartdiv', am4charts.XYChart);
 
-// Increase contrast by taking evey second color
+        // Increase contrast by taking evey second color
             chart.colors.step = 2;
 
-// Add data
+        // Add data
             chart.data = this.runData;
 
-// Create axes
+        // Create axes
             const dateAxis = chart.xAxes.push(new am4charts.DateAxis());
             dateAxis.renderer.minGridDistance = 50;
             chart.dateFormatter.inputDateFormat = 'HH-mm-ss-SSS';
@@ -93,17 +94,17 @@ export class ResultDetailComponent implements OnInit, AfterViewInit, OnChanges {
             chart.scrollbarY = new am4core.Scrollbar();
             chart.scrollbarY.parent = chart.leftAxesContainer;
             chart.scrollbarY.toBack();
-// Add legend
+        // Add legend
             chart.legend = new am4charts.Legend();
 
-// Add cursor
+        // Add cursor
             chart.cursor = new am4charts.XYCursor();
     } else {
             setTimeout(() => this.loadCharts(), 500);
 }
 }
 
-// Create series
+        // Create series
 createAxisAndSeries (chart, field, name, opposite, bullet) {
         let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 

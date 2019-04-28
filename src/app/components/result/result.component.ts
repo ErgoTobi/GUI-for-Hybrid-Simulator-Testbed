@@ -86,7 +86,7 @@ export class ResultComponent implements OnInit {
         this.selectedRun = run;
         console.log(this.selectedRun);
     }
-//
+    // Downloads all rundetail-data
     downloadFile() {
         this.dataService.readAllRunsByResultId(this.activeResultId).subscribe(
             runData => {
@@ -112,6 +112,7 @@ export class ResultComponent implements OnInit {
             }
         );
     }
+    // Downloads all scenario set-ups
     downloadSetup() {
         const replacer2 = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
         const header2 = Object.keys(this.scenarios[0].dataValues);

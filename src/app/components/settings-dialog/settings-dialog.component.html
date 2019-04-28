@@ -16,8 +16,16 @@
       <mat-hint></mat-hint>
     </mat-form-field>
   </form>
+  <h3>Path to Speeddreams</h3>
+  <mat-form-field >
+  <ngx-mat-file-input [formControl]="fileFormControl" placeholder="Enter File" (change)="onFileConfigChange($event, index)">
+  </ngx-mat-file-input>
+    <mat-hint>not supported in development version</mat-hint>
+    </mat-form-field >
+  <mat-toolbar-row></mat-toolbar-row>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button (click)="onNoClick()">Cancel</button>
   <button mat-button (click)="onSaveClick()" cdkFocusInitial>Save</button>
 </mat-dialog-actions>
+<!--[formControl]="formGroupArray.controls[index].controls.file"-->
