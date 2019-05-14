@@ -39,6 +39,7 @@ export class DataService {
     constructor(private interComponentService: InterComponentService) {
     }
 
+    // Not used at the moment
     initializeDatabase () {
         const {exec} = require('child_process');
 
