@@ -11,20 +11,18 @@ import {DataService} from '../../../data.service';
 export class DeleteDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<DeleteDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-              private dataService: DataService) {
-
-  }
+              private dataService: DataService) {}
 
   ngOnInit() {
   }
 
   onDeleteClick() {
-    this.dialogRef.close('It was deleted!');
+    this.dialogRef.close(1);
     this.dataService.deleteTestsetById(this.data.id);
   }
 
   onNoClick() {
-      this.dialogRef.close('It was NOT deleted!');
+      this.dialogRef.close(0);
   }
 
 }

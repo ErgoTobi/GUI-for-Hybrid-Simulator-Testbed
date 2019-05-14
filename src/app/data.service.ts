@@ -2,12 +2,18 @@ import { Injectable } from '@angular/core';
 import {fromPromise} from 'rxjs/internal-compatibility';
 import {Time} from '@angular/common';
 import {from, Timestamp} from 'rxjs';
+import {forEach} from '@angular/router/src/utils/collection';
 const Rx = require('rx');
+import {Scenario} from './models/Scenario';
+import {RunDetail} from './models/RunDetail';
+import {InterComponentService} from './inter-component.service';
 
 const Sequelize = require('sequelize');
+console.log(Sequelize);
 const connection = new Sequelize('suite_simulator', 'root', 'password', {
     dialect: 'mysql'
 });
+console.log(connection);
 const Testset = require('./models/Testset')(connection, Sequelize);
 const Scenario = require('./models/Scenario')(connection, Sequelize);
 const Result = require('./models/Result')(connection, Sequelize);
@@ -30,32 +36,86 @@ Run.hasMany(Rundetail);
 })
 
 export class DataService {
+    constructor(private interComponentService: InterComponentService) {
+    }
+
+    initializeDatabase () {
+        const {exec} = require('child_process');
+
+        return new Promise((resolve, reject) => {
+            const migrate = exec(
+                'cd src/app && sequelize db:create && sequelize db:migrate && sequelize db:seed:all',
+                {env: process.env},
+                (err, stdout, stderr) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                }
+            );
+
+            // Forward stdout+stderr to this process
+            migrate.stdout.pipe(process.stdout);
+            migrate.stderr.pipe(process.stderr);
+        });
+    }
 
     authenticateDatabase () {
         connection
             .authenticate()
             .then(() => {
                 console.log('Connection to Database has been established successfully.');
+                this.interComponentService.setDatabaseConnected(true);
             })
             .catch(err => {
-                console.error('Unable to connect to the database :', err);
+                console.error('Unable to connect to the database!');
+                this.interComponentService.setDatabaseConnected(false);
             });
     }
 
     // SETTING
     // R(w): Pulls a setting where the Suite_id equals SpeedDreams; Overview
     readSettingById (id: number) {
-        return fromPromise(Testset.findOne({
+        return fromPromise(Setting.findOne({
             where: { id: id },
         }));
+    }
+    readAllSettings () {
+        return fromPromise(Setting.findAll({}));
     }
     // C(w): ECU create
     createSetting(ecuAmount: number, isTextOnly: Boolean) {
         return fromPromise(Setting.create({
-            ecuAmount: ecuAmount,
             isTextOnly: isTextOnly
         }).catch(error => {
             console.error('createSetting:', error);
+        }));
+    }
+    // C(w): Setting update
+    updateSettingDialog(id: number, isTextOnly?: Boolean, password?: string) {
+        return fromPromise(Setting.update({
+            isTextOnly: isTextOnly,
+            password: password
+        }, {
+            returning: true,
+            where: {
+                id: id
+            }
+        }).catch(error => {
+            console.error('updateSettingDialog:', error);
+        }));
+    }
+    updateSettingModule(id: number, selectedModule: Boolean) {
+        return fromPromise(Setting.update({
+            selectedModule: selectedModule
+        }, {
+            returning: true,
+            where: {
+                id: id
+            }
+        }).catch(error => {
+            console.error('updateSettingDialog:', error);
         }));
     }
 
@@ -71,6 +131,9 @@ export class DataService {
     // R(w): Pulls all testsets (incl. scenario data) where the Suite_id equals SpeedDreams; Overview
     readAllTestsets () {
         return fromPromise(Testset.findAll({
+            order: [
+                ['id', 'DESC']
+            ],
             include: [{
                 model: Scenario
             }]
@@ -97,6 +160,12 @@ export class DataService {
             force: true
         });
     }
+    // D(w)Clear all Testsets incl. associated data
+    clearAllTestsetsInDatabase () {
+        return fromPromise(Testset.destroy({
+            truncate: { cascade: true }
+        }));
+    }
 
     // SCENARIO
     // C(w): Creates a scenario; Create
@@ -111,22 +180,57 @@ export class DataService {
             console.error('createScenario:', error);
         }));
     }
+    // C(w): Creates a bulk of scenarios; Create
+    createScenarioBulk (testsetName: string, scenarios: Scenario[]) {
+        let promise = Testset.create({
+            name: testsetName
+        }).then(function (data) {
+            let id = data.id;
+            // console.log(data.dataValues.id);
+            scenarios.forEach(function (element) {
+                element.testsetId = id;
+            });
+            return fromPromise(Scenario.bulkCreate(scenarios).catch(error => {
+                console.error('createScenarioBulk: ', error);
+            }));
+        });
+        return fromPromise(promise);
+    }
 
     // TESTSETRESULT
     // C(w): Creates a result and returns the model back via a promise; Running -> Overview
-    createResult (name: String, startTimestamp: number, duration: Time, testsetId: number) {
+    createResult (name: String, duration: string, testsetId: number) {
         return fromPromise(Result.create({
             name: name,
-            startTimestamp: startTimestamp,
             duration: duration,
             testsetId: testsetId
         }).catch(error => {
             console.error('createResult: ', error);
         }));
     }
-    // R(w): Pulls all results (only!); Resultoverview
-    readAllResultsOnly () {
+
+    // U(w): Updates a run; Running
+    updateResultByResultId (resultId: number, duration: string) {
+        return fromPromise(Result.update({
+            duration: duration, // state 1 = passed, 0 = failed, 3 = pending
+        }, {
+            returning: true,
+            where: {
+                id: resultId
+            }
+        }).catch(error => {
+            console.error('updateRun: ', error);
+        }));
+    }
+    // R(w): Pulls all results; Resultoverview
+    readAllResults () {
         return fromPromise(Result.findAll({
+            order: [
+                ['createdAt', 'DESC']
+            ],
+            include: [{
+                model: Run
+            }]
         }));
     }
     // D(w): Deletes a result (incl. cascading deletion of cohesive data) by id that the method gets from on onclick event; Overview
@@ -138,14 +242,20 @@ export class DataService {
             force: true
         });
     }
+    // D(w)Clears all Results incl. associated data
+    clearAllResultstsInDatabase () {
+        return fromPromise(Result.destroy({
+            truncate: { cascade: true }
+        }));
+    }
 
     // RUN
     // C(w): Creates a run; Running
-    createRun (startTimestamp: number, duration: Time, state: number, scenarioId: number, resultId: number) {
+    createRun (startTimestamp: number, duration: string, state: number, scenarioId: number, resultId: number) {
         return fromPromise(Run.create({
             startTimestamp: startTimestamp, // To add to database
             duration: duration,
-            state: state, // state 1 = passed, 0 = failed
+            state: state, // state 1 = passed, 0 = failed, 3 = pending
             scenarioId: scenarioId,
             resultId: resultId
         }).catch(error => {
@@ -161,10 +271,24 @@ export class DataService {
             }
         }));
     }
+    // U(w): Updates a run; Running
+    updateRunByResultId (runId: number, duration: string, state: number) {
+        return fromPromise(Run.update({
+            duration: duration,
+            state: state, // state 1 = passed, 0 = failed, 3 = pending
+        }, {
+            returning: true,
+            where: {
+                id: runId
+            }
+        }).catch(error => {
+            console.error('updateRun: ', error);
+        }));
+    }
 
     // RUNDATA
     // C(w): Creates a rundata; Running
-    createRunDetail (relativeTime: Time, key: string, value: string, runId: number) {
+    createRunDetail (relativeTime: string, key: string, value: string, runId: number) {
         return fromPromise(Rundetail.create({
             relativeTime: relativeTime,
             key: key,
@@ -175,23 +299,28 @@ export class DataService {
         }));
     }
     // C(w): Creates a bulk of runresultdata; Running
-    createRunDetailBulk (runDetails: object[]) {
+    createRunDetailBulk (runDetails: RunDetail[]) {
         return fromPromise(Rundetail.bulkCreate(runDetails).catch(error => {
             console.error('createRunDetailBulk: ', error);
         }));
     }
     // R(w): Pulls all rundata(only!) by run Id; Resultdetails
     readAllRunDetailsByRunId (runId: number) {
-        return Rx.Observable.interval(10000).flatMap(() => {
             return fromPromise(Rundetail.findAll({
                 where: {
                     runId: runId
                 }
             }));
-        });
+    }
+    readAllRunDetailsByRunIdKeyValue (runId: number) {
+        return fromPromise(Rundetail.findAll({
+            attributes: ['relativeTime', 'key', 'value'],
+            where: {
+                runId: runId
+            }
+        }));
     }
     readLast100RunDetailsByRunResultId (runId: number) {
-        return Rx.Observable.interval(10000).flatMap(() => {
             return fromPromise(Rundetail.findAll({
                 limit: 100,
                 where: {
@@ -199,9 +328,7 @@ export class DataService {
                 },
                 order: [['id', 'DESC']]
             }));
-        });
     }
-
     // Testmethods
     // C(): Creates results
     createDummyResultData () {
@@ -216,7 +343,7 @@ export class DataService {
     }
     readResultByIdObject (resultId: object) {
         return fromPromise(Result.findAll({
-            attributes: ['id', 'name', 'startTimestamp', 'duration', 'testsetId'],
+            attributes: ['id', 'name', 'duration', 'testsetId', 'createdAt'],
             where: { id: resultId },
         }));
     }
@@ -226,8 +353,8 @@ export class DataService {
             attributes: ['id', 'name'],
             where: { id: testsetId },
             include: [{
-            model: Scenario
-        }]
+                model: Scenario
+            }]
         }));
     }
 }

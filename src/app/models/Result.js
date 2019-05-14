@@ -2,8 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Result = sequelize.define('result', {
     name: DataTypes.STRING,
-    startTimestamp: DataTypes.INTEGER,
-    duration: DataTypes.TIME,
+    duration: DataTypes.STRING,
     testsetId: DataTypes.INTEGER
   }, {});
   Result.associate = function(models) {

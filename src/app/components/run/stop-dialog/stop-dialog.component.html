@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Stop {{data.name}}</h1>
+<div mat-dialog-content>
+  <p>Do you really want to stop Testset run? <br>
+  Data corruption within the result might be possible.</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="onYesClick()" cdkFocusInitial>Stop</button>
+</div>

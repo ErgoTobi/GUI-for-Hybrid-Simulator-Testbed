@@ -1,32 +1,21 @@
+<a routerLink="/overview" class="mat-body" fxFlexAlign="center">
+    <i class="material-icons back-icon" >keyboard_arrow_left</i>
+    Back to Home
+</a>
+<span class="example-spacer"></span>
+
 <mat-toolbar color="">
     <mat-toolbar-row>
-        <img id="logo" src="assets/logo.png" alt="logo" width="140px">
-        <span class="example-spacer"></span>
-        <i id="radio-button" class="material-icons">radio_button_checked</i>
-        <span class="mat-body">Backend Connected</span>
-    </mat-toolbar-row>
-
-    <mat-toolbar-row>
-        <i id="back-icon" class="material-icons">
-            keyboard_arrow_left</i>
-        <a routerLink="" class="mat-body">Back to Home</a>
-        <span class="example-spacer"></span>
-        <!--<span class="mat-body">Third Line</span>-->
-    </mat-toolbar-row>
-
-    <mat-toolbar-row>
         <div id ="left-area">
-            <span class="mat-h1">Testsetresults</span>
+            <span class="mat-h1">Results</span>
         </div>
         <span class="example-spacer"></span>
-        <!--<span class="mat-body">Estimate Finish: 14-3-2018 19:23</span>-->
     </mat-toolbar-row>
 
 </mat-toolbar>
 <div id="inputfield">
-
     <mat-form-field appearance="outline">
-        <mat-label>Search for Testsetresults</mat-label>
+        <mat-label>Search for Results</mat-label>
         <input matInput type="text" (keyup)="doFilter($event.target.value)" >
     </mat-form-field>
 </div>
@@ -35,23 +24,24 @@
     <div class="example-container mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort>
             <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Testset Name </th>
                 <td mat-cell *matCellDef="let element"> {{element.name}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> id </th>
-                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            <ng-container matColumnDef="createdAt">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.createdAt | date: 'short' }} </td>
             </ng-container>
 
             <ng-container matColumnDef="duration">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> duration </th>
+                <th mat-header-cell *matHeaderCellDef > Duration </th>
                 <td mat-cell *matCellDef="let element"> {{element.duration}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="Testset_id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Testset_id </th>
-                <td mat-cell *matCellDef="let element"> {{element.Testset_id}} </td>
+            <ng-container matColumnDef="result">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Runs Failed </th>
+                <td mat-cell *matCellDef="let element" >{{ element.failedNumberResults }} / {{ element.totalNumberResults }}</td>
+                <!--<td mat-cell *matCellDef="let element" > {{!!element.runs[0] ? element.runs[0].state : 'no values'}}</td>-->
 
             </ng-container>
 
@@ -59,21 +49,4 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;" routerLink="/result/{{row.id}}" (click)="onRowClicked(row)" style="cursor: pointer;"></tr>
         </table>
     </div>
-
-
-
 </div>
-
-
-
-<!--
-<ul>
-  <li *ngFor="let user of users$">
-    <a routerLink="/details/{{user.id}}">{{ user.name }} <span>{{ user.email }}</span></a>
-
-    <ul>
-      <li>{{ user.email }}</li>
-      <li><a href="http://{{ user.website }}">{{ user.website }}</a></li>
-    </ul>
-  </li>
-</ul>-->

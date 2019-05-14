@@ -7,11 +7,41 @@
   background: url(../../../assets/background.jpg) no-repeat center fixed;
   -webkit-background-size: cover; /* pour anciens Chrome et Safari */
   background-size: cover; /* version standardisée */
+}
 
-  .title {
-    color: white;
-    margin:0;
-    padding:50px 20px;
-  }
+#home {
+  background-color: lightgray;
+  height: 100%;
+}
+
+.title {
+  color: #2c3a3a;
+  margin: 0 0 5% 5%;
+  padding-top: 3%;
+}
+
+.tp-card {
+  width:300px;
+  // display:flex;
+  // justify-content:center;
+  // align-items:center;
+  //float: left;
+  margin: 1%;
+}
+
+.mat-card-image {
+  width: 100%;
+  margin-top: 0!important;
+  margin-left: 5px;
+  height: 50%;
+}
+
+.mat-card-image:hover {
+  cursor: pointer;
 
 }
+
+.mat-card-header {
+  margin-top: 10px!important;
+}
+

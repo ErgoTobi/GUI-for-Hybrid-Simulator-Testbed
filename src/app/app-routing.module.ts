@@ -7,6 +7,7 @@ import {ResultComponent} from './components/result/result.component';
 import {OverviewComponent} from './components/overview/overview.component';
 import {OverviewDetailComponent} from './components/overview-detail/overview-detail.component';
 import {RunComponent} from './components/run/run.component';
+import {LoadingScreenComponent} from './components/loading-screen/loading-screen.component';
 
 const routes: Routes = [
     {
@@ -14,7 +15,11 @@ const routes: Routes = [
         component: HomeComponent
     },
     {
-        path: 'overview/create',
+        path: 'load',
+        component: LoadingScreenComponent
+    },
+    {
+        path: 'create',
         component: CreateComponent
     },
     {
@@ -22,11 +27,11 @@ const routes: Routes = [
         component: RunComponent
     },
     {
-        path: 'result/:id',
+        path: 'result/:testset',
         component: ResultComponent
     },
     {
-        path: 'overview/resultOverview',
+        path: 'resultOverview',
         component: ResultoverviewComponent
     },
     {

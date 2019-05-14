@@ -11,11 +11,14 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      ecuAmount: {
-        type: Sequelize.INTEGER
-      },
       isTextOnly: {
         type: Sequelize.INTEGER
+      },
+      selectedModule: {
+        type: Sequelize.INTEGER
+      },
+      password: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

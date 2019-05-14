@@ -5,7 +5,10 @@ module.exports = (sequelize, DataTypes) => {
     mode: DataTypes.STRING,
     route: DataTypes.STRING,
     runQuantity: DataTypes.INTEGER,
-    faultInjectionTime: DataTypes.INTEGER,
+    faultInjectionTime: DataTypes.STRING,
+    file: DataTypes.TEXT,
+    filePath: DataTypes.STRING,
+    ecuAmount: DataTypes.INTEGER,
     testsetId: DataTypes.INTEGER
   }, {});
   Scenario.associate = function(models) {

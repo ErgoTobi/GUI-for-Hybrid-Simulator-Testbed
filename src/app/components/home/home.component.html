@@ -1,30 +1,54 @@
-
-<div class="container">
-  <h1 class="title" #lastNameInput>
-    {{ 'PAGES.HOME.TITLE' | translate }} Hier könnte ihre Werbung stehen
+<div id="home">
+  <h1 class="title">
+    Simulator Testing Kit
   </h1>
-  <a routerLink="/create">Create</a>
-  <a routerLink="/run">Run</a>
-  <button (click)="test()"CreateTestset>hello</button>
-  <!-- Accent-colored raised button with ripple -->
-  <button (click)="test4()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-    test4
-  </button>
-  <button (click)="test3()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-    test3
-  </button>
-  <button routerLink="overview" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-    overview
-  </button>
-  <button (click)="auth()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-    authenticate
-  </button>
-  <button (click)="test5()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-    authenticate
-  </button>
-  <button (click)="test6()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-    authenticate
-  </button>
-  <div>{{d}}</div>
+  <span class="example-spacer"></span>
 
+
+  <span class="example-spacer"></span>
+  <div fxLayout="row" >
+    <mat-card class = "tp-card">
+      <img mat-card-image src = "assets/logo.png" alt = "" (click)="selectModuleSpeeddreams()" routerLink="overview">
+      <mat-divider></mat-divider>
+      <mat-card-header>
+        <div mat-card-avatar class = "tp-header-image"></div>
+        <mat-card-title>SpeedDreams</mat-card-title>
+        <!--<mat-card-subtitle></mat-card-subtitle>-->
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          This Suite is used to test migrations with the open source SpeedDreams Simulator.
+        </p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class = "tp-card">
+      <img mat-card-image src = "assets/tbd-logo.jpg" alt = "" (click)="selectModuleRobot()">
+      <mat-divider></mat-divider>
+      <mat-card-header>
+        <div mat-card-avatar class = "tp-header-image"></div>
+        <mat-card-title>Robot Arm Controller</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          To be implemented...
+        </p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class = "tp-card">
+      <img mat-card-image src = "assets/tbd-logo.jpg" alt = "">
+      <mat-divider></mat-divider>
+      <mat-card-header>
+        <div mat-card-avatar class = "tp-header-image"></div>
+        <mat-card-title>Other Simulator</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          To be implemented...
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
+

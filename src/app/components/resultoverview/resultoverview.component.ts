@@ -1,28 +1,49 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DataService} from '../../data.service';
 import {FormControl} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
-import {TestsetResult} from '../../models/Result';
+import {Result} from '../../models/Result';
+import {InterComponentService} from '../../inter-component.service';
 
 @Component({
     selector: 'app-resultoverview',
     templateUrl: './resultoverview.component.html',
     styleUrls: ['./resultoverview.component.scss']
 })
-export class ResultoverviewComponent implements OnInit, AfterViewInit  {
-    public displayedColumns = ['name', 'id', 'duration', 'Testset_id'];
-    dataSource = new MatTableDataSource<TestsetResult>();
+export class ResultoverviewComponent implements OnInit, AfterViewInit, OnDestroy  {
+    subscription;
+    public displayedColumns = ['name', 'createdAt', 'duration', 'result'];
+    dataSource = new MatTableDataSource<Result>();
 
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private dataService: DataService) {
+    constructor(private dataService: DataService, private interComponentService: InterComponentService) {
     }
 
     ngOnInit() {
-        this.dataService.readAllResultsOnly().subscribe(
+        this.interComponentService.setButtonHeaderActive(false);
+        this.subscription = this.dataService.readAllResults().subscribe(
             data => {
-                this.dataSource.data = data as TestsetResult[];
+                const castedData = data as any;
+                for (let i = 0; i < castedData.length; i++) {
+                    castedData[i] = castedData[i].dataValues;
+                }
+                this.dataSource.data = castedData;
                 console.log(data);
+                console.log(this.dataSource.data);
+                this.dataSource.data.map((obj) => {
+                    let count = 0;
+                    for (let i = 0; i < obj.runs.length; i++ ) {
+                        if (obj.runs[i]) {
+                            if (obj.runs[i].state === 1 || obj.runs[i].state === 3) {
+                                count++;
+                            }
+                        }
+                    }
+                    obj['failedNumberResults'] = count;
+                    obj['totalNumberResults'] = obj.runs.length;
+                    return obj;
+                });
             }
         );
     }
@@ -30,7 +51,10 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit  {
         this.dataSource.sort = this.sort;
     }
 
-    doFilter = (value: string) => {
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
+    doFilter(value: string) {
         this.dataSource.filter = value.trim().toLocaleLowerCase();
     }
 
@@ -40,39 +64,3 @@ export class ResultoverviewComponent implements OnInit, AfterViewInit  {
         console.log(row.id);
     }
 }
-
-/*    testCarmen1() {
-        const carmen1 = this.dataService.readAllTestsetResult();
-        console.log('did the first thing');
-        // console.log(carmen1[0].name);
-        // const carmen1_1 = carmen1[1].get('name');
-        console.log('did the second thing');
-        // console.log(carmen1_1);
-    }
-    testCarmen2() {
-        const carmen2 = this.dataService.readTestsetresult(2);
-        console.log('show id');
-        console.log(carmen2);
-        this.dataService.readAllTestsetResult().subscribe(
-            data => {this.users$ = data; console.log(data); }
-        );
-        // this.dataService.readAllTestsetResult().subscribe({
-         //   next: function() {}}
-         // );
-    }*/
-
-
-/* users$: Object;
-
- constructor(private data: DataService) { }
-
- ngOnInit() {
-     this.data.getResultData().subscribe(
-         data => this.users$ = data
-     );
- }*/
-
-
-
-/* LIST CODE */
-

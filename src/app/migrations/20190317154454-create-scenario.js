@@ -21,7 +21,16 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       faultInjectionTime: {
-          type: Sequelize.TIME
+          type: Sequelize.STRING
+      },
+      file: {
+          type: Sequelize.TEXT
+      },
+      filePath: {
+          type: Sequelize.STRING
+      },
+      ecuAmount: {
+          type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

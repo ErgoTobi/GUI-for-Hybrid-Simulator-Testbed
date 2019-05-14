@@ -12,13 +12,15 @@
     "password": "password",
     "database": "suite_simulator",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "operatorsAliases": false
   },
   "production": {
     "username": "root",
     "password": "password",
     "database": "suite_simulator",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "operatorsAliases": false
   }
 }

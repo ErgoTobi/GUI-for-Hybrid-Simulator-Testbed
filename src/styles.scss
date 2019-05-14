@@ -1,11 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+/*  background-color: #131920;
+    background-color: #232B35;
+    background-color: #2D343C;
+    color: #4ebfae;
+    color: #F8F8F8*/
+
 html, body {
   margin: 0;
   padding: 0;
   overflow: hidden;
   height: 100%;
+}
+
+.logo {
+  margin-bottom: 1%;
 }
 
 /*You can add global styles to this file, and also import other style files */
@@ -22,14 +32,17 @@ a{
   font-weight: lighter;
   font-size: 35px;
   letter-spacing: -0.08800000190734864px;
-  font-family: Roboto;
   line-height: 35px;
-
 }
 
 .mat-h2 {
   font-size: 35px;
   font-weight: lighter;
+}
+
+.mat-h3 {
+  font-weight: lighter;
+  font-size: 20px;
 }
 
 .mat-body{
@@ -39,8 +52,20 @@ a{
 }
 
 .mat-body-2{
-
+  font-size: 14px;
+  font-weight: normal;
 }
+
+.mat-small{
+  font-size: 8px;
+  font-weight: lighter;
+}
+
+.right-header-font{
+  font-size: 12pt;
+  color: #333333;
+}
+
 
 /*END FONT STYLES*/
 /*TAB BAR STYLING*/
@@ -121,11 +146,24 @@ a{
   border-bottom-width: 1px !important;
 }*/
 
-.mat-list-item:active{
-  background-color: #0E0F13 !important;
-}
 
 .mat-list-base {
   padding-top: 1.2px !important;
 }
 /*END NAVIGATION LIST*/
+
+/*SNACK BAR*/
+.customized-snackbar {
+  background: #979DA6;
+  min-width: 100px;
+  max-width: 200px;
+  display: inline-flex;
+}
+/*END SNACK BAR*/
+
+.back-icon {
+  color: #4ebfae;
+  vertical-align: middle;
+  width: 2%;
+  padding-bottom: 0.2%;
+}

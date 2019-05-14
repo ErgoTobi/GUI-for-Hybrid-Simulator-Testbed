@@ -5,7 +5,7 @@
             <button mat-raised-button (click)="openDeleteDialog(testset.name, testset.id)">Delete
                 <i id="delete-icon" class="material-icons">delete</i>
             </button>
-            <button mat-raised-button class="start-button" >Start
+            <button mat-raised-button class="start-button" (click)="onStartClick()">Start
                 <i id="back-icon" class="material-icons">keyboard_arrow_right</i>
             </button>
         </span>
@@ -15,11 +15,16 @@
 
 <div *ngIf="testset" class="timeline">
     <mat-list>
-        <mat-list-item *ngFor="let scenario of testset.scenarios">
-            <h2 mat-line >{{scenario.name}}</h2>
+        <mat-list-item *ngFor="let scenario of testset.scenarios" time="estimatedTime">
+            <h2 mat-line >{{scenario.name}}
+                <span class="mat-body-2" *ngIf="scenario.ecuAmount>1">({{scenario.ecuAmount}} ECUs)</span>
+                <span class="mat-body-2" *ngIf="scenario.ecuAmount==1">({{scenario.ecuAmount}} ECU)</span>
+                <span class="mat-body-2" *ngIf="scenario.ecuAmount<1">(no ECU found)</span>
+            </h2>
             <div mat-line class="list-details">
-                <span class="mode-info">{{scenario.mode}}</span> <span>{{scenario.route}}</span> <span>{{scenario.runQuantity}} x </span>
+                <span class="mode-info">{{scenario.mode}} restart after {{scenario.faultInjectionTime}} seconds</span><span>Route {{scenario.route}}</span> <span>{{scenario.runQuantity}} x </span>
             </div>
         </mat-list-item>
+        <span id="estimate-time">Estimated Finish: {{estimatedTime}}</span>
     </mat-list>
 </div>
