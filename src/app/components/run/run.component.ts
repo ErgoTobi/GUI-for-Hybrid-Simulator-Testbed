@@ -92,7 +92,7 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.headerTitle = this.runningScenarios[this.activeScenarioCounter].name;
                 for (let s = 0; s < this.runningScenarios.length; s++) {
                     this.dataSource[s] = new MatTableDataSource<RunDetail>();
-                    secondsForTest += this.runningScenarios[s].dataValues.runQuantity * 240;
+                    secondsForTest += this.runningScenarios[s].dataValues.runQuantity * 60;
                     // this.chartValues[s] = {passed: 0, failed: 0};
                     // NOT SURE TEST IT this.dataSource1[s] = [];
                 }
@@ -300,7 +300,7 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
     startRun() {
         const component = this;
         const service = this.dataService;
-        service.createRun(98970, 'currently running..', 3,
+        service.createRun(0, 'currently running..', 3,
             component.runningScenarios[component.activeScenarioCounter].id, component.runningTestsetResult.id).subscribe(
             runData => {
                 component.activeRunTimestamp = undefined;
@@ -340,7 +340,7 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
             });
     }
 
-    // Starts Speeddreams and QEMU instances
+    // Starts Speeddreams and ECU instances
     startTestenvironment() {
         this.dataService.readSettingById(1).subscribe(
             data => {
