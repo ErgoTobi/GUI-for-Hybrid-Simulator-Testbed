@@ -1,6 +1,6 @@
 [submodule "operating-system"]
 	path = operating-system
-	url = https://github.com/argos-research/operating-system
+	url = git@github.com:/argos-research/operating-system
 [submodule "speed-dreams"]
 	path = speed-dreams
-	url = https://github.com/argos-research/speed-dreams.git
+	url = git@github.com:/argos-research/speed-dreams
