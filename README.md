@@ -61,3 +61,18 @@ You can disable "Developer Tools" by commenting `win.webContents.openDevTools();
 |`npm run electron:mac`|  On a MAC OS, builds your application and generates a `.app` file of your application that can be run on Mac |
 
 **Your application is optimised. Only /dist folder and node dependencies are included in the executable.**
+
+
+#install operating-system
+cd /vagrant/operating-system
+make packages
+sudo bash provision.sh
+sudo make run
+
+#install speed-dreams
+cd /vagrant/speed-dreams
+sudo bash provision.sh
+sudo mkdir -p build
+cd build
+cmake ../
+sudo make -j

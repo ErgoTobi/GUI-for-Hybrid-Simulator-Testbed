@@ -352,7 +352,7 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
                 (data as any).isTextOnly ? textOnly = ' -x' : textOnly = '';
                 this.setTrackConfig();
                 //for textOnly add textOnly Attribute to command String
-                const command = shell.exec('/home/user1/speed-dreams/build/games/speed-dreams-2 -s quickrace', {
+                const command = shell.exec('~/speed-dreams/build/games/speed-dreams-2 -s quickrace', {
                     silent: false,
                     async: true
                 });
@@ -360,7 +360,7 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
 
                 const commands: Array<any> = [];
                 const qemuInstances = JSON.parse(component.runningScenarios[component.activeScenarioCounter].file);
-                shell.cd('/home/user1/operating-system/');
+                shell.cd('~/operating-system/');
                 const command2 = shell.exec('echo ' + component.password + ' | sudo -S make vde', {
                     silent: false,
                     async: true
