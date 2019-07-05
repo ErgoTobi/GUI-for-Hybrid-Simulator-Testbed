@@ -5,6 +5,7 @@ genode-toolchain-*
 ubuntu*
 
 
+package-lock.json
 .vagrant/
 dist
 npm-debug.log
