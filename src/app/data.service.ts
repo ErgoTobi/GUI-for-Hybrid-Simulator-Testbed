@@ -11,7 +11,8 @@ import {InterComponentService} from './inter-component.service';
 const Sequelize = require('sequelize');
 console.log(Sequelize);
 const connection = new Sequelize('suite_simulator', 'root', 'password', {
-    dialect: 'mysql'
+    dialect: 'mysql',
+    port: 3336
 });
 console.log(connection);
 const Testset = require('./models/Testset')(connection, Sequelize);

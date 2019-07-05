@@ -4,6 +4,7 @@
     "password": "password",
     "database": "suite_simulator",
     "host": "127.0.0.1",
+    "port": 3336,
     "dialect": "mysql",
     "operatorsAliases": false
   },
@@ -12,6 +13,7 @@
     "password": "password",
     "database": "suite_simulator",
     "host": "127.0.0.1",
+    "port": 3336,
     "dialect": "mysql",
     "operatorsAliases": false
   },
@@ -20,6 +22,7 @@
     "password": "password",
     "database": "suite_simulator",
     "host": "127.0.0.1",
+    "port": 3336,
     "dialect": "mysql",
     "operatorsAliases": false
   }

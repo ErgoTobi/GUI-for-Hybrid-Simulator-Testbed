@@ -4,5 +4,8 @@ genode-toolchain-*
 
 ubuntu*
 
+
+.vagrant/
 dist
+npm-debug.log
 .idea/

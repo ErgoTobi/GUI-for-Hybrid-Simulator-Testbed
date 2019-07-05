@@ -1,4 +1,4 @@
-#!/bin/bash
+X#!/bin/bash
 #######################
 #
 # This is a provision script
@@ -22,12 +22,20 @@ fi
 git submodule update --init
 
 #install application
+#sudo apt-get install -qq ng
 sudo apt-get install -qq npm
 npm install
+
+#deploy app binary
+sudo npm install -g @angular/cli
+sudo npm install -g n
+sudo n stable
+npm run electron:linux
 
 #install mysql
 sudo apt-get install -qq mysql-server
 sudo mysql -e "use mysql; update user set authentication_string=password(''),plugin='mysql_native_password' where user='root';flush privileges;"
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mysql.conf.d/mysqld.cnf
 cd /vagrant/src/app
 /vagrant/node_modules/.bin/sequelize db:create
 /vagrant/node_modules/.bin/sequelize db:migrate
