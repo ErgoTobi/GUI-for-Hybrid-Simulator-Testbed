@@ -10,3 +10,5 @@ package-lock.json
 dist
 npm-debug.log
 .idea/
+packages.ls
+packagesPC.ls
