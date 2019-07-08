@@ -12,7 +12,7 @@ const Sequelize = require('sequelize');
 console.log(Sequelize);
 const connection = new Sequelize('suite_simulator', 'root', 'password', {
     dialect: 'mysql',
-    port: 3336
+    //port: 3336
 });
 console.log(connection);
 const Testset = require('./models/Testset')(connection, Sequelize);
