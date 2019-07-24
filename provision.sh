@@ -11,11 +11,14 @@
 
 if [ $USER == "ubuntu" ] || [ $USER == "vagrant" ]; then
   cd /vagrant
+  sudo apt-get update
+  sudo apt-get install -qq make
 fi
 
-#bash scripts/initialize-submodules.sh
-#bash scripts/install-packages.sh
-#bash scripts/build-app.sh
+bash scripts/initialize-submodules.sh
+bash scripts/install-packages.sh
+#wahrsch build error
+bash scripts/build-app.sh
 bash scripts/install-mysql.sh
 
 

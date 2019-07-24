@@ -4,7 +4,6 @@ sudo apt-get install -qq mysql-server
 sudo mysql -e "use mysql; update user set authentication_string=password(''),plugin='mysql_native_password' where user='root';flush privileges;"
 #TODO: Check this part if it can be run, sequelize was not found on first run.
 sudo sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mysql.conf.d/mysqld.cnf
-#sudo sed -i 's/bind-address/#bind-address/g' /etc/mysql/my.cnf
 sudo service mysql restart
 
 # https://stackoverflow.com/questions/40034644/unable-to-connect-mysql-using-rootip-address-in-vagrant
@@ -17,6 +16,14 @@ mysql --user="root" --password="" --execute="CREATE USER 'root'@'%' IDENTIFIED B
 mysql --user="root" --password="" --execute="GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;"
 #mysql --user="root" --password="" --execute="CREATE DATABASE sequelize_test;"
 #nano ~/.ssh/known_hosts
+
+# Enters the project folder with path to sequelize config file
+cd /vagrant/src/app
+
+# Conducts DB Creation, Seeding and Migration
+sequelize db:create
+sequelize db:migrate
+sequelize db:seed:all
 
 #/vagrant/node_modules/.bin/sequelize db:create
 #/vagrant/node_modules/.bin/sequelize db:migrate
