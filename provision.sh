@@ -6,16 +6,16 @@
 # If you have commands that you want to run always please have a
 # look at the bootstrap.sh script
 #
-# Contributor: Jonas Bender, Bernhard Blieninger
+# Contributor: Jonas Bender, Bernhard Blieninger, Tobias Bartsch
 ######################
 
 if [ $USER == "ubuntu" ] || [ $USER == "vagrant" ]; then
   cd /vagrant
 fi
 
-bash scripts/initialize-submodules.sh
-bash scripts/install-packages.sh
-bash scripts/build-app.sh
+#bash scripts/initialize-submodules.sh
+#bash scripts/install-packages.sh
+#bash scripts/build-app.sh
 bash scripts/install-mysql.sh
 
 
