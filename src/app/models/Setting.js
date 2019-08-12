@@ -5,6 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     isTextOnly: DataTypes.BOOLEAN,
     selectedModule: DataTypes.BOOLEAN,
     password: DataTypes.STRING,
+    quickrace: DataTypes.STRING,
+    savm: DataTypes.STRING,
   }, {});
   Setting.associate = function(models) {
     // associations can be defined here

@@ -10,9 +10,11 @@ import {InterComponentService} from './inter-component.service';
 
 const Sequelize = require('sequelize');
 console.log(Sequelize);
-const connection = new Sequelize('suite_simulator', 'root', '', {
+// Vagrant: port: 5656 password: ''
+// Develop: port: 3306 password: 'password'
+const connection = new Sequelize('suite_simulator', 'root', 'password', {
     dialect: 'mysql',
-    port: 5656
+    port: 3306
 });
 console.log(connection);
 const Testset = require('./models/Testset')(connection, Sequelize);
@@ -95,10 +97,12 @@ export class DataService {
         }));
     }
     // C(w): Setting update
-    updateSettingDialog(id: number, isTextOnly?: Boolean, password?: string) {
+    updateSettingDialog(id: number, isTextOnly?: Boolean, password?: string, quickrace?: string, savm?: string) {
         return fromPromise(Setting.update({
             isTextOnly: isTextOnly,
-            password: password
+            password: password,
+            quickrace: quickrace,
+            savm: savm
         }, {
             returning: true,
             where: {

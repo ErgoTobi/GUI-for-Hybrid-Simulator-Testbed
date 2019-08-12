@@ -19,8 +19,12 @@ export class SettingsDialogComponent implements OnInit {
     isCheckedVisualization: boolean;
     encrypted: string;
     decrypted: string;
+    quickrace: string;
+    savm: string;
     fileFormControl = new FormControl('');
     passwordFormControl = new FormControl('');
+    quickraceFormControl = new FormControl('');
+    savmFormControl = new FormControl('');
 
   constructor(public dialogRef: MatDialogRef<SettingsDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
               private dataService: DataService, private snackBar: MatSnackBar, private interComponentService: InterComponentService,
@@ -37,6 +41,14 @@ export class SettingsDialogComponent implements OnInit {
             if (this.encrypted !== null && this.encrypted !== '') {
                 this.decrypted = this.EncrDecr.get('123456$#@$^@1ERF', this.encrypted);
                 this.passwordFormControl.setValue(this.decrypted);
+            }
+            this.quickrace = this.setting.quickrace;
+            if (this.quickrace !== null && this.quickrace !== '') {
+                this.quickraceFormControl.setValue(this.quickrace);
+            }
+            this.savm = this.setting.savm;
+            if (this.savm !== null && this.savm !== '') {
+                this.savmFormControl.setValue(this.savm);
             }
         }
     );
@@ -60,12 +72,14 @@ export class SettingsDialogComponent implements OnInit {
 
     // Encrypts the password for the database
     this.encrypted = this.EncrDecr.set('123456$#@$^@1ERF', this.passwordFormControl.value);
-    this.dataService.updateSettingDialog(this.setting.id, this.isCheckedVisualization, this.encrypted);
+    this.dataService.updateSettingDialog(this.setting.id, this.isCheckedVisualization, this.encrypted, this.quickraceFormControl.value, this.savmFormControl.value);
     this.interComponentService.setAdminPassword(this.encrypted);
     this.dialogRef.close(1);
   }
 
   onNoClick() {
     this.dialogRef.close(0);
+      console.log('SAVM: ' + this.savmFormControl.value);
+      console.log('Quickrace: ' + this.quickraceFormControl.value);
   }
 }

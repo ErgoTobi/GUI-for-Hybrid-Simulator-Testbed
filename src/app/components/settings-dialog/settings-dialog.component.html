@@ -1,7 +1,9 @@
 <h2 mat-dialog-title>Settings</h2>
 <mat-dialog-content class="mat-typography">
   <h3>SpeedDreams Race View-Mode</h3>
-  <mat-checkbox [(ngModel)]="isCheckedVisualization">No Race Visualization (not supported yet)</mat-checkbox>
+  <mat-checkbox [(ngModel)]="isCheckedVisualization">No Race Visualization
+    <mat-hint>(not supported yet)</mat-hint>
+  </mat-checkbox>
   <mat-toolbar-row></mat-toolbar-row>
 
   <h3>Database</h3>
@@ -16,13 +18,32 @@
       <mat-hint></mat-hint>
     </mat-form-field>
   </form>
-  <h3>Path to Speeddreams</h3>
+  <mat-toolbar-row></mat-toolbar-row>
+
+  <h3>Path to Speed Dreams</h3>
   <mat-form-field >
   <ngx-mat-file-input [formControl]="fileFormControl" placeholder="Enter File" (change)="onFileConfigChange($event, index)">
   </ngx-mat-file-input>
     <mat-hint>not supported in development version</mat-hint>
     </mat-form-field >
   <mat-toolbar-row></mat-toolbar-row>
+
+  <h3>Console Command Substitution</h3>
+  <form class="example-form">
+    <mat-form-field class="example-full-width" >
+      <input type="" matInput placeholder="Enter Simulator Quickrace Option" [formControl]="quickraceFormControl">
+      <mat-hint></mat-hint>
+    </mat-form-field>
+  </form>
+  <form class="example-form">
+    <mat-form-field class="example-full-width" >
+      <input type="" matInput placeholder="Enter Activate SA/VM" [formControl]="savmFormControl">
+      <mat-hint></mat-hint>
+    </mat-form-field>
+  </form>
+  <mat-toolbar-row></mat-toolbar-row>
+
+
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button (click)="onNoClick()">Cancel</button>

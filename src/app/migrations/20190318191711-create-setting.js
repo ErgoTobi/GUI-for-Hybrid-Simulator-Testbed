@@ -20,6 +20,12 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
+      quickrace: {
+          type: Sequelize.STRING
+      },
+      savm: {
+          type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
