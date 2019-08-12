@@ -12,9 +12,9 @@ const Sequelize = require('sequelize');
 console.log(Sequelize);
 // Vagrant: port: 5656 password: ''
 // Develop: port: 3306 password: 'password'
-const connection = new Sequelize('suite_simulator', 'root', 'password', {
+const connection = new Sequelize('suite_simulator', 'root', '', {
     dialect: 'mysql',
-    port: 3306
+    port: 5656
 });
 console.log(connection);
 const Testset = require('./models/Testset')(connection, Sequelize);

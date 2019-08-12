@@ -18,7 +18,10 @@ npm rebuild node-sass
 
 # Wahrscheinlich build error
 npm run electron:linux
+
+#sudo apt-get install wine-stable
 #npm run electron:windows
+
 #npm run electron:mac
 
 
