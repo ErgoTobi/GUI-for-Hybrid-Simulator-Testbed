@@ -70,6 +70,14 @@ export class SettingsDialogComponent implements OnInit {
       });
     }
 
+    // Checks if command line input is not empty and resets it in case
+    if (this.quickraceFormControl.value == null || this.quickraceFormControl.value === '') {
+        this.quickraceFormControl.setValue('~/speed-dreams/build/games/speed-dreams-2 -s quickrace');
+    }
+    if (this.savmFormControl.value == null || this.savmFormControl.value === '') {
+        this.savmFormControl.setValue('qemu-system-arm -kernel /home/user1/operating-system/build/genode-focnados_pbxa9/var/run/idp_savm/image.elf -machine realview-pbx-a9 -m 1024 -nographic -smp 4 -net nic,macaddr=02:00:00:00:01:02 -net nic,model=e1000 -net vde,sock=/tmp/switch1');
+    }
+
     // Encrypts the password for the database
     this.encrypted = this.EncrDecr.set('123456$#@$^@1ERF', this.passwordFormControl.value);
     this.dataService.updateSettingDialog(this.setting.id, this.isCheckedVisualization, this.encrypted, this.quickraceFormControl.value, this.savmFormControl.value);

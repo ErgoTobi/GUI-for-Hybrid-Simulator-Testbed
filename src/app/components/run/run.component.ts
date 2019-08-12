@@ -5,6 +5,7 @@ import {InterComponentService} from '../../inter-component.service';
 import {EncrDecrService} from '../../encr-decr.service';
 import {MatDialog, MatTableDataSource} from '@angular/material';
 import {RunDetail} from '../../models/RunDetail';
+import {Setting} from '../../models/Setting';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {isSuccess} from '@angular/http/src/http_utils';
@@ -74,6 +75,7 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
     chart;
     chartValues = [];
     activeRunTimestamp;
+    setting: Setting;
     // sets runtime attributes and triggers the initial startRun(this.subscribe)
     ngOnInit() {
         this.interComponentService.setButtonHeaderActive(false);
@@ -344,15 +346,21 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
     startTestenvironment() {
         this.dataService.readSettingById(1).subscribe(
             data => {
+                this.setting = data as Setting;
                 const component = this;
                 const nodePath = (shell.which('node').toString());
                 shell.config.execPath = nodePath;
+                // reads generic commands from database
+                const activeSavmCommand = this.setting.savm;
+                const quickraceCommand = this.setting.quickrace;
+
                 const path = process.execPath;
                 let textOnly;
                 (data as any).isTextOnly ? textOnly = ' -x' : textOnly = '';
                 this.setTrackConfig();
                 //for textOnly add textOnly Attribute to command String
-                const command = shell.exec('~/speed-dreams/build/games/speed-dreams-2 -s quickrace', {
+                // const command = shell.exec('~/speed-dreams/build/games/speed-dreams-2 -s quickrace', {
+                const command = shell.exec(quickraceCommand, {
                     silent: false,
                     async: true
                 });
@@ -380,7 +388,8 @@ export class RunComponent implements OnInit, AfterViewInit, OnDestroy {
                     component.activeECUs[qemuInstances.length - 1].stdout.on('data', function (data) {
                         console.log('QEMU Instance: ', data);
                         if (data.includes('mosquitto server')) {
-                            component.activeSAVM = shell.exec('qemu-system-arm -kernel /home/user1/operating-system/build/genode-focnados_pbxa9/var/run/idp_savm/image.elf -machine realview-pbx-a9 -m 1024 -nographic -smp 4 -net nic,macaddr=02:00:00:00:01:02 -net nic,model=e1000 -net vde,sock=/tmp/switch1', {
+                            // component.activeSAVM = shell.exec('qemu-system-arm -kernel /home/user1/operating-system/build/genode-focnados_pbxa9/var/run/idp_savm/image.elf -machine realview-pbx-a9 -m 1024 -nographic -smp 4 -net nic,macaddr=02:00:00:00:01:02 -net nic,model=e1000 -net vde,sock=/tmp/switch1', {
+                            component.activeSAVM = shell.exec(activeSavmCommand, {
                                 silent: false,
                                 async: true
                             });
